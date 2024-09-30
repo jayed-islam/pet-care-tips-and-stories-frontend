@@ -8,15 +8,15 @@ import HeaderLayerTwo from "./header-second-layer";
 const Header = () => {
   return (
     <div>
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 bg-black lg:bg-white">
         <header className="max-w-6xl mx-auto px-5 xl:px-0 py-2 lg:py-7">
-          <div className="container mx-auto flex items-center justify-between">
+          <div className="flex items-center justify-between">
             {/* Social Media Icons for large screens, Menu icon for small screens */}
             <div className="flex items-center">
               {/* Menu Icon (only visible on smaller screens) */}
 
-              <div className="border border-transparent hover:border-gray-200 h-11 w-11 flex items-center justify-center text-xl hover:text-blue-600 transition-all duration-300 lg:hidden">
-                <span>{<HiOutlineMenuAlt2 />}</span>
+              <div className="border border-transparent hover:border-gray-200 h-11 w-11 flex items-center justify-center text-xl hover:text-blue-600 text-white lg:text-black transition-all duration-300 lg:hidden">
+                <span>{<HiOutlineMenuAlt2 className="text-2xl" />}</span>
               </div>
 
               {/* Social Media Icons (only visible on large screens) */}
@@ -33,7 +33,7 @@ const Header = () => {
 
             {/* Website Title */}
             <div className="text-center">
-              <h1 className="text-3xl lg:text-[2.5rem] font-bold text-gray-800">
+              <h1 className="text-3xl lg:text-[2.5rem] font-bold lg:text-gray-800 text-white">
                 FADAKO CO<span className="text-4xl text-blue-600">.</span>
               </h1>
             </div>
@@ -42,7 +42,7 @@ const Header = () => {
             <div className="flex items-center space-x-4">
               {/* Search Icon (only visible on smaller screens) */}
               <button className="lg:hidden">
-                <LuSearch className="text-xl hover:text-blue-600 transition-all duration-300" />
+                <LuSearch className="text-xl hover:text-blue-600 text-white lg:text-black transition-all duration-300" />
               </button>
 
               {/* Subscribe Button (only visible on large screens) */}
