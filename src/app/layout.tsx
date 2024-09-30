@@ -2,15 +2,33 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+// const geistSans = localFont({
+//   src: "./fonts/GeistVF.woff",
+//   variable: "--font-geist-sans",
+//   weight: "100 900",
+// });
+// const geistMono = localFont({
+//   src: "./fonts/GeistMonoVF.woff",
+//   variable: "--font-geist-mono",
+//   weight: "100 900",
+// });
+
+const robotoBold = localFont({
+  src: "./fonts/Roboto-Bold.ttf",
+  variable: "--font-roboto-bold",
+  weight: "700", // Weight for Bold
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const robotoMedium = localFont({
+  src: "./fonts/Roboto-Medium.ttf",
+  variable: "--font-roboto-medium",
+  weight: "500", // Weight for Medium
+});
+
+const robotoRegular = localFont({
+  src: "./fonts/Roboto-Regular.ttf",
+  variable: "--font-roboto-regular",
+  weight: "400", // Weight for Regular
 });
 
 export const metadata: Metadata = {
@@ -26,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${robotoBold.variable} ${robotoMedium.variable} ${robotoRegular.variable} antialiased`}
       >
         {children}
       </body>
