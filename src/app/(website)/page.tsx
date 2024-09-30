@@ -1,7 +1,8 @@
+import HomeView from "@/sections/home/view/home-view";
 import React from "react";
 
 const Home = () => {
-  return <div>Home</div>;
+  return <HomeView />;
 };
 
 export default Home;

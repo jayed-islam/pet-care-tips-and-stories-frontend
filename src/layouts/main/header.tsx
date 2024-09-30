@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <div>
       <div className="border-b border-gray-200 bg-black lg:bg-white">
-        <header className="max-w-6xl mx-auto px-5 xl:px-0 py-2 lg:py-7">
+        <header className="max-w-5xl mx-auto px-5 xl:px-0 py-2 lg:py-7">
           <div className="flex items-center justify-between">
             {/* Social Media Icons for large screens, Menu icon for small screens */}
             <div className="flex items-center">

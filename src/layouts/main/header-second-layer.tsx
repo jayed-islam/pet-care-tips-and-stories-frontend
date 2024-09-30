@@ -31,7 +31,7 @@ const HeaderLayerTwo = () => {
 
   return (
     <div className="bg-white drop-shadow hidden lg:block">
-      <header className="max-w-6xl mx-auto px-5 xl:px-0 relative">
+      <header className="max-w-5xl mx-auto px-5 xl:px-0 relative">
         <div className="flex items-center justify-between">
           {/* Left Aligned Menu Icon */}
 
@@ -86,7 +86,7 @@ const HeaderLayerTwo = () => {
 
         {/* absolute menu */}
         <div
-          className={`absolute left-0 px-5 py-9 bg-white border shadow z-10 w-full ${
+          className={`absolute left-0 px-5 py-9 bg-white border shadow z-50 w-full ${
             isHovered ? "block" : "hidden"
           }`}
           onMouseEnter={() => handleMouseEnter()}
