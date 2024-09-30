@@ -6,9 +6,16 @@ import { LuSearch } from "react-icons/lu";
 import { navConf } from "./config-navigation";
 import Link from "next/link";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { IconButton } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { toggleMenu } from "@/redux/reducers/menu/menuSlice";
+import MenuDrawer from "./menu-drawer";
 
 const HeaderLayerTwo = () => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const { isMenuOpen } = useAppSelector((state) => state.menu);
+  const dispatch = useAppDispatch();
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -18,18 +25,19 @@ const HeaderLayerTwo = () => {
     setIsHovered(false);
   };
 
-  console.log("isH", isHovered);
+  const toggleDrawer = () => {
+    dispatch(toggleMenu());
+  };
 
   return (
     <div className="bg-white drop-shadow hidden lg:block">
       <header className="max-w-6xl mx-auto px-5 xl:px-0 relative">
         <div className="flex items-center justify-between">
           {/* Left Aligned Menu Icon */}
-          <div>
-            <div className="border border-transparent hover:border-gray-200 h-11 w-11  items-center justify-center text-xl hover:text-blue-600 transition-all duration-300 flex">
-              <span>{<HiOutlineMenuAlt2 className="text-3xl" />}</span>
-            </div>
-          </div>
+
+          <IconButton onClick={toggleDrawer} className="text-xl">
+            <HiOutlineMenuAlt2 className="text-3xl" />
+          </IconButton>
 
           {/* Center Aligned Nav Items with Dropdowns */}
           <nav className="hidden lg:flex space-x-8 group">
@@ -103,6 +111,7 @@ const HeaderLayerTwo = () => {
           </div>
         </div>
       </header>
+      <MenuDrawer isOpen={isMenuOpen} toggleDrawer={toggleDrawer} />
     </div>
   );
 };

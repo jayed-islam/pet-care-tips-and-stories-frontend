@@ -1,11 +1,23 @@
+"use client";
+
 import React from "react";
 import SocialMediaIcon from "../common/social-media-icon";
 import { socialMedia } from "@/constants";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { LuSearch } from "react-icons/lu";
 import HeaderLayerTwo from "./header-second-layer";
+import MenuDrawer from "./menu-drawer";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { toggleMenu } from "@/redux/reducers/menu/menuSlice";
+import { IconButton } from "@mui/material";
 
 const Header = () => {
+  const { isMenuOpen } = useAppSelector((state) => state.menu);
+  const dispatch = useAppDispatch();
+  const toggleDrawer = () => {
+    dispatch(toggleMenu());
+  };
+
   return (
     <div>
       <div className="border-b border-gray-200 bg-black lg:bg-white">
@@ -15,8 +27,10 @@ const Header = () => {
             <div className="flex items-center">
               {/* Menu Icon (only visible on smaller screens) */}
 
-              <div className="border border-transparent hover:border-gray-200 h-11 w-11 flex items-center justify-center text-xl hover:text-blue-600 text-white lg:text-black transition-all duration-300 lg:hidden">
-                <span>{<HiOutlineMenuAlt2 className="text-2xl" />}</span>
+              <div className="lg:hidden">
+                <IconButton onClick={toggleDrawer}>
+                  <HiOutlineMenuAlt2 className="text-3xl text-white" />
+                </IconButton>
               </div>
 
               {/* Social Media Icons (only visible on large screens) */}
@@ -54,6 +68,7 @@ const Header = () => {
         </header>
       </div>
       <HeaderLayerTwo />
+      <MenuDrawer isOpen={isMenuOpen} toggleDrawer={toggleDrawer} />
     </div>
   );
 };
