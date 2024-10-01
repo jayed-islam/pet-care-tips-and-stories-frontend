@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import PostCreationStatusSection from "../post-creation-status-section";
 import BlogPostCard from "../blog-post-card";
+import useBoolean from "@/hooks/use-boolean";
+import AuthDialog from "@/sections/auth/auth-dialog";
 const HomeView = () => {
   // bg-[#F0F2F5]
+  const auth = useBoolean();
   return (
     <div className="h-full w-full">
       <div className="flex items-start max-w-5xl mx-auto px-5 xl:px-0 gap-7 mt-7 z-0">
@@ -35,7 +40,7 @@ const HomeView = () => {
                   <img
                     src="https://via.placeholder.com/50"
                     alt="post"
-                    className="h-64 w-full object-cover"
+                    className="h-56 w-full object-cover"
                   />
                   <div>
                     <h3 className="text-sm font-semibold line-clamp-2 overflow-ellipsis">
@@ -48,9 +53,10 @@ const HomeView = () => {
           </div>
         </div>
         <div className="w-[23rem]">
-          <PostCreationStatusSection />
+          <PostCreationStatusSection dialog={auth} />
         </div>
       </div>
+      <AuthDialog dialog={auth} />
     </div>
   );
 };

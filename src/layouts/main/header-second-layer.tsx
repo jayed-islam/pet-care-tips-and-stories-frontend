@@ -10,6 +10,7 @@ import { IconButton } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleMenu } from "@/redux/reducers/menu/menuSlice";
 import MenuDrawer from "./menu-drawer";
+import { useSession } from "next-auth/react";
 
 const HeaderLayerTwo = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -28,6 +29,10 @@ const HeaderLayerTwo = () => {
   const toggleDrawer = () => {
     dispatch(toggleMenu());
   };
+
+  const { data: session } = useSession();
+
+  console.log("user", session);
 
   return (
     <div className="bg-white drop-shadow hidden lg:block">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 // import localFont from "next/font/local";
 import "./globals.css";
 import { ReduxProvider } from "@/redux/ReduxProvider";
+import NextAuthProviders from "@/utils/Nextauth-Providers";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -53,7 +54,9 @@ export default function RootLayout({
       <body
       // className={`${robotoBold.variable} ${robotoMedium.variable} ${robotoRegular.variable} ${oswaldRegular.variable} antialiased`}
       >
-        <ReduxProvider>{children}</ReduxProvider>
+        <NextAuthProviders>
+          <ReduxProvider>{children}</ReduxProvider>
+        </NextAuthProviders>
       </body>
     </html>
   );
