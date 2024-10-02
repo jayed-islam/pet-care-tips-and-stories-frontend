@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { FC, ReactNode, useEffect } from "react";
@@ -26,23 +27,23 @@ export const ReduxProvider: FC<IReudxProviderProps> = ({ children }) => {
 };
 
 const GLobalApiCallProvider: FC<IReudxProviderProps> = ({ children }) => {
-  // const { accessToken } = useAppSelector((state) => state.auth);
-  // const pathname = usePathname();
+  const { accessToken } = useAppSelector((state) => state.auth);
+  const pathname = usePathname();
 
-  // useGetMeQuery(undefined, {
-  //   skip: !(accessToken && isValidToken(accessToken)),
-  // });
+  useGetMeQuery(undefined, {
+    skip: !(accessToken && isValidToken(accessToken)),
+  });
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   const token = localStorage?.getItem("accessToken");
-  //   if (token && isValidToken(token)) {
-  //     dispatch(setToken(token));
-  //   } else {
-  //     dispatch(logout());
-  //   }
-  // }, [dispatch]);
+  useEffect(() => {
+    const token = localStorage?.getItem("accessToken");
+    if (token && isValidToken(token)) {
+      dispatch(setToken(token));
+    } else {
+      dispatch(logout());
+    }
+  }, [dispatch]);
 
   return <>{children}</>;
 };

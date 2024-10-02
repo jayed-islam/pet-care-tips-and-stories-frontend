@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import NextAuthProviders from "@/utils/Nextauth-Providers";
+import { Toaster } from "react-hot-toast";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -55,7 +56,10 @@ export default function RootLayout({
       // className={`${robotoBold.variable} ${robotoMedium.variable} ${robotoRegular.variable} ${oswaldRegular.variable} antialiased`}
       >
         <NextAuthProviders>
-          <ReduxProvider>{children}</ReduxProvider>
+          <ReduxProvider>
+            <Toaster />
+            {children}
+          </ReduxProvider>
         </NextAuthProviders>
       </body>
     </html>

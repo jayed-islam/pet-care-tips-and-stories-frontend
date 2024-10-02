@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface LoginRequest {
   email: string;
   password: string;
@@ -9,15 +10,27 @@ export interface RegisterRequest {
 }
 
 export interface IUser {
-  _id: string;
-  email: string;
-  role: string;
+  _id?: string;
   name: string;
-  addresses: any[];
+  email: string;
+  password: string;
+  phone?: string;
+  address?: string;
+  profilePicture?: string;
+  bio?: string;
+  role: "admin" | "user";
+  status: "active" | "diactive" | "blocked";
+  userType: "basic" | "premium";
+  followers: any[];
+  following: any[];
   isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  isVerified: boolean;
+  passwordChangedAt?: Date;
+  premiumStartDate?: Date; // Date when premium started
+  premiumEndDate?: Date; // Date when premium will expire
+  subscriptionPlan?: "weekly" | "monthly";
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface AuthData {

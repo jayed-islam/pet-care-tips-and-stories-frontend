@@ -1,8 +1,9 @@
-import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 import axios from "axios";
 import { NextAuthOptions, User as NextAuthUser } from "next-auth";
+import { paths } from "@/layouts/paths";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 interface ExtendedUser extends NextAuthUser {
   _id: string;
@@ -38,22 +39,16 @@ export const authOptions: NextAuthOptions = {
         };
 
         try {
-          let res;
-          if (isRegister === "true") {
-            // Registration request
-            res = await axios.post(`${process.env.NEXT_API_URL}/aut/register`, {
-              email,
-              password,
-            });
-          } else {
-            // Login request
-            res = await axios.post(`${process.env.NEXT_API_URL}/auth/login`, {
-              email,
-              password,
-            });
-          }
+          const url =
+            isRegister === "true"
+              ? `${process.env.NEXT_API_URL}/auth/register`
+              : `${process.env.NEXT_API_URL}/auth/login`;
+
+          const res = await axios.post(url, { email, password });
 
           const user = res.data;
+
+          console.log("res", res);
 
           // Check if user exists and is authenticated
           if (user && (res.status === 200 || res.status === 201)) {
@@ -78,7 +73,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/login",
+    signIn: paths.auth.login,
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {

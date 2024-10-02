@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { paths } from "@/layouts/paths";
 import { BooleanState } from "@/types/utils";
-import { Button, Dialog } from "@mui/material";
+import { Button, Dialog, IconButton } from "@mui/material";
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,6 +10,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { RHFTextField } from "@/components/react-hook-form";
+import CloseIcon from "@mui/icons-material/Close";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useLoginMutation } from "@/redux/reducers/auth/authApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { setToken } from "@/redux/reducers/auth/authSlice";
+import { WEBSITE_LOGIN_PATH } from "@/constants/config-global";
+import toast from "react-hot-toast";
+import { LoadingButton } from "@mui/lab";
 
 interface Props {
   dialog: BooleanState;
@@ -25,7 +36,17 @@ const AuthDialog = ({ dialog }: Props) => {
     resolver: zodResolver(authLoginSchema),
   });
 
+  const dispatch = useAppDispatch();
+
+  const [logIn, { isLoading }] = useLoginMutation();
+
+  const router = useRouter();
+
   const [errorMsg, setErrorMsg] = useState("");
+
+  const searchParams = useSearchParams();
+
+  const returnTo = searchParams.get("returnTo");
 
   const {
     handleSubmit,
@@ -36,23 +57,24 @@ const AuthDialog = ({ dialog }: Props) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setErrorMsg("");
-      // const response = await siginIn({
-      //   email: data.email,
-      //   password: data.password,
-      // }).unwrap();
-      // if (response.token) {
-      //   // dispatch(setToken(response.token));
-      //   localStorage?.setItem("accessToken", response.token);
-      //   toast.success("User login successfully!");
-      //   router.push(returnTo || WEBSITE_LOGIN_PATH);
-      //   reset();
-      // } else {
-      //   setErrorMsg(response.message!);
-      //   toast.error(response.message!);
-      // }
+      const response = await logIn({
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      if (response?.data?.accessToken) {
+        dispatch(setToken(response?.data?.accessToken));
+        localStorage?.setItem("accessToken", response?.data?.accessToken);
+        toast.success("User login successfully!");
+        // router.push(returnTo || WEBSITE_LOGIN_PATH);
+        dialog.setFalse();
+        reset();
+      } else {
+        setErrorMsg(response.message!);
+        toast.error(response.message!);
+      }
     } catch (error: any) {
       setErrorMsg(error.data.message);
-      // toast.error(error.data.message);
+      toast.error(error.data.message);
       console.log("erroe message", error);
     }
   });
@@ -61,20 +83,45 @@ const AuthDialog = ({ dialog }: Props) => {
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <div
           className="max-w-sm w-full text-gray-600 space-y-5
-        "
+       px-7 py-9 "
         >
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 5,
+              right: 5,
+              bgcolor: "#E5E7EB",
+            }}
+            onClick={dialog.setFalse}
+          >
+            <CloseIcon />
+          </IconButton>
           <div className="text-center pb-8">
             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">
-              Log in to your account
+              See more on Fadako
             </h3>
           </div>
           <RHFTextField name="email" label="Email" type="email" />
           <RHFTextField name="password" label="Password" type="password" />
 
-          <Button variant="contained" fullWidth>
-            Login
-          </Button>
-          <button
+          <Link href={paths.website.signin}>
+            <h2 className="text-right pt-3 text-sm font-semibold text-blue-600 hover:underline">
+              Forgotten password?
+            </h2>
+          </Link>
+
+          <LoadingButton
+            variant="contained"
+            loading={isLoading}
+            fullWidth
+            type="submit"
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            Log in
+          </LoadingButton>
+          {/* <button
             className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100"
             onClick={() => signIn("google", { callbackUrl: paths.root })}
           >
@@ -109,16 +156,25 @@ const AuthDialog = ({ dialog }: Props) => {
               </defs>
             </svg>
             Continue with Google
-          </button>
-          <p className="text-center">
-            Don&apos;t have an account?{" "}
-            <a
-              href="javascript:void(0)"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Sign up
-            </a>
-          </p>
+          </button> */}
+
+          <div className="relative">
+            <span className="block w-full h-px bg-gray-300"></span>
+            <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">
+              Or
+            </p>
+          </div>
+          <Button
+            variant="contained"
+            onClick={() => router.push(paths.auth.signup)}
+            color="success"
+            fullWidth
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            Create account
+          </Button>
         </div>
       </FormProvider>
     </Dialog>

@@ -10,13 +10,15 @@ import { IconButton } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleMenu } from "@/redux/reducers/menu/menuSlice";
 import MenuDrawer from "./menu-drawer";
-import { useSession } from "next-auth/react";
+import ProfileDropDown from "./profile-menu-bar";
 
 const HeaderLayerTwo = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const { isMenuOpen } = useAppSelector((state) => state.menu);
   const dispatch = useAppDispatch();
+
+  const { user } = useAppSelector((state) => state.auth);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -30,12 +32,8 @@ const HeaderLayerTwo = () => {
     dispatch(toggleMenu());
   };
 
-  const { data: session } = useSession();
-
-  console.log("user", session);
-
   return (
-    <div className="bg-white drop-shadow hidden lg:block">
+    <div className="bg-white drop-shadow hidden lg:block z-[9999]">
       <header className="max-w-5xl mx-auto px-5 xl:px-0 relative">
         <div className="flex items-center justify-between">
           {/* Left Aligned Menu Icon */}
@@ -45,7 +43,7 @@ const HeaderLayerTwo = () => {
           </IconButton>
 
           {/* Center Aligned Nav Items with Dropdowns */}
-          <nav className="hidden lg:flex space-x-8 group">
+          <nav className="hidden lg:flex space-x-8 group z-50">
             {navConf.map((item, index) => (
               <div
                 key={index}
@@ -59,7 +57,7 @@ const HeaderLayerTwo = () => {
                     ? handleMouseLeave()
                     : undefined
                 }
-                className="py-4"
+                className="py-6"
               >
                 <Link href="#">
                   <div
@@ -80,19 +78,24 @@ const HeaderLayerTwo = () => {
           </nav>
 
           {/* Right Aligned Search Icon */}
-          <div>
+          <div className="flex items-center gap-5">
             <div>
               <div className="border border-transparent hover:border-gray-200 text-xl hover:text-blue-600 transition-all duration-300">
                 <span>{<LuSearch className="text-2xl" />}</span>
               </div>
             </div>
+            {user && user?.email && (
+              <div className="hidden lg:block">
+                <ProfileDropDown user={user} />
+              </div>
+            )}
           </div>
         </div>
 
         {/* absolute menu */}
         <div
-          className={`absolute left-0 px-5 py-9 bg-white border shadow z-50 w-full ${
-            isHovered ? "block" : "hidden"
+          className={`absolute left-0 px-5 py-9 bg-white border shadow iy w-full ${
+            isHovered ? "flex" : "hidden"
           }`}
           onMouseEnter={() => handleMouseEnter()}
           onMouseLeave={() => handleMouseLeave()}

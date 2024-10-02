@@ -9,6 +9,9 @@ import {
 import Link from "next/link";
 import { navConf } from "./config-navigation";
 import { socialMedia } from "@/constants";
+import { useGetAllPostsQuery } from "@/redux/reducers/post/postApi";
+import { showTitle } from "@/utils/take-first-element";
+import { formatDate } from "@/utils/format-time";
 
 interface MenuDrawerProps {
   isOpen: boolean;
@@ -21,6 +24,8 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ isOpen, toggleDrawer }) => {
   const handleCollapseToggle = (title: string) => {
     setOpenCollapse(openCollapse === title ? null : title);
   };
+
+  const { data, isLoading } = useGetAllPostsQuery({ page: 1 });
 
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer}>
@@ -62,21 +67,50 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ isOpen, toggleDrawer }) => {
                   {/* Collapsible content */}
                   <Collapse in={openCollapse === item.title}>
                     <div className="mt-2 pl-4 space-y-3">
-                      {[1, 2, 3].map((post, idx) => (
-                        <div key={idx} className="flex items-start gap-3">
-                          <img
-                            src="https://via.placeholder.com/50"
-                            alt="post"
-                            className="w-12 h-12 object-cover rounded"
-                          />
-                          <div>
-                            <h3 className="text-sm font-medium text-gray-200">
-                              Sample Post Title {post}
-                            </h3>
-                            <p className="text-xs text-gray-400">Date</p>
-                          </div>
+                      {isLoading ? (
+                        // Shimmer Loading Effect
+                        <div className="animate-pulse">
+                          {[1, 2, 3].map((_, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-start gap-3 mb-4"
+                            >
+                              {/* Shimmer for image */}
+                              <div className="w-12 h-12 bg-gray-300 rounded"></div>
+                              {/* Shimmer for text */}
+                              <div className="flex flex-col">
+                                <div className="h-4 bg-gray-300 rounded w-36 mb-2"></div>
+                                <div className="h-3 bg-gray-300 rounded w-24"></div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      ) : (
+                        // Actual Data
+                        <div>
+                          {data?.data.posts.slice(0, 3).map((post, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-start gap-3 mb-4"
+                            >
+                              <img
+                                src={post.imageUrls[0]}
+                                alt="post"
+                                className="w-12 h-12 object-cover rounded"
+                              />
+                              <div className="flex-1">
+                                <h3 className="text-sm font-medium text-gray-200 line-clamp-2 overflow-ellipsis">
+                                  {showTitle(post.content)}
+                                </h3>
+                                <p className="text-xs text-gray-400">
+                                  {" "}
+                                  {formatDate(post.createdAt.toString())}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </Collapse>
                 </div>
@@ -97,24 +131,50 @@ const MenuDrawer: React.FC<MenuDrawerProps> = ({ isOpen, toggleDrawer }) => {
           <h2 className="uppercase pb-5 text-md font-semibold text-white">
             What&apos;s Hot
           </h2>
-          {[1, 2, 3].map((post, idx) => (
-            <div
-              key={idx}
-              className="flex items-start gap-4 border-b border-gray-800 mb-5 pb-3"
-            >
-              <img
-                src="https://via.placeholder.com/50"
-                alt="post"
-                className="w-24 h-16 object-cover rounded"
-              />
-              <div>
-                <h3 className="text-sm font-semibold text-white pb-2">
-                  Sample Post Title {post}
-                </h3>
-                <p className="text-xs text-gray-400">JAN 22, 2024</p>
-              </div>
+          {isLoading ? (
+            // Shimmer Loading Effect
+            <div className="animate-pulse">
+              {[1, 2, 3].map((_, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-4 border-b border-gray-800 mb-5 pb-3"
+                >
+                  {/* Shimmer for image */}
+                  <div className="w-24 h-16 bg-gray-300 rounded"></div>
+                  {/* Shimmer for text */}
+                  <div className="flex flex-col">
+                    <div className="h-4 bg-gray-300 rounded w-40 mb-2"></div>
+                    <div className="h-3 bg-gray-300 rounded w-20"></div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            // Actual Data
+            <div>
+              {data?.data.posts.slice(0, 3).map((post, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-4 border-b border-gray-800 mb-5 pb-3"
+                >
+                  <img
+                    src={post.imageUrls[0]}
+                    alt="post"
+                    className="w-24 h-16 object-cover rounded"
+                  />
+                  <div>
+                    <h3 className="text-sm font-semibold text-white line-clamp-2 overflow-ellipsis">
+                      {showTitle(post.content)}
+                    </h3>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {" "}
+                      {formatDate(post.createdAt.toString())}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex space-x-4 items-center justify-center mt-5">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
@@ -18,6 +19,8 @@ export const api = createApi({
     "deenbook-stories",
     "lecture",
     "deenbook-post",
+    "posts",
+    "post",
   ],
   endpoints: () => ({}),
 });

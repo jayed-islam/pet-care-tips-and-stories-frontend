@@ -121,7 +121,7 @@ export interface IDeenbookStoryUpdateByAdminBody {
   content: string;
   isDeleted: boolean;
   storyId: string;
-  deenbookStoryData: {};
+  // deenbookStoryData: {};
 }
 
 export interface IDeenbookStoryDeleteByAdminBody {

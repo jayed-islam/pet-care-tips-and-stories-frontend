@@ -6,3 +6,47 @@
 body {
   font-family: var(--font-roboto-regular), sans-serif;
 } */
+
+/* Custom styles for different heading levels */
+.rte-editor h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.rte-editor h2 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.rte-editor h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.rte-editor h4 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.rte-editor h5 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Apply color inline styles to the editor */
+.rte-editor .public-DraftStyleDefault-color_red {
+  color: red;
+}
+
+.rte-editor .public-DraftStyleDefault-color_green {
+  color: green;
+}
+
+.rte-editor .public-DraftStyleDefault-color_blue {
+  color: blue;
+}
+
+.custom-editor {
+  height: 300px; /* Set the desired height */
+  overflow-y: auto; /* Add scroll for overflow content */
+}
