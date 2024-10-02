@@ -1,5 +1,3 @@
-import GoogleProvider from "next-auth/providers/google";
-
 import axios from "axios";
 import { NextAuthOptions, User as NextAuthUser } from "next-auth";
 import { paths } from "@/layouts/paths";
@@ -12,10 +10,6 @@ interface ExtendedUser extends NextAuthUser {
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
