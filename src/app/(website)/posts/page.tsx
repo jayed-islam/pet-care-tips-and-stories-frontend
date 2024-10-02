@@ -1,7 +1,8 @@
 import React from "react";
+import PostsView from "../../../sections/post/all-post-view";
 
 const Page = () => {
-  return <div>Page</div>;
+  return <PostsView />;
 };
 
 export default Page;

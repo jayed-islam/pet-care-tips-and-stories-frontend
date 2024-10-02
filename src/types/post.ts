@@ -81,7 +81,7 @@ export interface IGetHomePostListResponse {
 }
 
 export interface IPostFilters {
-  category?: string;
+  category?: string[];
   search?: string;
   sortBy?: "upvotes" | "newest";
   page: number;
