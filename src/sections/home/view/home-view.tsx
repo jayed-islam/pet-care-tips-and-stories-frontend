@@ -11,6 +11,8 @@ import { showTitle } from "@/utils/take-first-element";
 import BlogPostCardList from "../home-blog-latest-post";
 import BlogPostCard from "../blog-post-card";
 import { Button } from "@mui/material";
+import Link from "next/link";
+import { paths } from "@/layouts/paths";
 
 const HomeView = () => {
   const auth = useBoolean();
@@ -77,15 +79,18 @@ const HomeView = () => {
             />
 
             <div className="flex items-center justify-center mb-16">
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                  textTransform: "capitalize",
-                }}
-              >
-                See more post
-              </Button>
+              <Link href={paths.post.root}>
+                {" "}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    textTransform: "capitalize",
+                  }}
+                >
+                  See more post
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
