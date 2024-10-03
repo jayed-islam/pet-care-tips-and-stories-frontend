@@ -31,6 +31,9 @@ import { showTitle } from "@/utils/take-first-element";
 import PostInlineCard from "@/layouts/common/post-inline-card";
 import { Button, Divider } from "@mui/material";
 import { paths } from "@/layouts/paths";
+import PostAddCommentView from "../post-add-comment-view";
+import { useAppSelector } from "@/redux/hooks";
+import { IUser } from "@/types/auth";
 
 interface Props {
   id: string;
@@ -38,6 +41,7 @@ interface Props {
 
 const PostDetailView = ({ id }: Props) => {
   const { data, isLoading } = useGetSinglePostQuery(id);
+  const { user } = useAppSelector((state) => state.auth);
 
   // Show a loading spinner while fetching the post
   if (isLoading) {
@@ -155,7 +159,7 @@ const PostDetailView = ({ id }: Props) => {
               ) : (
                 <div className="mt-5">
                   <p>No comments yet.</p>
-                  <Button>Add Comment</Button>
+                  <PostAddCommentView post={post} user={user as IUser} />
                 </div>
               )}
             </div>

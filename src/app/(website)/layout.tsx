@@ -1,4 +1,4 @@
-import MainLayout from "@/layouts/main";
+import MainLayout from "@/layouts/mein";
 import React, { ReactNode } from "react";
 
 interface Props {
@@ -8,5 +8,8 @@ interface Props {
 const WebsiteLayout = ({ children }: Props) => {
   return <MainLayout>{children}</MainLayout>;
 };
+// const WebsiteLayout = ({ children }: Props) => {
+//   return <MainLayout>{children}</MainLayout>;
+// };
 
 export default WebsiteLayout;

@@ -6,6 +6,7 @@ import {
   IGetPostListResponse,
   IGetSinglePostResponse,
   IPostFilters,
+  IVotePostBody,
 } from "@/types/post";
 import { api } from "../../api";
 
@@ -85,6 +86,13 @@ export const postApi = api.injectEndpoints({
     //   }),
     //   invalidatesTags: ["posts", "post"],
     // }),
+    voteAPost: builder.mutation<IGetSinglePostResponse, IVotePostBody>({
+      query: ({ postId, voteType }) => ({
+        url: `/post/${postId}/vote`,
+        method: "POST",
+        body: { voteType },
+      }),
+    }),
     deletePostByAdmin: builder.mutation<ICreatePostResponse, { id: string }>({
       query: ({ id }) => ({
         url: `/posts/delete/${id}`,
@@ -102,4 +110,5 @@ export const {
   useGetSinglePostQuery,
   useDeletePostByAdminMutation,
   useGetHomePostsQuery,
+  useVoteAPostMutation,
 } = postApi;

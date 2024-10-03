@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IUser } from "./auth";
+import { IComment } from "./comment";
 
 export interface IFormInputs {
   title: string;
@@ -25,7 +26,7 @@ export interface IPost {
   category: ICategory;
   upvotes: any[];
   downvotes: any[];
-  comments: any[];
+  comments: IComment[];
   isDeleted: boolean;
   isPublished: boolean;
   imageUrls: string[];
@@ -41,13 +42,18 @@ export const POST_STATUS_OPTION = [
 
 export type IPostFilterValue = string | string[];
 
+export type IVotePostBody = {
+  voteType: "upvote" | "downvote";
+  postId: string;
+};
+
 export interface IGetSinglePostResponse {
   data: {
     post: IPost;
     relatedPosts: IPost[];
   };
   message: string;
-  state: boolean;
+  success: boolean;
 }
 
 export interface ICreatePostResponse {

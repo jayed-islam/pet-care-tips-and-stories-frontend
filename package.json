@@ -21,6 +21,7 @@
     "@tinymce/tinymce-react": "^5.1.1",
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
+    "dompurify": "^3.1.7",
     "froala-editor": "^4.3.0",
     "lexical": "^0.13.1",
     "next": "14.2.13",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@types/dompurify": "^3.0.5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

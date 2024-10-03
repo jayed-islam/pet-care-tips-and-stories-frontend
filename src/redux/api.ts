@@ -21,6 +21,8 @@ export const api = createApi({
     "deenbook-post",
     "posts",
     "post",
+    "comments",
+    "comment",
   ],
   endpoints: () => ({}),
 });

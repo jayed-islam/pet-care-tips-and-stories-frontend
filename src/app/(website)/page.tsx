@@ -1,4 +1,4 @@
-import HomeView from "@/sections/home/view/home-view";
+import HomeView from "@/sections/home/view/home-new-view";
 import React from "react";
 
 const Home = () => {

@@ -1,44 +1,303 @@
+// "use client";
+
+// import { IPost } from "@/types/post";
+// import React, { useState } from "react";
+// import { FaThumbsUp, FaComment, FaShare, FaEllipsisH } from "react-icons/fa";
+
+// interface Props {
+//   post: IPost;
+// }
+
+// const PostCard = ({ post }: Props) => {
+//   const [seeMore, setSeeMore] = useState(false);
+//   const [likeCount, setLikeCount] = useState(120);
+
+//   const isContentLong = content.length > 150;
+//   const maxImagesToShow = 4;
+
+//   const renderImageLayout = () => {
+//     if (post.imageUrls.length === 1) {
+//       return (
+//         <div className="bg-gray-200 p-4 rounded mt-3">
+//           <img
+//             src={post.imageUrls[0]}
+//             alt="post"
+//             className="w-full h-auto object-cover rounded"
+//           />
+//         </div>
+//       );
+//     } else if (post.imageUrls.length === 2) {
+//       return (
+//         <div className="grid grid-cols-2 gap-2 mt-3">
+//           {post.imageUrls.slice(0, 2).map((src, idx) => (
+//             <img
+//               key={idx}
+//               src={src}
+//               alt={`media-${idx}`}
+//               className="w-full h-48 object-cover rounded"
+//             />
+//           ))}
+//         </div>
+//       );
+//     } else if (post.imageUrls.length === 3) {
+//       return (
+//         <div className="grid grid-cols-2 gap-2 mt-3">
+//           {/* Left column: Full height image */}
+//           <img
+//             src={post.imageUrls[0]}
+//             alt="media-0"
+//             className="w-full h-full object-cover rounded col-span-1"
+//           />
+//           {/* Right column: Two stacked images */}
+//           <div className="flex flex-col gap-2">
+//             {post.imageUrls.slice(1).map((src, idx) => (
+//               <img
+//                 key={idx}
+//                 src={src}
+//                 alt={`media-${idx + 1}`}
+//                 className="w-full h-48 object-cover rounded"
+//               />
+//             ))}
+//           </div>
+//         </div>
+//       );
+//     } else {
+//       return (
+//         <div className="grid grid-cols-2 gap-2 mt-3 relative">
+//           <img
+//             src={post.imageUrls[0]}
+//             alt="media-0"
+//             className="w-full h-48 object-cover rounded col-span-2"
+//           />
+//           {post.imageUrls.slice(1, 2).map((src, idx) => (
+//             <img
+//               key={idx}
+//               src={src}
+//               alt={`media-${idx + 1}`}
+//               className="w-full h-48 object-cover rounded"
+//             />
+//           ))}
+//           {/* Overlay for the remaining images */}
+//           <div className="relative">
+//             <img
+//               src={post.imageUrls[3]}
+//               alt="media-3"
+//               className="w-full h-48 object-cover rounded"
+//             />
+//             {post.imageUrls.length > maxImagesToShow && (
+//               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
+//                 <span className="text-white font-semibold text-lg">
+//                   +{post.imageUrls.length - maxImagesToShow}
+//                 </span>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       );
+//     }
+//   };
+
+//   return (
+//     <div className="bg-white rounded-lg shadow p-4 mt-5">
+//       {/* Post Header */}
+//       <div className="flex items-center justify-between">
+//         <div className="flex items-center space-x-3">
+//           <img
+//             src="https://via.placeholder.com/40"
+//             alt="profile"
+//             className="w-10 h-10 rounded-full"
+//           />
+//           <div>
+//             <h2 className="font-semibold text-gray-800">John Doe</h2>
+//             <p className="text-sm text-gray-500">2 hrs ago · Public</p>
+//           </div>
+//         </div>
+//         <FaEllipsisH className="text-gray-500" />
+//       </div>
+
+//       {/* Post Content */}
+//       <div className="mt-3 text-gray-700">
+//         {isContentLong && !seeMore ? `${content.slice(0, 150)}...` : content}
+//         {isContentLong && (
+//           <button
+//             className="text-blue-600 ml-1"
+//             onClick={() => setSeeMore(!seeMore)}
+//           >
+//             {seeMore ? "See less" : "See more"}
+//           </button>
+//         )}
+//       </div>
+
+//       {/* Media (Images with Smart Layout) */}
+//       {renderImageLayout()}
+
+//       {/* Reaction/Comments/Share Count */}
+//       <div className="mt-4 flex justify-between text-gray-500 text-sm">
+//         <div>{likeCount} Likes</div>
+//         <div>
+//           {49} Comments · {15} Shares
+//         </div>
+//       </div>
+
+//       {/* Like, Comment, and Share buttons */}
+//       <div className="flex justify-between items-center mt-4 border-t border-gray-200 pt-2">
+//         {/* Like */}
+//         <button
+//           className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200"
+//           onClick={() => setLikeCount(likeCount + 1)}
+//         >
+//           <FaThumbsUp className="text-xl" />
+//           <span className="text-sm">Like</span>
+//         </button>
+
+//         {/* Comment */}
+//         <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
+//           <FaComment className="text-xl" />
+//           <span className="text-sm">Comment</span>
+//         </button>
+
+//         {/* Share */}
+//         <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
+//           <FaShare className="text-xl" />
+//           <span className="text-sm">Share</span>
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default PostCard;
 "use client";
 
-import React, { useState } from "react";
-import { FaThumbsUp, FaComment, FaShare, FaEllipsisH } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import {
+  FaThumbsUp,
+  FaThumbsDown,
+  FaComment,
+  FaShare,
+  FaEllipsisH,
+} from "react-icons/fa";
+import { IPost } from "@/types/post";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import Image from "next/image";
+import { fToNow } from "@/utils/format-time";
+import { Button } from "@mui/material";
+import { useVoteAPostMutation } from "@/redux/reducers/post/postApi";
+import useBoolean from "@/hooks/use-boolean";
+import UserProfileForPost from "./user-info-section";
 
-const PostCard = () => {
+interface Props {
+  post: IPost;
+  userId: string;
+}
+
+const PostCard = ({ post, userId }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
-  const [likeCount, setLikeCount] = useState(120);
+  const commentDialog = useBoolean();
 
-  const content = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tempor lorem et ipsum aliquam, vitae sollicitudin velit hendrerit. Suspendisse potenti. Cras sollicitudin ullamcorper ipsum, ac pretium purus. Etiam venenatis sapien id nulla sodales, nec ultrices velit aliquam. Fusce gravida tincidunt libero, eget consequat felis pharetra sed. Phasellus auctor purus a nibh pellentesque, in suscipit eros lobortis.`;
+  // Local vote states
+  const [likeCount, setLikeCount] = useState(post.upvotes.length);
+  const [dislikeCount, setDislikeCount] = useState(post.downvotes.length);
+  const [userVote, setUserVote] = useState<"upvote" | "downvote" | null>(null);
+  const characterLimit = 100;
 
-  const media = [
-    "https://via.placeholder.com/500x300",
-    "https://via.placeholder.com/500x300",
-    "https://via.placeholder.com/500x300",
-    "https://via.placeholder.com/500x300",
-    "https://via.placeholder.com/500x300",
-    "https://via.placeholder.com/500x300",
-    "https://via.placeholder.com/500x300",
-  ];
+  useEffect(() => {
+    // Check if the current user has voted on the post
+    if (post.upvotes.includes(userId)) {
+      setUserVote("upvote");
+    } else if (post.downvotes.includes(userId)) {
+      setUserVote("downvote");
+    }
+  }, [post.upvotes, post.downvotes, userId]);
 
-  const isContentLong = content.length > 150;
+  const [votePost] = useVoteAPostMutation();
+
+  const handleVoteOnPost = async (voteType: "upvote" | "downvote") => {
+    // If already upvoted and clicking downvote
+    if (userVote === "upvote" && voteType === "downvote") {
+      setLikeCount((prev) => prev - 1);
+      setDislikeCount((prev) => prev + 1);
+      setUserVote("downvote");
+    }
+    // If already downvoted and clicking upvote
+    else if (userVote === "downvote" && voteType === "upvote") {
+      setDislikeCount((prev) => prev - 1);
+      setLikeCount((prev) => prev + 1);
+      setUserVote("upvote");
+    }
+    // If clicking the same vote again, remove the vote
+    else if (userVote === voteType) {
+      if (voteType === "upvote") {
+        setLikeCount((prev) => prev - 1);
+      } else {
+        setDislikeCount((prev) => prev - 1);
+      }
+      setUserVote(null);
+    }
+    // If voting for the first time
+    else {
+      if (voteType === "upvote") {
+        setLikeCount((prev) => prev + 1);
+        setUserVote("upvote");
+      } else {
+        setDislikeCount((prev) => prev + 1);
+        setUserVote("downvote");
+      }
+    }
+
+    // API call to vote
+    try {
+      const res = await votePost({ postId: post._id, voteType }).unwrap();
+      if (res.success) {
+        console.log(res.message);
+      } else {
+        console.log(res.message);
+      }
+    } catch (error: any) {
+      console.log(error.data.message);
+    }
+  };
+
+  const isContentLong = post.content.length > characterLimit;
   const maxImagesToShow = 4;
 
-  // Function to render image layout based on the number of images
-  const renderImageLayout = () => {
-    if (media.length === 1) {
+  const renderContent = () => {
+    if (isContentLong && !seeMore) {
       return (
-        <div className="bg-gray-200 p-4 rounded mt-3">
-          <img
-            src={media[0]}
+        <ReactQuill
+          value={`${post.content.slice(0, characterLimit)}...`}
+          readOnly={true}
+          theme="bubble"
+          className="p-0 m-0"
+        />
+      );
+    }
+
+    // Otherwise, show the full content
+    return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
+  };
+
+  const renderImageLayout = () => {
+    if (post.imageUrls.length === 1) {
+      return (
+        <div className="rounded mt-3">
+          <Image
+            height={100}
+            width={100}
+            src={post.imageUrls[0]}
             alt="post"
             className="w-full h-auto object-cover rounded"
           />
         </div>
       );
-    } else if (media.length === 2) {
+    } else if (post.imageUrls.length === 2) {
       return (
         <div className="grid grid-cols-2 gap-2 mt-3">
-          {media.slice(0, 2).map((src, idx) => (
-            <img
+          {post.imageUrls.slice(0, 2).map((src, idx) => (
+            <Image
+              height={100}
+              width={100}
               key={idx}
               src={src}
               alt={`media-${idx}`}
@@ -47,19 +306,21 @@ const PostCard = () => {
           ))}
         </div>
       );
-    } else if (media.length === 3) {
+    } else if (post.imageUrls.length === 3) {
       return (
         <div className="grid grid-cols-2 gap-2 mt-3">
-          {/* Left column: Full height image */}
-          <img
-            src={media[0]}
+          <Image
+            height={100}
+            width={100}
+            src={post.imageUrls[0]}
             alt="media-0"
             className="w-full h-full object-cover rounded col-span-1"
           />
-          {/* Right column: Two stacked images */}
           <div className="flex flex-col gap-2">
-            {media.slice(1).map((src, idx) => (
-              <img
+            {post.imageUrls.slice(1).map((src, idx) => (
+              <Image
+                height={100}
+                width={100}
                 key={idx}
                 src={src}
                 alt={`media-${idx + 1}`}
@@ -72,30 +333,35 @@ const PostCard = () => {
     } else {
       return (
         <div className="grid grid-cols-2 gap-2 mt-3 relative">
-          <img
-            src={media[0]}
+          <Image
+            height={100}
+            width={100}
+            src={post.imageUrls[0]}
             alt="media-0"
             className="w-full h-48 object-cover rounded col-span-2"
           />
-          {media.slice(1, 2).map((src, idx) => (
-            <img
+          {post.imageUrls.slice(1, 2).map((src, idx) => (
+            <Image
+              height={100}
+              width={100}
               key={idx}
               src={src}
               alt={`media-${idx + 1}`}
               className="w-full h-48 object-cover rounded"
             />
           ))}
-          {/* Overlay for the remaining images */}
           <div className="relative">
-            <img
-              src={media[3]}
+            <Image
+              height={100}
+              width={100}
+              src={post.imageUrls[3]}
               alt="media-3"
               className="w-full h-48 object-cover rounded"
             />
-            {media.length > maxImagesToShow && (
+            {post.imageUrls.length > maxImagesToShow && (
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
                 <span className="text-white font-semibold text-lg">
-                  +{media.length - maxImagesToShow}
+                  +{post.imageUrls.length - maxImagesToShow}
                 </span>
               </div>
             )}
@@ -106,32 +372,39 @@ const PostCard = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 mt-5">
+    <div className="bg-white rounded-lg shadow p-4">
       {/* Post Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <img
-            src="https://via.placeholder.com/40"
+        {/* <div className="flex items-center space-x-3">
+          <Image
+            height={100}
+            width={100}
+            src={post.author.profilePicture ?? "https://via.placeholder.com/40"}
             alt="profile"
             className="w-10 h-10 rounded-full"
           />
           <div>
-            <h2 className="font-semibold text-gray-800">John Doe</h2>
-            <p className="text-sm text-gray-500">2 hrs ago · Public</p>
+            <h2 className="font-semibold text-gray-800">
+              {post.author.name ?? "Unnamed user"}
+            </h2>
+            <p className="text-sm text-gray-500">
+              {fToNow(post.createdAt)} · {post.isPremium ? "Premium" : "Public"}
+            </p>
           </div>
-        </div>
+          
+        </div> */}
+        <UserProfileForPost post={post} />
         <FaEllipsisH className="text-gray-500" />
       </div>
 
-      {/* Post Content */}
-      <div className="mt-3 text-gray-700">
-        {isContentLong && !seeMore ? `${content.slice(0, 150)}...` : content}
+      <div className="text-gray-700">
+        {renderContent()}
         {isContentLong && (
           <button
-            className="text-blue-600 ml-1"
             onClick={() => setSeeMore(!seeMore)}
+            className="text-blue-500 hover:underline text-sm"
           >
-            {seeMore ? "See less" : "See more"}
+            {seeMore ? "Show Less" : "Show More"}
           </button>
         )}
       </div>
@@ -140,31 +413,53 @@ const PostCard = () => {
       {renderImageLayout()}
 
       {/* Reaction/Comments/Share Count */}
-      <div className="mt-4 flex justify-between text-gray-500 text-sm">
-        <div>{likeCount} Likes</div>
+      <div className="mt-4 flex justify-between text-gray-700 text-sm">
         <div>
-          {49} Comments · {15} Shares
+          {likeCount} Upvotes . {dislikeCount} Downvotes
+        </div>
+        <div className="hover:underline cursor-pointer">
+          {post.comments.length} Comments
         </div>
       </div>
 
       {/* Like, Comment, and Share buttons */}
       <div className="flex justify-between items-center mt-4 border-t border-gray-200 pt-2">
-        {/* Like */}
-        <button
-          className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200"
-          onClick={() => setLikeCount(likeCount + 1)}
+        <div className="flex items-center gap-3">
+          <Button
+            startIcon={<FaThumbsUp />}
+            size="small"
+            onClick={() => handleVoteOnPost("upvote")}
+            sx={{
+              textTransform: "capitalize",
+              color: userVote === "upvote" ? "blue" : "gray",
+            }}
+          >
+            Upvote
+          </Button>
+          <Button
+            startIcon={<FaThumbsDown />}
+            size="small"
+            onClick={() => handleVoteOnPost("downvote")}
+            sx={{
+              textTransform: "capitalize",
+              color: userVote === "downvote" ? "blue" : "gray",
+            }}
+          >
+            Downvote
+          </Button>
+        </div>
+
+        <Button
+          startIcon={<FaComment />}
+          size="small"
+          sx={{
+            textTransform: "capitalize",
+            color: "gray",
+          }}
         >
-          <FaThumbsUp className="text-xl" />
-          <span className="text-sm">Like</span>
-        </button>
+          Comment
+        </Button>
 
-        {/* Comment */}
-        <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
-          <FaComment className="text-xl" />
-          <span className="text-sm">Comment</span>
-        </button>
-
-        {/* Share */}
         <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
           <FaShare className="text-xl" />
           <span className="text-sm">Share</span>
