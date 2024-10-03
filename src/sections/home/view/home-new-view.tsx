@@ -11,30 +11,30 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import PostSortCard from "@/layouts/common/post-sort-card";
 import PostCard from "../post-card";
 import PostCreationStatusSection from "../post-creation-status-section";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import PostShimmerCard from "../post-card-shimmer";
+import { setPage } from "@/redux/reducers/post/postSlice";
 
 const HomeView = () => {
   const auth = useBoolean();
   const postCreation = useBoolean();
   const { user } = useAppSelector((state) => state.auth);
-  // Page and posts state
-  const [page, setPage] = useState(1);
+
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [totalPosts, setTotalPosts] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useAppDispatch();
 
-  const searchParams = useDebounce(searchTerm, 500);
+  const { searchTerm, selectedCategories, page } = useAppSelector(
+    (state) => state.post
+  );
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // Fetch posts with the current page
   const { data, isFetching, isLoading } = useGetAllPostsQuery({
     page,
     category: selectedCategories,
-    search: searchParams,
+    search: debouncedSearchTerm,
   });
 
   useEffect(() => {
@@ -54,9 +54,6 @@ const HomeView = () => {
         });
       }
 
-      // Update total posts count and check if there are more posts to load
-      setTotalPosts(data.data.meta.totalPosts);
-
       // Update hasMore based on whether the total posts loaded is less than the total available
       if (posts.length + newPosts.length >= data.data.meta.totalPosts) {
         setHasMore(false);
@@ -66,27 +63,7 @@ const HomeView = () => {
 
   // Fetch more posts when scrolling
   const fetchMorePosts = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
-
-  const handleCategoryToggle = (category: string) => {
-    setSelectedCategories((prevCategories) => {
-      if (prevCategories.includes(category)) {
-        return prevCategories.filter((cat) => cat !== category); // Remove category
-      } else {
-        return [...prevCategories, category]; // Add category
-      }
-    });
-    setPage(1);
-    setPosts([]);
-    setHasMore(true);
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    setPage(1);
-    setPosts([]);
-    setHasMore(true);
+    dispatch(setPage(page + 1));
   };
 
   return (

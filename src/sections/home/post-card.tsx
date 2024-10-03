@@ -186,6 +186,10 @@ import { Button } from "@mui/material";
 import { useVoteAPostMutation } from "@/redux/reducers/post/postApi";
 import useBoolean from "@/hooks/use-boolean";
 import UserProfileForPost from "./user-info-section";
+import RenderImageLayout from "./render-image-for-post";
+import PostWithCommentDialog from "./post-with-comment.dialog";
+import { useAppSelector } from "@/redux/hooks";
+import { IUser } from "@/types/auth";
 
 interface Props {
   post: IPost;
@@ -195,6 +199,8 @@ interface Props {
 const PostCard = ({ post, userId }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
   const commentDialog = useBoolean();
+
+  const { user } = useAppSelector((state) => state.auth);
 
   // Local vote states
   const [likeCount, setLikeCount] = useState(post.upvotes.length);
@@ -278,194 +284,93 @@ const PostCard = ({ post, userId }: Props) => {
     return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
   };
 
-  const renderImageLayout = () => {
-    if (post.imageUrls.length === 1) {
-      return (
-        <div className="rounded mt-3">
-          <Image
-            height={100}
-            width={100}
-            src={post.imageUrls[0]}
-            alt="post"
-            className="w-full h-auto object-cover rounded"
-          />
-        </div>
-      );
-    } else if (post.imageUrls.length === 2) {
-      return (
-        <div className="grid grid-cols-2 gap-2 mt-3">
-          {post.imageUrls.slice(0, 2).map((src, idx) => (
-            <Image
-              height={100}
-              width={100}
-              key={idx}
-              src={src}
-              alt={`media-${idx}`}
-              className="w-full h-48 object-cover rounded"
-            />
-          ))}
-        </div>
-      );
-    } else if (post.imageUrls.length === 3) {
-      return (
-        <div className="grid grid-cols-2 gap-2 mt-3">
-          <Image
-            height={100}
-            width={100}
-            src={post.imageUrls[0]}
-            alt="media-0"
-            className="w-full h-full object-cover rounded col-span-1"
-          />
-          <div className="flex flex-col gap-2">
-            {post.imageUrls.slice(1).map((src, idx) => (
-              <Image
-                height={100}
-                width={100}
-                key={idx}
-                src={src}
-                alt={`media-${idx + 1}`}
-                className="w-full h-48 object-cover rounded"
-              />
-            ))}
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="grid grid-cols-2 gap-2 mt-3 relative">
-          <Image
-            height={100}
-            width={100}
-            src={post.imageUrls[0]}
-            alt="media-0"
-            className="w-full h-48 object-cover rounded col-span-2"
-          />
-          {post.imageUrls.slice(1, 2).map((src, idx) => (
-            <Image
-              height={100}
-              width={100}
-              key={idx}
-              src={src}
-              alt={`media-${idx + 1}`}
-              className="w-full h-48 object-cover rounded"
-            />
-          ))}
-          <div className="relative">
-            <Image
-              height={100}
-              width={100}
-              src={post.imageUrls[3]}
-              alt="media-3"
-              className="w-full h-48 object-cover rounded"
-            />
-            {post.imageUrls.length > maxImagesToShow && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
-                <span className="text-white font-semibold text-lg">
-                  +{post.imageUrls.length - maxImagesToShow}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    }
-  };
-
   return (
-    <div className="bg-white rounded-lg shadow p-4">
-      {/* Post Header */}
-      <div className="flex items-center justify-between">
-        {/* <div className="flex items-center space-x-3">
-          <Image
-            height={100}
-            width={100}
-            src={post.author.profilePicture ?? "https://via.placeholder.com/40"}
-            alt="profile"
-            className="w-10 h-10 rounded-full"
-          />
+    <>
+      <div className="bg-white rounded-lg shadow p-4">
+        <div className="flex items-center justify-between">
+          <UserProfileForPost post={post} />
+          {/* <FaEllipsisH className="text-gray-500" /> */}
+        </div>
+
+        <div className="text-gray-700">
+          {renderContent()}
+          {isContentLong && (
+            <button
+              onClick={() => setSeeMore(!seeMore)}
+              className="text-blue-500 hover:underline text-sm"
+            >
+              {seeMore ? "Show Less" : "Show More"}
+            </button>
+          )}
+        </div>
+
+        {/* Media (Images with Smart Layout) */}
+        <RenderImageLayout post={post} />
+
+        {/* Reaction/Comments/Share Count */}
+        <div className="mt-4 flex justify-between text-gray-700 text-sm">
           <div>
-            <h2 className="font-semibold text-gray-800">
-              {post.author.name ?? "Unnamed user"}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {fToNow(post.createdAt)} · {post.isPremium ? "Premium" : "Public"}
-            </p>
+            {likeCount} Upvotes . {dislikeCount} Downvotes
           </div>
-          
-        </div> */}
-        <UserProfileForPost post={post} />
-        <FaEllipsisH className="text-gray-500" />
-      </div>
-
-      <div className="text-gray-700">
-        {renderContent()}
-        {isContentLong && (
-          <button
-            onClick={() => setSeeMore(!seeMore)}
-            className="text-blue-500 hover:underline text-sm"
+          <div
+            className="hover:underline cursor-pointer"
+            onClick={commentDialog.setTrue}
           >
-            {seeMore ? "Show Less" : "Show More"}
+            {post.comments.length} Comments
+          </div>
+        </div>
+
+        {/* Like, Comment, and Share buttons */}
+        <div className="flex justify-between items-center mt-4 border-t border-gray-200 pt-2">
+          <div className="flex items-center gap-3">
+            <Button
+              startIcon={<FaThumbsUp />}
+              size="small"
+              onClick={() => handleVoteOnPost("upvote")}
+              sx={{
+                textTransform: "capitalize",
+                color: userVote === "upvote" ? "blue" : "gray",
+              }}
+            >
+              Upvote
+            </Button>
+            <Button
+              startIcon={<FaThumbsDown />}
+              size="small"
+              onClick={() => handleVoteOnPost("downvote")}
+              sx={{
+                textTransform: "capitalize",
+                color: userVote === "downvote" ? "blue" : "gray",
+              }}
+            >
+              Downvote
+            </Button>
+          </div>
+
+          <Button
+            onClick={commentDialog.setTrue}
+            startIcon={<FaComment />}
+            size="small"
+            sx={{
+              textTransform: "capitalize",
+              color: "gray",
+            }}
+          >
+            Comment
+          </Button>
+
+          <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
+            <FaShare className="text-xl" />
+            <span className="text-sm">Share</span>
           </button>
-        )}
-      </div>
-
-      {/* Media (Images with Smart Layout) */}
-      {renderImageLayout()}
-
-      {/* Reaction/Comments/Share Count */}
-      <div className="mt-4 flex justify-between text-gray-700 text-sm">
-        <div>
-          {likeCount} Upvotes . {dislikeCount} Downvotes
-        </div>
-        <div className="hover:underline cursor-pointer">
-          {post.comments.length} Comments
         </div>
       </div>
-
-      {/* Like, Comment, and Share buttons */}
-      <div className="flex justify-between items-center mt-4 border-t border-gray-200 pt-2">
-        <div className="flex items-center gap-3">
-          <Button
-            startIcon={<FaThumbsUp />}
-            size="small"
-            onClick={() => handleVoteOnPost("upvote")}
-            sx={{
-              textTransform: "capitalize",
-              color: userVote === "upvote" ? "blue" : "gray",
-            }}
-          >
-            Upvote
-          </Button>
-          <Button
-            startIcon={<FaThumbsDown />}
-            size="small"
-            onClick={() => handleVoteOnPost("downvote")}
-            sx={{
-              textTransform: "capitalize",
-              color: userVote === "downvote" ? "blue" : "gray",
-            }}
-          >
-            Downvote
-          </Button>
-        </div>
-
-        <Button
-          startIcon={<FaComment />}
-          size="small"
-          sx={{
-            textTransform: "capitalize",
-            color: "gray",
-          }}
-        >
-          Comment
-        </Button>
-
-        <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
-          <FaShare className="text-xl" />
-          <span className="text-sm">Share</span>
-        </button>
-      </div>
-    </div>
+      <PostWithCommentDialog
+        dialog={commentDialog}
+        post={post}
+        user={user as IUser}
+      />
+    </>
   );
 };
 

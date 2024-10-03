@@ -20,6 +20,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import postSlice from "./reducers/post/postSlice";
 
 const persistConfig = {
   key: "auth",
@@ -34,6 +35,7 @@ export const store = configureStore({
     deenbook: deenbookSlice,
     lecture: lectureSlice,
     lecturer: lecturerSlice,
+    post: postSlice,
     menu: menuSlice,
     [api.reducerPath]: api.reducer,
   },

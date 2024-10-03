@@ -3,12 +3,19 @@
 import {
   ICreateCommentRequest,
   ICreateCommentResponse,
+  IGetPostWiseCommentResponse,
   IUpdateCommentRequest,
 } from "@/types/comment";
 import { api } from "../../api";
 
 export const commentApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    getComment: builder.query<IGetPostWiseCommentResponse, { postId: string }>({
+      query: ({ postId }) => ({
+        url: `/comment/${postId}`,
+      }),
+      providesTags: ["comments"],
+    }),
     addComment: builder.mutation<ICreateCommentResponse, ICreateCommentRequest>(
       {
         query: ({ author, content, post }) => ({
@@ -37,7 +44,7 @@ export const commentApi = api.injectEndpoints({
       { commentId: string }
     >({
       query: ({ commentId }) => ({
-        url: `/comments/${commentId}`,
+        url: `/comment/delete/${commentId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["comments"],
@@ -50,4 +57,5 @@ export const {
   useAddCommentMutation,
   useUpdateCommentMutation,
   useDeleteCommentMutation,
+  useGetCommentQuery,
 } = commentApi;

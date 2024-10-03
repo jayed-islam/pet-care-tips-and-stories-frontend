@@ -2,6 +2,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { BooleanState } from "@/types/utils";
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
+
 interface Props {
   dialog: BooleanState;
   postDialog: BooleanState;
