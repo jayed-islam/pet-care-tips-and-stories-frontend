@@ -61,7 +61,7 @@ export const postApi = api.injectEndpoints({
 
     getSinglePost: builder.query<IGetSinglePostResponse, string>({
       query: (id) => ({
-        url: `/posts/get-single/${id}`,
+        url: `/post/get-single/${id}`,
         method: "GET",
       }),
       providesTags: ["post"],

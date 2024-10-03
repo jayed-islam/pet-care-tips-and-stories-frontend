@@ -1,11 +1,8 @@
 "use client";
 
 import { useGetHomePostsQuery } from "@/redux/reducers/post/postApi";
-import { formatDate } from "@/utils/format-time";
-import { showTitle } from "@/utils/take-first-element";
-import Link from "next/link";
 import React from "react";
-import { paths } from "../paths";
+import PostInlineCard from "../common/post-inline-card";
 
 const Footer = () => {
   const { data } = useGetHomePostsQuery({
@@ -37,35 +34,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-7">OUR PICKS</h3>
             {data?.data.latestPosts.slice(0, 3).map((post, idx) => (
-              <div
-                key={idx}
-                className="flex items-start gap-4 border-b border-gray-800 mb-5 pb-3"
-              >
-                <div className="w-24 h-16">
-                  <img
-                    src={post.imageUrls[0]}
-                    alt="post"
-                    className="h-full w-full object-cover rounded"
-                  />
-                </div>
-                <div className="flex-1">
-                  {post.isPremium ? (
-                    <h2 className="text-sm font-semibold text-white line-clamp-2 overflow-ellipsis hover:text-blue-600 transition-all duration-300 hover:underline">
-                      {showTitle(post.content)}
-                    </h2>
-                  ) : (
-                    <Link
-                      href={paths.root}
-                      className="text-sm font-semibold text-white line-clamp-2 overflow-ellipsis  hover:text-blue-600 transition-all duration-300 hover:underline"
-                    >
-                      {showTitle(post.content)}
-                    </Link>
-                  )}
-                  <p className="text-xs text-gray-400 mt-1">
-                    {formatDate(post.createdAt.toString())}
-                  </p>
-                </div>
-              </div>
+              <PostInlineCard post={post} key={idx} />
             ))}
           </div>
 
@@ -73,35 +42,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-7">MOST POPULAR</h3>
             {data?.data.latestPosts.slice(4, 7).map((post, idx) => (
-              <div
-                key={idx}
-                className="flex items-start gap-4 border-b border-gray-800 mb-5 pb-3"
-              >
-                <div className="w-24 h-16">
-                  <img
-                    src={post.imageUrls[0]}
-                    alt="post"
-                    className="h-full w-full object-cover rounded"
-                  />
-                </div>
-                <div className="flex-1">
-                  {post.isPremium ? (
-                    <h2 className="text-sm font-semibold text-white line-clamp-2 overflow-ellipsis  hover:text-blue-600 transition-all duration-300 hover:underline">
-                      {showTitle(post.content)}
-                    </h2>
-                  ) : (
-                    <Link
-                      href={paths.root}
-                      className="text-sm font-semibold text-white line-clamp-2 overflow-ellipsis hover:text-blue-600 transition-all duration-300 hover:underline"
-                    >
-                      {showTitle(post.content)}
-                    </Link>
-                  )}
-                  <p className="text-xs text-gray-400 mt-1">
-                    {formatDate(post.createdAt.toString())}
-                  </p>
-                </div>
-              </div>
+              <PostInlineCard post={post} key={idx} />
             ))}
           </div>
         </div>

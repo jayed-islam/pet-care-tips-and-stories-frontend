@@ -10,6 +10,8 @@ import MenuDrawer from "./menu-drawer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleMenu } from "@/redux/reducers/menu/menuSlice";
 import { IconButton } from "@mui/material";
+import Link from "next/link";
+import { paths } from "../paths";
 
 const Header = () => {
   const { isMenuOpen } = useAppSelector((state) => state.menu);
@@ -47,9 +49,11 @@ const Header = () => {
 
             {/* Website Title */}
             <div className="text-center">
-              <h1 className="text-3xl lg:text-[2.5rem] font-bold lg:text-gray-800 text-white">
-                FADAKO CO<span className="text-4xl text-blue-600">.</span>
-              </h1>
+              <Link href={paths.root}>
+                <h1 className="text-3xl lg:text-[2.5rem] font-bold lg:text-gray-800 text-white">
+                  FADAKO CO<span className="text-4xl text-blue-600">.</span>
+                </h1>
+              </Link>
             </div>
 
             {/* Subscribe Button for large screens, Search Icon for small screens */}

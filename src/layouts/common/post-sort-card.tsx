@@ -2,6 +2,7 @@ import { paths } from "@/layouts/paths";
 import { IPost } from "@/types/post";
 import { formatDate } from "@/utils/format-time";
 import { showTitle } from "@/utils/take-first-element";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 interface Props {
@@ -10,22 +11,27 @@ interface Props {
 const PostSortCard = ({ post }: Props) => {
   return (
     <div key={post._id} className="flex items-start flex-col group">
-      <div className="h-56 w-full overflow-hidden relative">
-        <img
-          src={post.imageUrls[0] || "https://via.placeholder.com/50"}
-          className="h-full w-full object-cover group-hover:scale-105 transition-all duration-500 cursor-pointer"
-        />
-        {post.isPremium && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 cursor-not-allowed">
-            <div className="text-white text-center p-4">
-              <p className="text-lg font-semibold">Premium Content</p>
-              <p className="text-sm">
-                Upgrade your profile to see this content!
-              </p>
+      <Link href={`${paths.post.root}/${post._id}`} className="w-full h-56">
+        <div className="h-56 w-full overflow-hidden relative">
+          <Image
+            src={post.imageUrls[0] || "https://via.placeholder.com/50"}
+            className="h-full w-full object-cover group-hover:scale-105 transition-all duration-500 cursor-pointer"
+            alt="image"
+            height={100}
+            width={100}
+          />
+          {post.isPremium && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 cursor-not-allowed">
+              <div className="text-white text-center p-4">
+                <p className="text-lg font-semibold">Premium Content</p>
+                <p className="text-sm">
+                  Upgrade your profile to see this content!
+                </p>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </Link>
       <div className=" text-blue-600 text-xs uppercase font-bold mt-3">
         {post.category.name}
       </div>
@@ -36,8 +42,8 @@ const PostSortCard = ({ post }: Props) => {
           </h2>
         ) : (
           <Link
-            href={paths.root}
-            className="text-md font-semibold line-clamp-2 overflow-ellipsis hover:text-blue-600 transition-all duration-300 mt-3"
+            href={`${paths.post.root}/${post._id}`}
+            className="text-md font-semibold line-clamp-2 overflow-ellipsis hover:text-blue-600 transition-all duration-300 mt-3 hover:underline"
           >
             {showTitle(post.content)}
           </Link>
@@ -48,10 +54,12 @@ const PostSortCard = ({ post }: Props) => {
         className="mt-1 text-gray-500 text-xs font-semibold uppercase flex items-center gap-2 group"
       >
         {post.author.profilePicture && (
-          <img
+          <Image
             src={post.author.profilePicture}
             alt=""
             className="h-3 w-3 rounded-full border"
+            height={100}
+            width={100}
           />
         )}
         <span className="group-hover:underline uppercase">

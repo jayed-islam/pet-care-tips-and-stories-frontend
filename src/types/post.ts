@@ -42,7 +42,10 @@ export const POST_STATUS_OPTION = [
 export type IPostFilterValue = string | string[];
 
 export interface IGetSinglePostResponse {
-  data: IPost;
+  data: {
+    post: IPost;
+    relatedPosts: IPost[];
+  };
   message: string;
   state: boolean;
 }

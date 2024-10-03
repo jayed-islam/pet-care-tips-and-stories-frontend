@@ -107,12 +107,12 @@ import { useGetAllPostsQuery } from "@/redux/reducers/post/postApi";
 import { IPost } from "@/types/post";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import PostCreationStatusSection from "../home/post-creation-status-section";
-import PostSortCard from "./post-sort-card";
+import PostCreationStatusSection from "../../home/post-creation-status-section";
+import PostSortCard from "../../../layouts/common/post-sort-card";
 import { Button, TextField } from "@mui/material";
 import useDebounce from "@/hooks/use-debounce";
-import AuthDialog from "../auth/auth-dialog";
-import PostDialog from "./post-create-dialog";
+import AuthDialog from "../../auth/auth-dialog";
+import PostDialog from "../post-create-dialog";
 
 const PostsView = () => {
   const auth = useBoolean();

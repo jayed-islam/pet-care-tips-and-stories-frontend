@@ -35,7 +35,7 @@ const ProfileDropDown = ({ user }: Props) => {
   }, []);
 
   return (
-    <div className={`relative `}>
+    <div className={`relative z-50`}>
       <div className="flex items-center space-x-4">
         <button
           ref={profileRef}
@@ -58,7 +58,7 @@ const ProfileDropDown = ({ user }: Props) => {
         </div>
       </div>
       <ul
-        className={`bg-white top-12 right-0 mt-5 space-y-5 lg:absolute lg:border lg:rounded-md lg:text-sm lg:w-52 lg:shadow-md lg:space-y-0 lg:mt-0 ${
+        className={`bg-white z-50 top-12 right-0 mt-5 space-y-5 lg:absolute lg:border lg:rounded-md lg:text-sm lg:w-52 lg:shadow-md lg:space-y-0 lg:mt-0 ${
           state ? "" : "lg:hidden"
         }`}
       >

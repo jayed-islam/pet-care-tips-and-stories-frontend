@@ -13,6 +13,7 @@ import BlogPostCard from "../blog-post-card";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { paths } from "@/layouts/paths";
+import Image from "next/image";
 
 const HomeView = () => {
   const auth = useBoolean();
@@ -47,15 +48,20 @@ const HomeView = () => {
                         key={index}
                         className="flex items-start flex-col gap-2 group cursor-pointer"
                       >
-                        <img
+                        <Image
                           src={post.imageUrls[0]}
                           alt="post"
+                          height={100}
+                          width={100}
                           className="h-20 w-full object-cover"
                         />
                         <div>
-                          <h3 className="text-sm font-semibold line-clamp-2 overflow-ellipsis leading-4 group-hover:underline group-hover:text-blue-600 duration-300 transition-all">
+                          <Link
+                            href={`${paths.post.root}/${post._id}`}
+                            className="text-sm font-semibold line-clamp-2 overflow-ellipsis leading-4 group-hover:underline group-hover:text-blue-600 duration-300 transition-all"
+                          >
                             {showTitle(post.content)}
-                          </h3>
+                          </Link>
                         </div>
                       </div>
                     ))}
