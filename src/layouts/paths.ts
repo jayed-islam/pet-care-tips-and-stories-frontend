@@ -4,6 +4,9 @@ export const paths = {
   post: {
     root: "/posts",
   },
+  profile: {
+    root: "profile",
+  },
   auth: {
     login: "/auth/login",
     signup: "/auth/signup",

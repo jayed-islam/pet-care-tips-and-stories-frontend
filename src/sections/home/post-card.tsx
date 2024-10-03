@@ -359,17 +359,19 @@ const PostCard = ({ post, userId }: Props) => {
             Comment
           </Button>
 
-          <button className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200">
+          <button className="lg:flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200 hidden  ">
             <FaShare className="text-xl" />
             <span className="text-sm">Share</span>
           </button>
         </div>
       </div>
-      <PostWithCommentDialog
-        dialog={commentDialog}
-        post={post}
-        user={user as IUser}
-      />
+      {commentDialog.value && (
+        <PostWithCommentDialog
+          dialog={commentDialog}
+          post={post}
+          user={user as IUser}
+        />
+      )}
     </>
   );
 };

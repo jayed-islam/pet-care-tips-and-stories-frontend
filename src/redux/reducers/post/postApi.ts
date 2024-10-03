@@ -5,6 +5,7 @@ import {
   IGetHomePostListResponse,
   IGetPostListResponse,
   IGetSinglePostResponse,
+  IGetUserPostFilters,
   IPostFilters,
   IVotePostBody,
 } from "@/types/post";
@@ -100,6 +101,17 @@ export const postApi = api.injectEndpoints({
       }),
       invalidatesTags: ["posts"],
     }),
+
+    getUserPosts: builder.query<IGetPostListResponse, IGetUserPostFilters>({
+      query: ({ userId, ...rest }) => {
+        return {
+          url: `/post/user/${userId}`,
+          method: "POST",
+          body: { ...rest },
+        };
+      },
+      providesTags: ["user-posts"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -111,4 +123,5 @@ export const {
   useDeletePostByAdminMutation,
   useGetHomePostsQuery,
   useVoteAPostMutation,
+  useGetUserPostsQuery,
 } = postApi;

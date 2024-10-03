@@ -96,3 +96,12 @@ export interface IPostFilters {
   page: number;
   limit?: number;
 }
+
+export interface IGetUserPostFilters {
+  category?: string[];
+  search?: string;
+  sortBy?: "upvotes" | "newest";
+  page: number;
+  limit?: number;
+  userId?: string;
+}

@@ -5,6 +5,8 @@ import { fToNow } from "@/utils/format-time";
 import { useToggleFollowUserMutation } from "@/redux/reducers/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
 import { IPost } from "@/types/post";
+import Link from "next/link";
+import { paths } from "@/layouts/paths";
 
 interface Props {
   post: IPost;
@@ -50,9 +52,11 @@ const UserProfileForPost = ({ post }: Props) => {
         />
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="font-semibold text-gray-800">
-              {post.author.name ?? "Unnamed user"}
-            </h2>
+            <Link href={`${paths.profile.root}/${post.author._id}`}>
+              <h2 className="font-semibold text-gray-800 hover:underline">
+                {post.author.name ?? "Unnamed user"}
+              </h2>
+            </Link>
             <p>.</p>
             <h2
               onClick={handleFollowToggle}

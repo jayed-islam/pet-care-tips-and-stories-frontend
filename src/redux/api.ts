@@ -23,6 +23,8 @@ export const api = createApi({
     "post",
     "comments",
     "comment",
+    "single-user",
+    "user-posts",
   ],
   endpoints: () => ({}),
 });
