@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // "use client";
 
 // import { IPost } from "@/types/post";
@@ -170,19 +171,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  FaThumbsUp,
-  FaThumbsDown,
-  FaComment,
-  FaShare,
-  FaEllipsisH,
-} from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaComment, FaShare } from "react-icons/fa";
 import { IPost } from "@/types/post";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Image from "next/image";
-import { fToNow } from "@/utils/format-time";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useVoteAPostMutation } from "@/redux/reducers/post/postApi";
 import useBoolean from "@/hooks/use-boolean";
 import UserProfileForPost from "./user-info-section";
@@ -190,13 +183,15 @@ import RenderImageLayout from "./render-image-for-post";
 import PostWithCommentDialog from "./post-with-comment.dialog";
 import { useAppSelector } from "@/redux/hooks";
 import { IUser } from "@/types/auth";
+import { Delete, Edit } from "@mui/icons-material";
 
 interface Props {
   post: IPost;
   userId: string;
+  isMyProfile?: boolean;
 }
 
-const PostCard = ({ post, userId }: Props) => {
+const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
   const commentDialog = useBoolean();
 
@@ -266,7 +261,6 @@ const PostCard = ({ post, userId }: Props) => {
   };
 
   const isContentLong = post.content.length > characterLimit;
-  const maxImagesToShow = 4;
 
   const renderContent = () => {
     if (isContentLong && !seeMore) {
@@ -289,7 +283,16 @@ const PostCard = ({ post, userId }: Props) => {
       <div className="bg-white rounded-lg shadow p-4">
         <div className="flex items-center justify-between">
           <UserProfileForPost post={post} />
-          {/* <FaEllipsisH className="text-gray-500" /> */}
+          {isMyProfile && (
+            <div className="flex items-center gap-3">
+              <IconButton>
+                <Delete />
+              </IconButton>
+              <IconButton>
+                <Edit />
+              </IconButton>
+            </div>
+          )}
         </div>
 
         <div className="text-gray-700">

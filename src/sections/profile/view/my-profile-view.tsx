@@ -2,10 +2,8 @@
 "use client";
 
 import { useGetUserPostsQuery } from "@/redux/reducers/post/postApi";
-import { useGetSingleUserProfileQuery } from "@/redux/reducers/user/userApi";
 import banner from "../../../../public/image/banner.jpg";
 import React, { useEffect, useState } from "react";
-import { CircularProgress } from "@mui/material";
 import Image from "next/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostShimmerCard from "@/sections/home/post-card-shimmer";
@@ -14,37 +12,30 @@ import { IPost } from "@/types/post";
 import { useAppSelector } from "@/redux/hooks";
 import FollowButton from "./follow-button";
 import { IUser } from "@/types/auth";
+import { Button } from "@mui/material";
+import UpdateMyProfileDialog from "./update-my-profile";
+import useBoolean from "@/hooks/use-boolean";
+import ProfilePictureUploader from "./profile-photochange";
 
 interface Props {
-  id: string;
+  id?: string;
 }
 
-const FadakoUserProfileView = ({ id }: Props) => {
+const MyProfileView = ({ id }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
 
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [totalPosts, setTotalPosts] = useState(0);
-  const [followerCount, setFollowerCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const { data: userProfileData, isFetching: isUserProfileFetching } =
-    useGetSingleUserProfileQuery({
-      userId: id,
-    });
-  const { data: userPostsData, isLoading: isUserPostFetching } =
-    useGetUserPostsQuery(
-      {
-        page: page,
-        userId: id,
-      },
-      { skip: isUserProfileFetching }
-    );
 
-  useEffect(() => {
-    if (userProfileData) {
-      setFollowerCount(userProfileData.data.followers.length);
-    }
-  }, [userProfileData]);
+  const updateProfileDialog = useBoolean();
+
+  const { data: userPostsData, isLoading: isUserPostFetching } =
+    useGetUserPostsQuery({
+      page: page,
+      userId: user?._id,
+    });
 
   useEffect(() => {
     if (userPostsData?.data) {
@@ -81,18 +72,6 @@ const FadakoUserProfileView = ({ id }: Props) => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const handleFollowerChange = (change: number) => {
-    setFollowerCount((prevCount) => prevCount + change); // Update follower count locally
-  };
-
-  if (isUserProfileFetching) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <CircularProgress />
-      </div>
-    );
-  }
-
   return (
     <div className="w-full bg-[#F0F2F5]">
       <div className="w-full bg-white shadow border-b relative pb-16">
@@ -106,51 +85,104 @@ const FadakoUserProfileView = ({ id }: Props) => {
 
         <div className="max-w-5xl mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row">
           <div className="flex items-center md:items-end gap-5 flex-col md:flex-row ">
-            <div className="relative h-32 w-32 rounded-full">
+            {/* <div className="relative h-32 w-32 rounded-full">
               <Image
-                src={
-                  userProfileData?.data.profilePicture ??
-                  "https://via.placeholder.com/40"
-                }
+                src={user?.profilePicture ?? "https://via.placeholder.com/40"}
                 alt="banner"
                 height={100}
                 width={100}
                 className="h-32 w-32 rounded-full  border-2 border-blue-600 object-cover"
               />
-              {userProfileData?.data.userType === "premium" && (
+              {user?.userType === "premium" && (
                 <div className="h-5 w-5 rounded-full bg-blue-500 absolute -right-2 bottom-16"></div>
               )}
-            </div>
+            </div> */}
+            <ProfilePictureUploader user={user as IUser} />
             <div className="flex items-center flex-col md:items-start">
               <h2 className="text-2xl md:text-4xl font-semibold">
-                {userProfileData?.data.name ?? "Unnamed user"}
+                {user?.name ?? "Unnamed user"}
               </h2>
 
               <div className="flex items-center gap-2">
-                <h2 className="text-lg ">{followerCount} followers</h2>
+                <h2 className="text-lg ">{user?.followers.length} followers</h2>
                 <p className="text-xl">.</p>
-                <h2 className="text-lg ">
-                  {userProfileData?.data.following.length} following
-                </h2>
+                <h2 className="text-lg ">{user?.following.length} following</h2>
               </div>
             </div>
           </div>
-          <FollowButton
-            profile={userProfileData?.data as IUser}
-            onFollowerChange={handleFollowerChange}
-          />
+          {/* <FollowButton profile={user as IUser} /> */}
+          <div className="flex flex-col gap-3 md:flex-row  mt-3 md:mt-0">
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: "capitalize",
+              }}
+              onClick={updateProfileDialog.setTrue}
+            >
+              Update Profile
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                textTransform: "capitalize",
+              }}
+              onClick={updateProfileDialog.setTrue}
+            >
+              My Purchaed content
+            </Button>
+          </div>
         </div>
       </div>
       <div className="max-w-5xl mx-auto px-5 xl:px-0">
-        <div className="flex items-start lg:gap-7 mt-7 z-0 lg:flex-row">
-          <div className="hidden lg:flex rounded-lg w-full lg:w-[23rem] sticky top-20 bg-white shadow border p-5">
+        <div className="flex items-start lg:gap-7 mt-7 z-0 lg:flex-row flex-col">
+          <div className="lg:flex rounded-lg w-full lg:w-[23rem] lg:sticky lg:top-20 mb-5 lg:mb-0 bg-white shadow border p-5">
             <div>
-              <h2 className="text-xl font-semibold">User info</h2>
-              <p className="text-md font-semibold mt-3">
-                User Type : {userProfileData?.data.userType}
-              </p>
+              <h2 className="text-2xl font-semibold mb-4">User Info</h2>
+
+              <div className="mb-3">
+                <p className="text-gray-600 text-sm font-medium">User Type:</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  {user?.userType || "Not provided"}
+                </p>
+              </div>
+
+              <div className="mb-3">
+                <p className="text-gray-600 text-sm font-medium">Name:</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  {user?.name || "Not provided"}
+                </p>
+              </div>
+
+              <div className="mb-3">
+                <p className="text-gray-600 text-sm font-medium">Email:</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  {user?.email || "Not provided"}
+                </p>
+              </div>
+
+              <div className="mb-3">
+                <p className="text-gray-600 text-sm font-medium">Phone:</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  {user?.phone || "Not provided"}
+                </p>
+              </div>
+
+              <div className="mb-3">
+                <p className="text-gray-600 text-sm font-medium">Address:</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  {user?.address || "Not provided"}
+                </p>
+              </div>
+
+              <div className="mb-3">
+                <p className="text-gray-600 text-sm font-medium">Bio:</p>
+                <p className="text-lg font-semibold text-gray-800">
+                  {user?.bio || "Not provided"}
+                </p>
+              </div>
             </div>
           </div>
+
           <div className="lg:flex-1 w-full">
             {/* Show shimmer loading cards when fetching for the first page */}
             {isUserPostFetching && page === 1 && (
@@ -206,8 +238,9 @@ const FadakoUserProfileView = ({ id }: Props) => {
           </div>
         </div>
       </div>
+      <UpdateMyProfileDialog dialog={updateProfileDialog} />
     </div>
   );
 };
 
-export default FadakoUserProfileView;
+export default MyProfileView;

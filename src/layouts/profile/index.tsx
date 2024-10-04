@@ -2,12 +2,13 @@ import React, { ReactNode } from "react";
 import Header from "./header";
 interface Props {
   children: ReactNode;
+  isMyProfile?: boolean;
 }
 
-const ProfileLayout = ({ children }: Props) => {
+const ProfileLayout = ({ children, isMyProfile = false }: Props) => {
   return (
     <div>
-      <Header />
+      <Header isMyProfile={isMyProfile} />
       {children}
     </div>
   );

@@ -17,7 +17,7 @@ const RightSide = () => {
 
   const handleProfileClick = () => {
     if (user) {
-      router.push("/profile");
+      router.push("/my-profile");
     } else {
       authDialog.setTrue();
     }

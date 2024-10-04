@@ -1,15 +1,15 @@
 "use client";
 
-import { paths } from "@/layout/paths";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useEffect, useState } from "react";
 import { isValidToken } from "../utils";
 import { SplashScreen } from "@/components/loader/splash-screen";
 import { logout } from "@/redux/reducers/auth/authSlice";
+import { paths } from "@/layouts/paths";
 
 const loginPaths: Record<string, string> = {
-  login: paths.website.signin,
+  login: paths.auth.login,
 };
 
 interface IAuthGuardProps {

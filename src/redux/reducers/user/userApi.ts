@@ -2,22 +2,57 @@
 
 import { api } from "@/redux/api";
 import { IGetMeResponse } from "@/types/auth";
-import { IToggleFollowUserResponse } from "@/types/user";
+import {
+  IToggleFollowUserResponse,
+  IUpdateUserProfileData,
+  IUpdateUserProfileResponse,
+} from "@/types/user";
 
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // updateUserProfile: builder.mutation<
-    //   IGetUserProfileResponse,
-    //   IUpdateUserProfileBody
+    //   IUpdateUserProfileResponse,
+    //   IUpdateUserProfileData
     // >({
-    //   query: (body) => ({
-    //     url: "/user/profile",
+    //   query: ({ userId, ...rest }) => ({
+    //     url: `/user/me/update/${userId}`,
     //     method: "PUT",
-    //     body,
+    //     body: { ...rest },
     //   }),
-    //   invalidatesTags: ["User"],
+    //   invalidatesTags: ["user-me"],
     // }),
+    updateUserProfile: builder.mutation<
+      IUpdateUserProfileResponse,
+      IUpdateUserProfileData
+    >({
+      query: ({ userId, ...rest }) => {
+        const body = { ...rest };
+        console.log("Data being passed to the body:", body);
+        return {
+          url: `/user/me/update/${userId}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["user-me"],
+    }),
 
+    updateUserProfilePicture: builder.mutation<
+      IUpdateUserProfileResponse,
+      { userId: string; data: File }
+    >({
+      query: ({ userId, data }) => {
+        const formData = new FormData();
+        formData.append("file", data);
+
+        return {
+          url: `/user/me/update/profile-picture/${userId}`,
+          method: "PUT",
+          body: formData,
+        };
+      },
+      invalidatesTags: ["user-me"],
+    }),
     toggleFollowUser: builder.mutation<
       IToggleFollowUserResponse,
       { targetUserId: string }
@@ -42,5 +77,9 @@ export const userApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useToggleFollowUserMutation, useGetSingleUserProfileQuery } =
-  userApi;
+export const {
+  useToggleFollowUserMutation,
+  useGetSingleUserProfileQuery,
+  useUpdateUserProfileMutation,
+  useUpdateUserProfilePictureMutation,
+} = userApi;
