@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api";
 
-import authSlice from "./reducers/auth/authSlice";
 import menuSlice from "./reducers/menu/menuSlice";
 import deenbookSlice from "./reducers/deenbook/deenbookSlice";
 import lectureSlice from "./reducers/lecture/lectureSlice";

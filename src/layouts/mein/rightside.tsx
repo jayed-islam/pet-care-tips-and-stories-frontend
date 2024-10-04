@@ -51,7 +51,7 @@ const RightSide = () => {
     <div className="">
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold">View your Profile</h2>
+          <h2 className="text-lg font-bold">Manage your Profile</h2>
           <IconButton>
             <MoreHoriz />
           </IconButton>

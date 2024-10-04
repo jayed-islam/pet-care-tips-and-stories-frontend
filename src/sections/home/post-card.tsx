@@ -176,7 +176,10 @@ import { IPost } from "@/types/post";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Button, IconButton } from "@mui/material";
-import { useVoteAPostMutation } from "@/redux/reducers/post/postApi";
+import {
+  useMakePaymentForPremiumPostMutation,
+  useVoteAPostMutation,
+} from "@/redux/reducers/post/postApi";
 import useBoolean from "@/hooks/use-boolean";
 import UserProfileForPost from "./user-info-section";
 import RenderImageLayout from "./render-image-for-post";
@@ -184,6 +187,13 @@ import PostWithCommentDialog from "./post-with-comment.dialog";
 import { useAppSelector } from "@/redux/hooks";
 import { IUser } from "@/types/auth";
 import { Delete, Edit } from "@mui/icons-material";
+import ConfirmationDialog from "../profile/delete-my-post";
+import UpdatePostDialog from "../profile/update-post-view-dialog";
+import { hasPurchasedPost } from "@/redux/reducers/post/postSlice";
+import { LoadingButton } from "@mui/lab";
+import { useRouter } from "next/navigation";
+import AuthDialog from "../auth/auth-dialog";
+import PostDialog from "../post/post-create-dialog";
 
 interface Props {
   post: IPost;
@@ -194,8 +204,16 @@ interface Props {
 const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
   const commentDialog = useBoolean();
+  const deletePostDialog = useBoolean();
+  const updatePostDialog = useBoolean();
+  const auth = useBoolean();
+  const router = useRouter();
 
   const { user } = useAppSelector((state) => state.auth);
+
+  const isPurchased = useAppSelector((state) =>
+    hasPurchasedPost(state, post._id)
+  );
 
   // Local vote states
   const [likeCount, setLikeCount] = useState(post.upvotes.length);
@@ -213,6 +231,8 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
   }, [post.upvotes, post.downvotes, userId]);
 
   const [votePost] = useVoteAPostMutation();
+
+  const [makePayment, { isLoading }] = useMakePaymentForPremiumPostMutation();
 
   const handleVoteOnPost = async (voteType: "upvote" | "downvote") => {
     // If already upvoted and clicking downvote
@@ -260,6 +280,23 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
     }
   };
 
+  const handleMakePayment = async () => {
+    try {
+      const res = await makePayment({
+        postId: post._id,
+        amount: post.price ? Number(post.price) : 51,
+      }).unwrap();
+      if (res.success) {
+        console.log(res.message);
+        router.push(res.data.payment_url);
+      } else {
+        console.log(res.message);
+      }
+    } catch (error: any) {
+      console.log(error.data.message);
+    }
+  };
+
   const isContentLong = post.content.length > characterLimit;
 
   const renderContent = () => {
@@ -278,6 +315,41 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
     return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
   };
 
+  // const renderContent = () => {
+  //   if (post.isPremium && !isPurchased) {
+  //     return (
+  //       <div className="relative">
+  //         <div className="blur-sm">
+  //           <ReactQuill
+  //             value={post.content.slice(0, characterLimit) + "..."}
+  //             readOnly
+  //             theme="bubble"
+  //           />
+  //         </div>
+  //         <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 bg-black text-white">
+  //           <p>This content is premium. Pay to read more.</p>
+  //           <Button variant="contained" color="primary">
+  //             Pay to Read
+  //           </Button>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+
+  //   if (isContentLong && !seeMore) {
+  //     return (
+  //       <ReactQuill
+  //         value={`${post.content.slice(0, characterLimit)}...`}
+  //         readOnly={true}
+  //         theme="bubble"
+  //       />
+  //     );
+  //   }
+
+  //   // Otherwise, show the full content
+  //   return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
+  // };
+
   return (
     <>
       <div className="bg-white rounded-lg shadow p-4">
@@ -285,26 +357,73 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
           <UserProfileForPost post={post} />
           {isMyProfile && (
             <div className="flex items-center gap-3">
-              <IconButton>
+              <IconButton onClick={deletePostDialog.setTrue}>
                 <Delete />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={updatePostDialog.setTrue}>
                 <Edit />
               </IconButton>
             </div>
           )}
         </div>
 
+        {/* <div className="relative">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 bg-black text-white">
+                  <p>This content is premium. Pay to read more.</p>
+                  <Button variant="contained" color="primary">
+                    Pay to Read
+                  </Button>
+                </div>
+              </div> */}
+
         <div className="text-gray-700">
           {renderContent()}
-          {isContentLong && (
-            <button
-              onClick={() => setSeeMore(!seeMore)}
-              className="text-blue-500 hover:underline text-sm"
-            >
-              {seeMore ? "Show Less" : "Show More"}
-            </button>
-          )}
+          {isContentLong &&
+            (!isMyProfile && post.isPremium && !isPurchased ? (
+              <div className="relative h-20 w-full">
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 bg-black text-white">
+                  <p>This content is premium. Pay to read more.</p>
+                  {!user ? (
+                    <LoadingButton
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      loading={isLoading}
+                      sx={{
+                        textTransform: "capitalize",
+                        mt: 1,
+                      }}
+                      onClick={auth.setTrue}
+                    >
+                      Login then pay to read
+                    </LoadingButton>
+                  ) : (
+                    <LoadingButton
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      loading={isLoading}
+                      sx={{
+                        textTransform: "capitalize",
+                        mt: 1,
+                      }}
+                      onClick={handleMakePayment}
+                    >
+                      Pay to Read
+                    </LoadingButton>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setSeeMore(!seeMore)}
+                className={`text-blue-500 hover:underline text-sm ${
+                  !isPurchased && "cursor-not-allowed"
+                }`}
+              >
+                {seeMore ? "Show Less" : "Show More"}
+              </button>
+            ))}
         </div>
 
         {/* Media (Images with Smart Layout) */}
@@ -375,6 +494,18 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
           user={user as IUser}
         />
       )}
+
+      <ConfirmationDialog
+        onClose={deletePostDialog.setFalse}
+        open={deletePostDialog.value}
+        postId={post._id}
+      />
+
+      {updatePostDialog.value && (
+        <UpdatePostDialog dialog={updatePostDialog} post={post} />
+      )}
+
+      <AuthDialog dialog={auth} />
     </>
   );
 };

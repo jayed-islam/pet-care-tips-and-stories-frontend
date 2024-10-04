@@ -5,6 +5,7 @@ import React from "react";
 import { IUser } from "@/types/auth";
 import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/reducers/auth/authSlice";
+import Link from "next/link";
 
 interface Props {
   user: IUser;
@@ -17,8 +18,8 @@ const ProfileDropDown = ({ user }: Props) => {
   const dispatch = useAppDispatch();
 
   const navigation = [
-    { title: "Dashboard", path: "javascript:void(0)" },
-    { title: "Settings", path: "javascript:void(0)" },
+    { title: "My Profile", path: "/my-profile" },
+    { title: "Purchased post", path: "/my-profile/purchased-posts" },
     {
       title: "Log out",
       action: () => {
@@ -68,13 +69,22 @@ const ProfileDropDown = ({ user }: Props) => {
             onClick={item.action ? item.action : undefined}
             className="cursor-pointer"
           >
-            <a
-              key={idx}
-              className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5"
-              href={item.path}
-            >
-              {item.title}
-            </a>
+            {item.path !== undefined ? (
+              <Link
+                key={idx}
+                className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5"
+                href={item.path}
+              >
+                {item.title}
+              </Link>
+            ) : (
+              <h2
+                key={idx}
+                className="block text-gray-600 lg:hover:bg-gray-50 lg:p-2.5"
+              >
+                {item.title}
+              </h2>
+            )}
           </li>
         ))}
       </ul>

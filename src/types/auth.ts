@@ -1,3 +1,5 @@
+import { IPost } from "./post";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface LoginRequest {
   email: string;
@@ -23,6 +25,7 @@ export interface IUser {
   userType: "basic" | "premium";
   followers: any[];
   following: any[];
+  purchasedPosts: IPost[];
   isDeleted: boolean;
   isVerified: boolean;
   passwordChangedAt?: Date;

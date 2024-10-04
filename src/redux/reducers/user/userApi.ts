@@ -34,7 +34,7 @@ export const userApi = api.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: ["user-me"],
+      invalidatesTags: ["user-me", "user-posts"],
     }),
 
     updateUserProfilePicture: builder.mutation<
@@ -51,7 +51,7 @@ export const userApi = api.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: ["user-me"],
+      invalidatesTags: ["user-me", "user-posts"],
     }),
     toggleFollowUser: builder.mutation<
       IToggleFollowUserResponse,

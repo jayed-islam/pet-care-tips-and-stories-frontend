@@ -16,6 +16,11 @@ import { Button } from "@mui/material";
 import UpdateMyProfileDialog from "./update-my-profile";
 import useBoolean from "@/hooks/use-boolean";
 import ProfilePictureUploader from "./profile-photochange";
+import PostCreationStatusSection from "@/sections/home/post-creation-status-section";
+import AuthDialog from "@/sections/auth/auth-dialog";
+import PostDialog from "@/sections/post/post-create-dialog";
+import Link from "next/link";
+import { paths } from "@/layouts/paths";
 
 interface Props {
   id?: string;
@@ -27,9 +32,12 @@ const MyProfileView = ({ id }: Props) => {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [totalPosts, setTotalPosts] = useState(0);
+  const [isPurchasedDataViewOn, setIsPurchasedDataViewOn] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const updateProfileDialog = useBoolean();
+  const auth = useBoolean();
+  const postCreation = useBoolean();
 
   const { data: userPostsData, isLoading: isUserPostFetching } =
     useGetUserPostsQuery({
@@ -83,7 +91,7 @@ const MyProfileView = ({ id }: Props) => {
           className="h-72 w-full object-cover"
         />
 
-        <div className="max-w-5xl mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row">
+        <div className="max-w-5xl mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row px-5 xl:px-0">
           <div className="flex items-center md:items-end gap-5 flex-col md:flex-row ">
             {/* <div className="relative h-32 w-32 rounded-full">
               <Image
@@ -121,20 +129,22 @@ const MyProfileView = ({ id }: Props) => {
             >
               Update Profile
             </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                textTransform: "capitalize",
-              }}
-              onClick={updateProfileDialog.setTrue}
-            >
-              My Purchaed content
-            </Button>
+            <Link href={paths.account.purchasedPost}>
+              <Button
+                variant="outlined"
+                color="warning"
+                sx={{
+                  textTransform: "capitalize",
+                }}
+              >
+                My Purchaed content
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
       <div className="max-w-5xl mx-auto px-5 xl:px-0">
-        <div className="flex items-start lg:gap-7 mt-7 z-0 lg:flex-row flex-col">
+        <div className="flex items-start lg:gap-7 mt-7 z-0 lg:flex-row flex-col-reverse">
           <div className="lg:flex rounded-lg w-full lg:w-[23rem] lg:sticky lg:top-20 mb-5 lg:mb-0 bg-white shadow border p-5">
             <div>
               <h2 className="text-2xl font-semibold mb-4">User Info</h2>
@@ -184,7 +194,12 @@ const MyProfileView = ({ id }: Props) => {
           </div>
 
           <div className="lg:flex-1 w-full">
-            {/* Show shimmer loading cards when fetching for the first page */}
+            <div className="w-full mb-5">
+              <PostCreationStatusSection
+                dialog={auth}
+                postDialog={postCreation}
+              />
+            </div>
             {isUserPostFetching && page === 1 && (
               <div className="flex flex-col w-full gap-5">
                 {[...Array(10)].map((_, index) => (
@@ -230,6 +245,7 @@ const MyProfileView = ({ id }: Props) => {
                       post={post}
                       key={index}
                       userId={user?._id as string}
+                      isMyProfile
                     />
                   ))}
                 </div>
@@ -239,6 +255,8 @@ const MyProfileView = ({ id }: Props) => {
         </div>
       </div>
       <UpdateMyProfileDialog dialog={updateProfileDialog} />
+      <AuthDialog dialog={auth} />
+      <PostDialog dialog={postCreation} />
     </div>
   );
 };

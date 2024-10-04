@@ -6,6 +6,7 @@ import {
   IGetPostListResponse,
   IGetSinglePostResponse,
   IGetUserPostFilters,
+  IPaymentResponse,
   IPostFilters,
   IVotePostBody,
 } from "@/types/post";
@@ -74,19 +75,19 @@ export const postApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["posts"],
+      invalidatesTags: ["posts", "user-posts"],
     }),
-    // updatePostByAdmin: builder.mutation<
-    //   ICreatePostResponse,
-    //   { body: Partial<IPostGetForAdminBody>; id: string }
-    // >({
-    //   query: ({ body, id }) => ({
-    //     url: `/posts/admin/update-single/${id}`,
-    //     method: "PUT",
-    //     body,
-    //   }),
-    //   invalidatesTags: ["posts", "post"],
-    // }),
+    updatePost: builder.mutation<
+      ICreatePostResponse,
+      { body: FormData; id: string }
+    >({
+      query: ({ body, id }) => ({
+        url: `/post/update/${id}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["posts", "user-posts"],
+    }),
     voteAPost: builder.mutation<IGetSinglePostResponse, IVotePostBody>({
       query: ({ postId, voteType }) => ({
         url: `/post/${postId}/vote`,
@@ -94,12 +95,12 @@ export const postApi = api.injectEndpoints({
         body: { voteType },
       }),
     }),
-    deletePostByAdmin: builder.mutation<ICreatePostResponse, { id: string }>({
+    deletePost: builder.mutation<ICreatePostResponse, { id: string }>({
       query: ({ id }) => ({
-        url: `/posts/delete/${id}`,
+        url: `/post/delete/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["posts"],
+      invalidatesTags: ["user-posts"],
     }),
 
     getUserPosts: builder.query<IGetPostListResponse, IGetUserPostFilters>({
@@ -112,6 +113,18 @@ export const postApi = api.injectEndpoints({
       },
       providesTags: ["user-posts"],
     }),
+
+    makePaymentForPremiumPost: builder.mutation<
+      IPaymentResponse,
+      { postId: string; amount: number }
+    >({
+      query: ({ postId, amount }) => ({
+        url: `/payment/make-payment`,
+        method: "POST",
+        body: { postId, amount },
+      }),
+      invalidatesTags: ["posts"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -119,9 +132,11 @@ export const postApi = api.injectEndpoints({
 export const {
   useGetAllPostsQuery,
   useCreatePostMutation,
+  useUpdatePostMutation,
   useGetSinglePostQuery,
-  useDeletePostByAdminMutation,
+  useDeletePostMutation,
   useGetHomePostsQuery,
   useVoteAPostMutation,
   useGetUserPostsQuery,
+  useMakePaymentForPremiumPostMutation,
 } = postApi;

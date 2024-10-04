@@ -11,6 +11,7 @@ export interface IFormInputs {
 }
 
 export interface ICategory {
+  _id: string;
   name: string;
   description?: string;
   isDeleted: boolean;
@@ -24,6 +25,7 @@ export interface IPost {
   content: string;
   isPremium: boolean;
   category: ICategory;
+  price: string;
   upvotes: any[];
   downvotes: any[];
   comments: IComment[];
@@ -104,4 +106,13 @@ export interface IGetUserPostFilters {
   page: number;
   limit?: number;
   userId?: string;
+}
+
+export interface IPaymentResponse {
+  success: boolean;
+  message: string;
+  data: {
+    result: string;
+    payment_url: string;
+  };
 }

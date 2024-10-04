@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -8,7 +9,6 @@ import { useGetAllPostsQuery } from "@/redux/reducers/post/postApi";
 import { IPost } from "@/types/post";
 import useDebounce from "@/hooks/use-debounce";
 import InfiniteScroll from "react-infinite-scroll-component";
-import PostSortCard from "@/layouts/common/post-sort-card";
 import PostCard from "../post-card";
 import PostCreationStatusSection from "../post-creation-status-section";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";

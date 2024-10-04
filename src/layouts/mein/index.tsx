@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Drawer } from "@mui/material";
+import { Drawer, IconButton } from "@mui/material";
 import Header from "./header";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Close } from "@mui/icons-material";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
@@ -47,7 +49,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         open={leftOpen}
         onClose={() => toggleLeftDrawer(false)}
       >
-        <div className="w-64 p-4">
+        <div className="w-80 p-5">
           <LeftSide />
         </div>
       </Drawer>
@@ -58,7 +60,16 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         open={rightOpen}
         onClose={() => toggleRightDrawer(false)}
       >
-        <div className="w-64 p-4">
+        <div className="w-80 p-4">
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="open right drawer"
+            onClick={() => toggleRightDrawer(false)}
+            className="lg:hidden"
+          >
+            <Close />
+          </IconButton>
           <RightSide />
         </div>
       </Drawer>

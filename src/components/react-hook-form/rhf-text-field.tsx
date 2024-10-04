@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, TextField, TextFieldProps } from "@mui/material";
 import React from "react";
