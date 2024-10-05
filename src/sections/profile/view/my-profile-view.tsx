@@ -10,12 +10,11 @@ import PostShimmerCard from "@/sections/home/post-card-shimmer";
 import PostCard from "@/sections/home/post-card";
 import { IPost } from "@/types/post";
 import { useAppSelector } from "@/redux/hooks";
-import FollowButton from "./follow-button";
 import { IUser } from "@/types/auth";
 import { Button } from "@mui/material";
 import UpdateMyProfileDialog from "./update-my-profile";
 import useBoolean from "@/hooks/use-boolean";
-import ProfilePictureUploader from "./profile-photochange";
+import ProfilePictureUploader from "../../../layouts/profile/components/profile-photo-change";
 import PostCreationStatusSection from "@/sections/home/post-creation-status-section";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import PostDialog from "@/sections/post/post-create-dialog";
@@ -81,8 +80,8 @@ const MyProfileView = ({ id }: Props) => {
   };
 
   return (
-    <div className="w-full bg-[#F0F2F5]">
-      <div className="w-full bg-white shadow border-b relative pb-16">
+    <div className="w-full">
+      {/* <div className="w-full bg-white shadow border-b relative pb-16">
         <Image
           src={banner}
           alt="banner"
@@ -93,18 +92,7 @@ const MyProfileView = ({ id }: Props) => {
 
         <div className="max-w-5xl mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row px-5 xl:px-0">
           <div className="flex items-center md:items-end gap-5 flex-col md:flex-row ">
-            {/* <div className="relative h-32 w-32 rounded-full">
-              <Image
-                src={user?.profilePicture ?? "https://via.placeholder.com/40"}
-                alt="banner"
-                height={100}
-                width={100}
-                className="h-32 w-32 rounded-full  border-2 border-blue-600 object-cover"
-              />
-              {user?.userType === "premium" && (
-                <div className="h-5 w-5 rounded-full bg-blue-500 absolute -right-2 bottom-16"></div>
-              )}
-            </div> */}
+            
             <ProfilePictureUploader user={user as IUser} />
             <div className="flex items-center flex-col md:items-start">
               <h2 className="text-2xl md:text-4xl font-semibold">
@@ -118,7 +106,6 @@ const MyProfileView = ({ id }: Props) => {
               </div>
             </div>
           </div>
-          {/* <FollowButton profile={user as IUser} /> */}
           <div className="flex flex-col gap-3 md:flex-row  mt-3 md:mt-0">
             <Button
               variant="contained"
@@ -192,67 +179,64 @@ const MyProfileView = ({ id }: Props) => {
               </div>
             </div>
           </div>
+        </div>
+      </div> */}
 
-          <div className="lg:flex-1 w-full">
-            <div className="w-full mb-5">
-              <PostCreationStatusSection
-                dialog={auth}
-                postDialog={postCreation}
-              />
+      <div className="w-full">
+        <div className="w-full mb-5">
+          <PostCreationStatusSection dialog={auth} postDialog={postCreation} />
+        </div>
+        {isUserPostFetching && page === 1 && (
+          <div className="flex flex-col w-full gap-5">
+            {[...Array(10)].map((_, index) => (
+              <PostShimmerCard key={index} />
+            ))}
+          </div>
+        )}
+
+        {/* Check if there are no posts */}
+        {!isUserPostFetching && posts.length === 0 && (
+          <div className="flex justify-center items-center h-full">
+            <div className="bg-white p-4 rounded-lg shadow-md w-full text-center">
+              <h2 className="text-gray-500 text-lg">No posts available</h2>
+              <p className="text-gray-400">
+                This user hasn&apos;t made any posts yet.
+              </p>
             </div>
-            {isUserPostFetching && page === 1 && (
-              <div className="flex flex-col w-full gap-5">
-                {[...Array(10)].map((_, index) => (
+          </div>
+        )}
+
+        {/* Infinite Scroll for posts */}
+        {posts.length > 0 && (
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={fetchMorePosts}
+            hasMore={hasMore}
+            loader={
+              <div className="grid grid-cols-1 gap-3">
+                {[...Array(2)].map((_, index) => (
                   <PostShimmerCard key={index} />
                 ))}
               </div>
-            )}
-
-            {/* Check if there are no posts */}
-            {!isUserPostFetching && posts.length === 0 && (
-              <div className="flex justify-center items-center h-full">
-                <div className="bg-white p-4 rounded-lg shadow-md w-full text-center">
-                  <h2 className="text-gray-500 text-lg">No posts available</h2>
-                  <p className="text-gray-400">
-                    This user hasn&apos;t made any posts yet.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Infinite Scroll for posts */}
-            {posts.length > 0 && (
-              <InfiniteScroll
-                dataLength={posts.length}
-                next={fetchMorePosts}
-                hasMore={hasMore}
-                loader={
-                  <div className="grid grid-cols-1 gap-3">
-                    {[...Array(2)].map((_, index) => (
-                      <PostShimmerCard key={index} />
-                    ))}
-                  </div>
-                }
-                endMessage={
-                  <p className="text-center text-gray-500">
-                    No more posts available
-                  </p>
-                }
-              >
-                <div className="flex flex-col gap-5 w-full">
-                  {posts.map((post, index) => (
-                    <PostCard
-                      post={post}
-                      key={index}
-                      userId={user?._id as string}
-                      isMyProfile
-                    />
-                  ))}
-                </div>
-              </InfiniteScroll>
-            )}
-          </div>
-        </div>
+            }
+            endMessage={
+              <p className="text-center text-gray-500">
+                No more posts available
+              </p>
+            }
+          >
+            <div className="flex flex-col gap-5 w-full">
+              {posts.map((post, index) => (
+                <PostCard
+                  post={post}
+                  key={index}
+                  userId={user?._id as string}
+                  isMyProfile
+                />
+              ))}
+            </div>
+          </InfiniteScroll>
+        )}
       </div>
       <UpdateMyProfileDialog dialog={updateProfileDialog} />
       <AuthDialog dialog={auth} />

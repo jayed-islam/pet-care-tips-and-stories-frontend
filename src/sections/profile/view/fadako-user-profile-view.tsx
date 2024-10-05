@@ -12,7 +12,7 @@ import PostShimmerCard from "@/sections/home/post-card-shimmer";
 import PostCard from "@/sections/home/post-card";
 import { IPost } from "@/types/post";
 import { useAppSelector } from "@/redux/hooks";
-import FollowButton from "./follow-button";
+import FollowButton from "../../../layouts/profile/components/follow-button";
 import { IUser } from "@/types/auth";
 
 interface Props {

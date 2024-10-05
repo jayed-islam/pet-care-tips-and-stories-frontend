@@ -193,7 +193,6 @@ import { hasPurchasedPost } from "@/redux/reducers/post/postSlice";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import AuthDialog from "../auth/auth-dialog";
-import PostDialog from "../post/post-create-dialog";
 
 interface Props {
   post: IPost;
@@ -417,9 +416,7 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
             ) : (
               <button
                 onClick={() => setSeeMore(!seeMore)}
-                className={`text-blue-500 hover:underline text-sm ${
-                  !isPurchased && "cursor-not-allowed"
-                }`}
+                className={`text-blue-500 hover:underline text-sm`}
               >
                 {seeMore ? "Show Less" : "Show More"}
               </button>

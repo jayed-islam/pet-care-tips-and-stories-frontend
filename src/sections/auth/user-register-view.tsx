@@ -48,7 +48,7 @@ const SignupPageView = () => {
         password: data.password,
       }).unwrap();
       if (response?.data) {
-        toast.success("User login successfully!");
+        toast.success(response.message);
         router.push(paths.auth.login);
         reset();
       } else {

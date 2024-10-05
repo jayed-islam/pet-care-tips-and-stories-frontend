@@ -26,7 +26,7 @@ export const paths = {
     chagePassword: "/account/change-password",
     orders: "/account/order",
     bilingAddress: "/account/biling-address",
-    purchasedPost: "/my-profile/purchased-posts",
+    purchasedPost: "/my-profile/purchased",
   },
   featured: "/featured",
   admin: {

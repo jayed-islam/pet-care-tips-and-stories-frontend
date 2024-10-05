@@ -23,8 +23,8 @@ export interface IUser {
   role: "admin" | "user";
   status: "active" | "diactive" | "blocked";
   userType: "basic" | "premium";
-  followers: any[];
-  following: any[];
+  followers: IUser[];
+  following: IUser[];
   purchasedPosts: IPost[];
   isDeleted: boolean;
   isVerified: boolean;

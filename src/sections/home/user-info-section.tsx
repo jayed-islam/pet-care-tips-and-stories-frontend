@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { IUser } from "@/types/auth";
 import { fToNow } from "@/utils/format-time";
 import { useToggleFollowUserMutation } from "@/redux/reducers/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
@@ -19,7 +18,11 @@ const UserProfileForPost = ({ post }: Props) => {
 
   // Check if the targeted user is in the current user's following list
   useEffect(() => {
-    if (user?.following.includes(post.author._id)) {
+    if (
+      user?.following.some(
+        (followingUser) => followingUser._id === post.author._id
+      )
+    ) {
       setIsFollowing(true);
     } else {
       setIsFollowing(false);
