@@ -5,23 +5,23 @@ import { Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
-const MyFollowersView = () => {
+const MyFollowingView = () => {
   const { user } = useAppSelector((state) => state.auth);
   return (
     <div className="px-5 xl:px-0 w-full">
       <Typography variant="h4" gutterBottom>
-        My Followers
+        I Am Following
       </Typography>
 
-      {user?.followers.length === 0 ? (
+      {user?.following.length === 0 ? (
         <div className="w-full p-11 bg-white shadow-md border text-center">
           <Typography variant="body1" color="textSecondary">
-            No followers yet.
+            No following yet.
           </Typography>
         </div>
       ) : (
         <div className="flex flex-col gap-5">
-          {user?.followers.map((item) => (
+          {user?.following.map((item) => (
             <div
               key={item._id}
               className="flex items-start gap-5 bg-white border shadow-md w-full p-5"
@@ -53,4 +53,4 @@ const MyFollowersView = () => {
   );
 };
 
-export default MyFollowersView;
+export default MyFollowingView;

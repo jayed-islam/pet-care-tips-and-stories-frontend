@@ -6,6 +6,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { IPost } from "@/types/post";
 import Link from "next/link";
 import { paths } from "@/layouts/paths";
+import toast from "react-hot-toast";
 
 interface Props {
   post: IPost;
@@ -30,6 +31,10 @@ const UserProfileForPost = ({ post }: Props) => {
   }, [user?.following, post.author._id]);
 
   const handleFollowToggle = async () => {
+    if (user?._id === post.author._id) {
+      toast.error("You cannot follow yourself!");
+      return;
+    }
     // Toggle the following state
     setIsFollowing((prev) => !prev);
 

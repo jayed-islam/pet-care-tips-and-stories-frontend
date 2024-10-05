@@ -1,3 +1,5 @@
+"use client";
+
 import { useAppSelector } from "@/redux/hooks";
 import React from "react";
 
@@ -5,7 +7,7 @@ const MyProfileInfoView = () => {
   const { user } = useAppSelector((state) => state.auth);
   return (
     <div className="bg-white border p-5 shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">User Info</h2>
+      <h2 className="text-2xl font-semibold mb-4">My Info</h2>
 
       <div className="mb-3">
         <p className="text-gray-600 text-sm font-medium">User Type:</p>
