@@ -5,10 +5,12 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setSearchTerm, toggleCategory } from "@/redux/reducers/post/postSlice";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import { MoreHoriz } from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, IconButton } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent } from "react";
+import { paths } from "../paths";
 
 const RightSide = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -32,11 +34,11 @@ const RightSide = () => {
     dispatch(setSearchTerm(e.target.value));
   };
 
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryChange = (category: string) => {
     dispatch(toggleCategory(category));
   };
 
-  const categorites = [
+  const categories = [
     {
       label: "Tips",
       value: "66fa38dfae27dd09c8f012bd",
@@ -56,6 +58,17 @@ const RightSide = () => {
             <MoreHoriz />
           </IconButton>
         </div>
+
+        <Link href={paths.dashboard.root} className="lg:hidden mb-7 border-b ">
+          <Button
+            sx={{
+              textTransform: "capitalize",
+            }}
+            variant="contained"
+          >
+            Admin Dashboard
+          </Button>
+        </Link>
         {user ? (
           <div
             className="flex items-center space-x-4 cursor-pointer hover:bg-gray-200 py-1 px-1 rounded-sm"
@@ -88,7 +101,7 @@ const RightSide = () => {
         )}
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 lg:hidden">
         <input
           type="text"
           placeholder="Search posts..."
@@ -98,7 +111,7 @@ const RightSide = () => {
         />
       </div>
 
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <h2 className="text-lg font-bold mb-2">Filter by Category</h2>
         <div className="flex gap-2">
           {categorites.map((category, idx) => (
@@ -118,6 +131,25 @@ const RightSide = () => {
             >
               {category.label}
             </Button>
+          ))}
+        </div>
+      </div> */}
+
+      <div className="mb-6">
+        <h2 className="text-lg font-bold mb-2">Filter by Category</h2>
+        <div className="flex flex-col gap-2">
+          {categories.map((category) => (
+            <FormControlLabel
+              key={category.value}
+              control={
+                <Checkbox
+                  checked={selectedCategories.includes(category.value)}
+                  onChange={() => handleCategoryChange(category.value)}
+                  color="primary"
+                />
+              }
+              label={<span className="text-gray-800">{category.label}</span>}
+            />
           ))}
         </div>
       </div>

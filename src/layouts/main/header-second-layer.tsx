@@ -10,7 +10,7 @@ import { IconButton } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { toggleMenu } from "@/redux/reducers/menu/menuSlice";
 import MenuDrawer from "./menu-drawer";
-import ProfileDropDown from "./profile-menu-bar";
+import ProfileDropDown from "../dashboard/profile-menu-bar";
 
 const HeaderLayerTwo = () => {
   const [isHovered, setIsHovered] = useState(false);

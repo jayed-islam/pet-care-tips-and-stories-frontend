@@ -1,7 +1,8 @@
+import ContentListView from "@/sections/dashboard/view/content-list-view";
 import React from "react";
 
-const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+const Page = () => {
+  return <ContentListView />;
 };
 
-export default DashboardPage;
+export default Page;

@@ -4,7 +4,7 @@ import React, { ChangeEvent } from "react";
 import { Button, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import ProfileDropDown from "../main/profile-menu-bar";
+import ProfileDropDown from "../dashboard/profile-menu-bar";
 import Link from "next/link";
 import { paths } from "../paths";
 import { setSearchTerm } from "@/redux/reducers/post/postSlice";

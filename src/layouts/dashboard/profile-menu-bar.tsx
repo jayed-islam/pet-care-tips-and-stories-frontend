@@ -19,7 +19,7 @@ const ProfileDropDown = ({ user }: Props) => {
 
   const navigation = [
     { title: "My Profile", path: "/my-profile" },
-    { title: "Purchased post", path: "/my-profile/purchased-posts" },
+    { title: "Purchased post", path: "/my-profile/purchased" },
     {
       title: "Log out",
       action: () => {

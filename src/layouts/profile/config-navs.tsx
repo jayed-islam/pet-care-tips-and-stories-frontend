@@ -8,6 +8,11 @@ import {
 
 export const navLinks = [
   { title: "My Post", path: "/my-profile", icon: <FaFileAlt /> },
+  {
+    title: "Nutrition Chart",
+    path: "/my-profile/nutrition-chart",
+    icon: <FaFileAlt />,
+  },
   { title: "Followers", path: "/my-profile/followers", icon: <FaUsers /> },
   { title: "Flowing", path: "/my-profile/flowing", icon: <FaRegHeart /> },
   {
