@@ -25,6 +25,9 @@ export const api = createApi({
     "comment",
     "single-user",
     "user-posts",
+    "users",
+    "admin-posts",
+    "payments",
   ],
   endpoints: () => ({}),
 });

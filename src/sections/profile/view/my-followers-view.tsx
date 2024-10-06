@@ -1,8 +1,9 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const MyFollowersView = () => {
@@ -24,27 +25,41 @@ const MyFollowersView = () => {
           {user?.followers.map((item) => (
             <div
               key={item._id}
-              className="flex items-start gap-5 bg-white border shadow-md w-full p-5"
+              className="flex items-start flex-col lg:flex-row justify-between gap-5 bg-white border shadow-md w-full p-5"
             >
-              <div className="w-16 h-16 relative">
-                <Image
-                  src={item.profilePicture ?? "https://via.placeholder.com/40"}
-                  alt={item.name}
-                  fill
-                  className="rounded-full object-cover"
-                />
-              </div>
+              <div className="flex items-start gap-5">
+                <div className="w-16 h-16 relative">
+                  <Image
+                    src={
+                      item.profilePicture ?? "https://via.placeholder.com/40"
+                    }
+                    alt={item.name}
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                </div>
 
-              {/* Follower details */}
-              <div className="flex-1">
-                <Typography variant="h6">
-                  {item.name ?? "Unnamed user"}
-                </Typography>
-                <div>
-                  {item.followers.length} followers . {item.following.length}{" "}
-                  following
+                {/* Follower details */}
+                <div className="flex-1">
+                  <Typography variant="h6">
+                    {item.name ?? "Unnamed user"}
+                  </Typography>
+                  <div>
+                    {item.followers.length} followers . {item.following.length}{" "}
+                    following
+                  </div>
                 </div>
               </div>
+              <Link href={`/profile/${item._id}`}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    textTransform: "capitalize",
+                  }}
+                >
+                  See Profile
+                </Button>
+              </Link>
             </div>
           ))}
         </div>

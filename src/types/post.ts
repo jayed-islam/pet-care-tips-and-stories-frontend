@@ -81,6 +81,31 @@ export interface IGetPostListResponse {
   state: boolean;
 }
 
+export interface IGetPostListForAdminResponse {
+  data: IPost[];
+  message: string;
+  state: boolean;
+}
+
+export interface IGetPayemntListForAdminResponse {
+  data: IPayment[];
+  message: string;
+  state: boolean;
+}
+
+export interface IPayment {
+  _id: string;
+  createdAt: string;
+  user: IUser;
+  post: IPost;
+  amount: number;
+  currency: string;
+  paymentMethod: string;
+  paymentStatus: "PENDING" | "COMPLETED" | "FAILED";
+  transactionId: string;
+  additionalInfo?: string;
+}
+
 export interface IGetHomePostListResponse {
   data: {
     meta: IPaginationMeta;

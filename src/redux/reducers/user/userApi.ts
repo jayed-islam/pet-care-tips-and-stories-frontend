@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { api } from "@/redux/api";
-import { IGetMeResponse } from "@/types/auth";
+import { IGetMeResponse, IGetUserListResponse } from "@/types/auth";
 import {
   IToggleFollowUserResponse,
   IUpdateUserProfileData,
@@ -72,6 +72,13 @@ export const userApi = api.injectEndpoints({
       providesTags: ["single-user"],
     }),
 
+    getUserList: builder.query<IGetUserListResponse, void>({
+      query: () => ({
+        url: `/user/get-list`,
+      }),
+      providesTags: ["users"],
+    }),
+
     // Add more user-related endpoints as needed
   }),
   overrideExisting: true,
@@ -82,4 +89,5 @@ export const {
   useGetSingleUserProfileQuery,
   useUpdateUserProfileMutation,
   useUpdateUserProfilePictureMutation,
+  useGetUserListQuery,
 } = userApi;

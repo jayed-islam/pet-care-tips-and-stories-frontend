@@ -1,11 +1,11 @@
-import ProfileLayout from "@/layouts/profile";
+import UserProfileLayout from "@/layouts/user-profile";
 import React, { ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
 }
 const Layout = ({ children }: Props) => {
-  return <ProfileLayout>{children}</ProfileLayout>;
+  return <UserProfileLayout>{children}</UserProfileLayout>;
 };
 
 export default Layout;

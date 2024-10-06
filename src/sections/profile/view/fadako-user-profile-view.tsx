@@ -142,12 +142,41 @@ const FadakoUserProfileView = ({ id }: Props) => {
         </div>
       </div>
       <div className="max-w-5xl mx-auto px-5 xl:px-0">
-        <div className="flex items-start lg:gap-7 mt-7 z-0 lg:flex-row">
-          <div className="hidden lg:flex rounded-lg w-full lg:w-[23rem] sticky top-20 bg-white shadow border p-5">
-            <div>
-              <h2 className="text-xl font-semibold">User info</h2>
-              <p className="text-md font-semibold mt-3">
-                User Type : {userProfileData?.data.userType}
+        <div className="flex items-start flex-col gap-5 lg:gap-7 mt-7 z-0 lg:flex-row">
+          <div className="flex flex-col rounded-lg w-full lg:w-[23rem] lg:sticky top-20 bg-white shadow border p-5">
+            <h2 className="text-2xl font-semibold mb-4">User Info</h2>
+            <div className="mb-3">
+              <p className="text-gray-600 text-sm font-medium">User Type:</p>
+              <p className="text-lg font-semibold text-gray-800">
+                {userProfileData?.data?.userType || "Not provided"}
+              </p>
+            </div>
+
+            <div className="mb-3">
+              <p className="text-gray-600 text-sm font-medium">Name:</p>
+              <p className="text-lg font-semibold text-gray-800">
+                {userProfileData?.data?.name || "Not provided"}
+              </p>
+            </div>
+
+            <div className="mb-3">
+              <p className="text-gray-600 text-sm font-medium">Phone:</p>
+              <p className="text-lg font-semibold text-gray-800">
+                {userProfileData?.data?.phone || "Not provided"}
+              </p>
+            </div>
+
+            <div className="mb-3">
+              <p className="text-gray-600 text-sm font-medium">Address:</p>
+              <p className="text-lg font-semibold text-gray-800">
+                {userProfileData?.data?.address || "Not provided"}
+              </p>
+            </div>
+
+            <div className="mb-3">
+              <p className="text-gray-600 text-sm font-medium">Bio:</p>
+              <p className="text-lg font-semibold text-gray-800">
+                {userProfileData?.data?.bio || "Not provided"}
               </p>
             </div>
           </div>

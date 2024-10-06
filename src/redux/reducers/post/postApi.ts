@@ -3,6 +3,8 @@
 import {
   ICreatePostResponse,
   IGetHomePostListResponse,
+  IGetPayemntListForAdminResponse,
+  IGetPostListForAdminResponse,
   IGetPostListResponse,
   IGetSinglePostResponse,
   IGetUserPostFilters,
@@ -103,6 +105,17 @@ export const postApi = api.injectEndpoints({
       invalidatesTags: ["user-posts"],
     }),
 
+    toggleUpdatePostStatus: builder.mutation<
+      ICreatePostResponse,
+      { id: string }
+    >({
+      query: ({ id }) => ({
+        url: `/post/status/update/${id}`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["user-posts", "posts", "admin-posts"],
+    }),
+
     getUserPosts: builder.query<IGetPostListResponse, IGetUserPostFilters>({
       query: ({ userId, ...rest }) => {
         return {
@@ -125,6 +138,25 @@ export const postApi = api.injectEndpoints({
       }),
       invalidatesTags: ["posts"],
     }),
+
+    getPostList: builder.query<IGetPostListForAdminResponse, void>({
+      query: () => {
+        return {
+          url: `/post/get-list/`,
+          method: "GET",
+        };
+      },
+      providesTags: ["admin-posts"],
+    }),
+    getPaymentList: builder.query<IGetPayemntListForAdminResponse, void>({
+      query: () => {
+        return {
+          url: `/payment/get-list/`,
+          method: "GET",
+        };
+      },
+      providesTags: ["payments"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -139,4 +171,7 @@ export const {
   useVoteAPostMutation,
   useGetUserPostsQuery,
   useMakePaymentForPremiumPostMutation,
+  useGetPostListQuery,
+  useToggleUpdatePostStatusMutation,
+  useGetPaymentListQuery,
 } = postApi;

@@ -69,3 +69,9 @@ export interface IGetMeResponse {
   message: string;
   data: IUser;
 }
+
+export interface IGetUserListResponse {
+  success: boolean;
+  message: string;
+  data: IUser[];
+}

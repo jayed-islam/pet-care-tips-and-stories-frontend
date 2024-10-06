@@ -75,7 +75,7 @@ const Header = ({
             href={paths.root}
             className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold"
           >
-            Fadako
+            Eyebook
           </Link>
         </div>
         <div className="flex items-center gap-5">
@@ -94,14 +94,16 @@ const Header = ({
           {user && user?.email ? (
             <div className="hidden lg:flex gap-5">
               {user.role === "admin" && (
-                <Button
-                  sx={{
-                    textTransform: "capitalize",
-                  }}
-                  variant="contained"
-                >
-                  Admin Dashboard
-                </Button>
+                <Link href={paths.dashboard.root}>
+                  <Button
+                    sx={{
+                      textTransform: "capitalize",
+                    }}
+                    variant="contained"
+                  >
+                    Admin Dashboard
+                  </Button>
+                </Link>
               )}
               <ProfileDropDown user={user as IUser} />
             </div>

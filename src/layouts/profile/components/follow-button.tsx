@@ -6,7 +6,7 @@ import { IUser } from "@/types/auth";
 
 interface Props {
   profile: IUser;
-  onFollowerChange: (followerChange: number) => void; // Pass in a function to handle follower count update
+  onFollowerChange: (followerChange: number) => void; 
 }
 
 const FollowButton = ({ profile, onFollowerChange }: Props) => {

@@ -5,7 +5,6 @@ import { Drawer, IconButton } from "@mui/material";
 import Header from "./header";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Close } from "@mui/icons-material";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [leftOpen, setLeftOpen] = useState(false);

@@ -49,7 +49,7 @@ const ProfileHeader = () => {
             >
               Update Profile
             </Button>
-            <Link href={paths.account.purchasedPost}>
+            <Link href={paths.myAccount.purchaed}>
               <Button
                 variant="outlined"
                 color="warning"
