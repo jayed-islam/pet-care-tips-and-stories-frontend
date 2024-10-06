@@ -193,6 +193,7 @@ import { hasPurchasedPost } from "@/redux/reducers/post/postSlice";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import AuthDialog from "../auth/auth-dialog";
+import toast from "react-hot-toast";
 
 interface Props {
   post: IPost;
@@ -234,6 +235,11 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
   const [makePayment, { isLoading }] = useMakePaymentForPremiumPostMutation();
 
   const handleVoteOnPost = async (voteType: "upvote" | "downvote") => {
+    if (!user) {
+      toast.error("You need to be logged in to vote.");
+      return;
+    }
+
     // If already upvoted and clicking downvote
     if (userVote === "upvote" && voteType === "downvote") {
       setLikeCount((prev) => prev - 1);

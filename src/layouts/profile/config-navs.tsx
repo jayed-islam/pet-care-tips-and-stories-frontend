@@ -1,3 +1,4 @@
+import { CalculateOutlined } from "@mui/icons-material";
 import {
   FaUsers,
   FaRegHeart,
@@ -11,7 +12,7 @@ export const navLinks = [
   {
     title: "Nutrition Chart",
     path: "/my-profile/nutrition-chart",
-    icon: <FaFileAlt />,
+    icon: <CalculateOutlined />,
   },
   { title: "Followers", path: "/my-profile/followers", icon: <FaUsers /> },
   { title: "Flowing", path: "/my-profile/flowing", icon: <FaRegHeart /> },

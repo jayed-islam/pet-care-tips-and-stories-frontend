@@ -3,7 +3,6 @@
 import { paths } from "@/layouts/paths";
 import { BooleanState } from "@/types/utils";
 import { Button, Dialog, IconButton } from "@mui/material";
-import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -104,7 +103,7 @@ const AuthDialog = ({ dialog }: Props) => {
           <RHFTextField name="email" label="Email" type="email" />
           <RHFTextField name="password" label="Password" type="password" />
 
-          <Link href={paths.website.signin}>
+          <Link href={paths.auth.forgotPassword}>
             <h2 className="text-right pt-3 text-sm font-semibold text-blue-600 hover:underline">
               Forgotten password?
             </h2>

@@ -19,6 +19,7 @@ export const paths = {
   auth: {
     login: "/auth/login",
     signup: "/auth/signup",
+    forgotPassword: "/auth/forgot-password",
   },
   website: {
     signin: "/signin",

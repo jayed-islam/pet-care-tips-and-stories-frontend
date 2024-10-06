@@ -58,6 +58,11 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
   const { data, isFetching } = useGetCommentQuery({ postId: post._id });
 
   const onSubmit = handleSubmit(async (data) => {
+    if (!user) {
+      toast.error("You need to be logged in to comment.");
+      return;
+    }
+
     try {
       const response = await addComment({
         author: user?._id as string,
@@ -121,7 +126,7 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
 
             <div className="text-center p-4">
               <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                {post.author.name ?? "Unnammed user"} Post's
+                {post?.author.name ?? "Unnammed user"} Post&apos;s
               </h3>
             </div>
           </div>
@@ -180,7 +185,7 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
             <div className="flex items-start gap-3 w-full relative">
               <Image
                 alt="dd"
-                src={user.profilePicture || "https://via.placeholder.com/40"}
+                src={user?.profilePicture || "https://via.placeholder.com/40"}
                 height={100}
                 width={100}
                 className="h-11 w-11 rounded-full object-cover"

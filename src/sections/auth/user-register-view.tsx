@@ -87,13 +87,6 @@ const SignupPageView = () => {
               <Divider />
               <div className="px-4 py-5 gap-3 w-full">
                 <RHFTextField
-                  name="name"
-                  label="Your name"
-                  sx={{
-                    mb: 3,
-                  }}
-                />
-                <RHFTextField
                   name="email"
                   label="Email"
                   type="email"

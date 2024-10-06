@@ -20,6 +20,14 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: ["user-me"],
     }),
+    forgotPassword: builder.mutation<IAuthLoginResponse, { email: string }>({
+      query: ({ email }) => ({
+        url: "/auth/forget-password",
+        method: "POST",
+        body: { email },
+      }),
+      invalidatesTags: ["user-me"],
+    }),
     register: builder.mutation<IRegisterResponse, RegisterRequest>({
       query: (userDetails) => ({
         url: "/auth/register",
@@ -55,4 +63,9 @@ export const authApi = api.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGetMeQuery } = authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useGetMeQuery,
+  useForgotPasswordMutation,
+} = authApi;
