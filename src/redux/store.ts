@@ -2,9 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api";
 
 import menuSlice from "./reducers/menu/menuSlice";
-import deenbookSlice from "./reducers/deenbook/deenbookSlice";
-import lectureSlice from "./reducers/lecture/lectureSlice";
-import lecturerSlice from "./reducers/lecturer/lecturerSlice";
 
 import authReducer from "./reducers/auth/authSlice";
 
@@ -31,9 +28,6 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
-    deenbook: deenbookSlice,
-    lecture: lectureSlice,
-    lecturer: lecturerSlice,
     post: postSlice,
     menu: menuSlice,
     [api.reducerPath]: api.reducer,

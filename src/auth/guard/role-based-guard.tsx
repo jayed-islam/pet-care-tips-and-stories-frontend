@@ -17,7 +17,7 @@ export const RoleBasedGuard: FC<RoleBasedGuardProp> = ({
 }) => {
   const { user } = useAppSelector((state) => state.auth);
 
-  const isAdmin = roles?.includes(user?.role! as UserRoles);
+  const isAdmin = roles?.includes(user?.role as UserRoles);
 
   if (typeof user?.role !== "undefined" && !isAdmin) {
     return hasContent ? (

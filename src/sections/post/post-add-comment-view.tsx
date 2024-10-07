@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { useAddCommentMutation } from "@/redux/reducers/comment/commentApi";
 import { IUser } from "@/types/auth";

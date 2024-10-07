@@ -91,7 +91,7 @@ const PostDetailView = ({ id }: Props) => {
                     {author.name ?? "Unammed user"}
                   </Link>
                   <p className="text-sm text-gray-500">
-                    {author.followers ?? 0} Followers
+                    {author.followers.length ?? 0} Followers
                   </p>
                 </div>
               </div>

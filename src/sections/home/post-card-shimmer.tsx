@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEllipsisH, FaThumbsUp, FaComment, FaShare } from "react-icons/fa";
+import { FaEllipsisH } from "react-icons/fa";
 
 const PostShimmerCard = () => {
   return (

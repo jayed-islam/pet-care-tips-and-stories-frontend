@@ -32,10 +32,7 @@ const RHFSelect: React.FC<Props> = ({
   PaperProps,
   ...others
 }) => {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
 
   return (
     <Controller
