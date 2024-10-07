@@ -1,6 +1,24 @@
-# Eyebook 🐾
+# Eyebook
 
 **Eyebook** is a social media platform focused on pet care and stories, offering users a unique space to share, connect, and engage with pet lovers worldwide. Inspired by the core functionalities of a traditional social media site (like Facebook), Eyebook provides a place for users to interact through posts, follow others, and keep track of their favorite pet stories.
+
+### Live URL
+
+[Live URL](https://eyebook.vercel.app "Visit the live application")
+
+# Admin Credentials
+
+To log in as an admin, use the following credentials:
+
+- **Email**: `eyebook-admin@gmail.com`
+- **Password**: `password`
+
+```json
+{
+  "email": "eyebook-admin@gmail.com",
+  "password": "password"
+}
+```
 
 ## Table of Contents
 
@@ -85,7 +103,7 @@ Eyebook follows industry best practices for both frontend and backend developmen
 
 ### 7. **Performance Optimization**
 
-- Lazy loading, pagination, and server-side rendering (SSR) in Next.js help optimize performance and reduce load times.
+- Lazy loading, pagination in Next.js help optimize performance and reduce load times.
 
 ### 8. **Version Control and Meaningful Commits**
 
@@ -99,4 +117,35 @@ To run Eyebook locally, follow the steps below:
    ```bash
    git clone https://github.com/jayed-islam/pet-care-tips-and-stories-frontend
    cd pet-care-tips-and-stories-frontend
+    npm install
+   npm run dev
+   ```
+
+### Configuration
+
+1. Create a `.env` file in the root directory of the project.
+2. Add necessary configuration variables in the `.env` file.
+   Example:
+   ```bash
+    VITE_SERVER_API=backend-uri
+   ```
+
+## Usage
+
+To use the project effectively, follow these instructions:
+
+1. **Start the backend server:**
+
+   Ensure MongoDB is running and start the backend server using the following command:
+
+   ```bash
+   npm run start:dev   # or yarn start:dev
+   ```
+
+2. **Start the frontend development server:**
+
+   Open a new terminal window, navigate to the project directory, and start the frontend development server:
+
+   ```bash
+   npm run dev
    ```
