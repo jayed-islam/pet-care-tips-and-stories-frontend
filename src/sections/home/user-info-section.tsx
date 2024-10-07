@@ -31,6 +31,11 @@ const UserProfileForPost = ({ post }: Props) => {
   }, [user?.following, post.author._id]);
 
   const handleFollowToggle = async () => {
+    if (!user) {
+      toast.error("You need to be logged in to follow users!");
+      return;
+    }
+
     if (user?._id === post.author._id) {
       toast.error("You cannot follow yourself!");
       return;

@@ -60,16 +60,18 @@ const RightSide = () => {
           </IconButton>
         </div>
 
-        <Link href={paths.dashboard.root} className="lg:hidden mb-7 border-b">
-          <Button
-            sx={{
-              textTransform: "capitalize",
-            }}
-            variant="contained"
-          >
-            Admin Dashboard
-          </Button>
-        </Link>
+        {user && user.role === "admin" && (
+          <Link href={paths.dashboard.root} className="lg:hidden mb-7 border-b">
+            <Button
+              sx={{
+                textTransform: "capitalize",
+              }}
+              variant="contained"
+            >
+              Admin Dashboard
+            </Button>
+          </Link>
+        )}
         <div className="mt-5">
           {user ? (
             <div

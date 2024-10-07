@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { api } from "@/redux/api";
-import { IGetMeResponse, IGetUserListResponse } from "@/types/auth";
+import { IGetMeResponse, IGetUserListResponse, IUser } from "@/types/auth";
 import {
   IToggleFollowUserResponse,
   IUpdateUserProfileData,
@@ -36,6 +36,20 @@ export const userApi = api.injectEndpoints({
       },
       invalidatesTags: ["user-me", "user-posts"],
     }),
+    updateUserByAdmin: builder.mutation<
+      IUpdateUserProfileResponse,
+      Partial<IUser>
+    >({
+      query: ({ _id, ...rest }) => {
+        const body = { ...rest };
+        return {
+          url: `/user/admin/update/${_id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["user-posts", "users", "user-me"],
+    }),
 
     updateUserProfilePicture: builder.mutation<
       IUpdateUserProfileResponse,
@@ -53,6 +67,7 @@ export const userApi = api.injectEndpoints({
       },
       invalidatesTags: ["user-me", "user-posts"],
     }),
+
     toggleFollowUser: builder.mutation<
       IToggleFollowUserResponse,
       { targetUserId: string }
@@ -62,7 +77,7 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body: { targetUserId },
       }),
-      invalidatesTags: ["user-me"],
+      invalidatesTags: ["user-me", "single-user"],
     }),
 
     getSingleUserProfile: builder.query<IGetMeResponse, { userId: string }>({
@@ -90,4 +105,5 @@ export const {
   useUpdateUserProfileMutation,
   useUpdateUserProfilePictureMutation,
   useGetUserListQuery,
+  useUpdateUserByAdminMutation,
 } = userApi;

@@ -9,6 +9,10 @@ import {
   CardMedia,
 } from "@mui/material";
 
+export const metadata = {
+  title: "About us",
+};
+
 const teamMembers = [
   {
     name: "Rahul Ahmed",

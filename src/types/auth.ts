@@ -21,7 +21,7 @@ export interface IUser {
   profilePicture?: string;
   bio?: string;
   role: "admin" | "user";
-  status: "active" | "diactive" | "blocked";
+  status: "active" | "deactivated" | "blocked";
   userType: "basic" | "premium";
   followers: IUser[];
   following: IUser[];

@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import Link from "next/link";
-import { MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import { MenuItem, ListItemIcon, ListItemText, Button } from "@mui/material";
 import { navLinks } from "./config-navs";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/reducers/auth/authSlice";
 
 interface Props {
   toggleOpen?: any;
@@ -12,6 +14,13 @@ interface Props {
 
 const ProfileSidebar = ({ toggleOpen, isMobile }: Props) => {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/");
+  };
   return (
     <aside className="bg-white h-min w-80 p-5">
       <nav>
@@ -49,6 +58,18 @@ const ProfileSidebar = ({ toggleOpen, isMobile }: Props) => {
               </div>
             );
           })}
+
+          <Button
+            variant="contained"
+            onClick={handleLogout}
+            fullWidth
+            sx={{
+              textTransform: "capitalize",
+              mt: 3,
+            }}
+          >
+            Logout
+          </Button>
         </ul>
       </nav>
     </aside>

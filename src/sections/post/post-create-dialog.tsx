@@ -93,6 +93,8 @@ const PostDialog = ({ dialog }: Props) => {
       content: value,
       author: user && (user?._id as string),
       category: data.category,
+      price: data.price,
+      isPremium: data.isPremium,
     };
 
     const formData = new FormData();
