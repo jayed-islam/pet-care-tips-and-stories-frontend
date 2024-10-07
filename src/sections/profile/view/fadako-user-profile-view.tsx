@@ -31,7 +31,7 @@ const FadakoUserProfileView = ({ id }: Props) => {
     useGetSingleUserProfileQuery({
       userId: id,
     });
-  const { data: userPostsData, isLoading: isUserPostFetching } =
+  const { data: userPostsData, isFetching: isUserPostFetching } =
     useGetUserPostsQuery(
       {
         page: page,

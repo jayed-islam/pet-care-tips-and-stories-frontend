@@ -1,108 +1,105 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import React from "react";
-import PostCreationStatusSection from "../post-creation-status-section";
+import React, { useEffect, useState } from "react";
 import useBoolean from "@/hooks/use-boolean";
 import AuthDialog from "@/sections/auth/auth-dialog";
-import PostDialog from "@/sections/post/post-create-dialog";
-import { useGetHomePostsQuery } from "@/redux/reducers/post/postApi";
+import PostDialog from "@/sections/profile/post-create-dialog";
+import { useGetAllPostsQuery } from "@/redux/reducers/post/postApi";
 import { IPost } from "@/types/post";
-import { showTitle } from "@/utils/take-first-element";
-import BlogPostCardList from "../home-blog-latest-post";
-import BlogPostCard from "../blog-post-card";
-import { Button } from "@mui/material";
-import Link from "next/link";
-import { paths } from "@/layouts/paths";
-import Image from "next/image";
+import useDebounce from "@/hooks/use-debounce";
+import InfiniteScroll from "react-infinite-scroll-component";
+import PostCard from "../post-card";
+import PostCreationStatusSection from "../post-creation-status-section";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import PostShimmerCard from "../post-card-shimmer";
+import { setPage } from "@/redux/reducers/post/postSlice";
 
 const HomeView = () => {
   const auth = useBoolean();
   const postCreation = useBoolean();
+  const { user } = useAppSelector((state) => state.auth);
 
-  // Fetch posts with the current page
-  const { data, isLoading } = useGetHomePostsQuery({ page: 1 });
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const dispatch = useAppDispatch();
+
+  const { searchTerm, selectedCategories, page } = useAppSelector(
+    (state) => state.post
+  );
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const { data, isFetching } = useGetAllPostsQuery({
+    page,
+    category: selectedCategories,
+    search: debouncedSearchTerm,
+  });
+
+  useEffect(() => {
+    if (data?.data) {
+      const newPosts = data.data.posts;
+
+      // If it's the first page, replace posts; otherwise, append the new posts
+      if (page === 1) {
+        setPosts(newPosts);
+      } else {
+        setPosts((prevPosts) => {
+          const existingPostIds = new Set(prevPosts.map((post) => post._id)); // Assuming each post has a unique `id`
+          const filteredNewPosts = newPosts.filter(
+            (post) => !existingPostIds.has(post._id)
+          ); // Filter out duplicates
+          return [...prevPosts, ...filteredNewPosts]; // Append only new posts
+        });
+      }
+
+      // Update hasMore based on whether the total posts loaded is less than the total available
+      if (posts.length + newPosts.length >= data.data.meta.totalPosts) {
+        setHasMore(false);
+      }
+    }
+  }, [data, page]);
+
+  // Fetch more posts when scrolling
+  const fetchMorePosts = () => {
+    dispatch(setPage(page + 1));
+  };
 
   return (
-    <div className="h-full w-full">
-      <div className="flex items-start max-w-5xl mx-auto px-5 xl:px-0 gap-7 mt-7 z-0 flex-col-reverse lg:flex-row">
-        <div className="flex-1">
-          {isLoading ? (
-            <div className="w-full">
-              <div className="animate-pulse mb-4">
-                <div className="h-56 md:h-64 lg:h-[25rem] bg-gray-200 w-full"></div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-5">
-                  {[1, 2, 3, 4].map((_, index) => (
-                    <div key={index} className="bg-gray-200 h-20 w-full"></div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="w-full mb-16">
-              {data?.data && data.data.posts.length > 0 ? (
-                <>
-                  <BlogPostCard post={data.data.posts[0]} />
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-5">
-                    {data.data.posts.slice(1, 5).map((post, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start flex-col gap-2 group cursor-pointer"
-                      >
-                        <Image
-                          src={post.imageUrls[0]}
-                          alt="post"
-                          height={100}
-                          width={100}
-                          className="h-20 w-full object-cover"
-                        />
-                        <div>
-                          <Link
-                            href={`${paths.post.root}/${post._id}`}
-                            className="text-sm font-semibold line-clamp-2 overflow-ellipsis leading-4 group-hover:underline group-hover:text-blue-600 duration-300 transition-all"
-                          >
-                            {showTitle(post.content)}
-                          </Link>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <div className="text-center text-gray-500">
-                  No posts available
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="">
-            <div className="border-b-2 border-gray-200 pb-3 mb-7">
-              <h2 className="text-2xl font-semibold">Latest Posts</h2>
-            </div>
-            <BlogPostCardList
-              latestPosts={data?.data.latestPosts as IPost[]}
-              isLoading={isLoading}
-            />
-
-            <div className="flex items-center justify-center mb-16">
-              <Link href={paths.post.root}>
-                {" "}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    textTransform: "capitalize",
-                  }}
-                >
-                  See more post
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="w-full lg:w-[23rem] sticky top-11 z-20">
+    <div className="h-full max-w-xl mx-auto">
+      <div className="w-full pb-16">
+        <div className="w-full mb-5">
           <PostCreationStatusSection dialog={auth} postDialog={postCreation} />
         </div>
+        {isFetching && page === 1 && (
+          <div className="flex flex-col w-full gap-5">
+            {[...Array(10)].map((_, index) => (
+              <PostShimmerCard key={index} />
+            ))}
+          </div>
+        )}
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={fetchMorePosts}
+          hasMore={hasMore}
+          loader={
+            <div className="grid grid-cols-1 gap-3">
+              {[...Array(2)].map((_, index) => (
+                <PostShimmerCard key={index} />
+              ))}
+            </div>
+          }
+          endMessage={
+            <p className="text-center text-gray-500">No more posts available</p>
+          }
+        >
+          <div className="flex flex-col gap-5 w-full">
+            {posts.map((post, index) => (
+              <PostCard post={post} key={index} userId={user?._id as string} />
+            ))}
+          </div>
+        </InfiniteScroll>
       </div>
       <AuthDialog dialog={auth} />
       <PostDialog dialog={postCreation} />

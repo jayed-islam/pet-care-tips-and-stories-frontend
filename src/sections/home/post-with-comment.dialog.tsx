@@ -28,6 +28,12 @@ import RenderImageLayout from "./render-image-for-post";
 import Image from "next/image";
 import { Delete, Send } from "@mui/icons-material";
 import PostComentItem from "./post-comment-item";
+import { useAppSelector } from "@/redux/hooks";
+import { hasPurchasedPost } from "@/redux/reducers/post/postSlice";
+import { LoadingButton } from "@mui/lab";
+import { paths } from "@/layouts/paths";
+import { useRouter } from "next/navigation";
+import { useMakePaymentForPremiumPostMutation } from "@/redux/reducers/post/postApi";
 
 export const commentSchema = z.object({
   content: z
@@ -38,15 +44,22 @@ export const commentSchema = z.object({
 interface Props {
   dialog: BooleanState;
   post: IPost;
-  user: IUser;
+  isMyProfile?: boolean;
 }
 
-const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
+const PostWithCommentDialog = ({ dialog, post, isMyProfile }: Props) => {
   const [seeMore, setSeeMore] = useState(false);
   const characterLimit = 100;
   const methods = useForm({
     resolver: zodResolver(commentSchema),
   });
+  const router = useRouter();
+
+  const { user } = useAppSelector((state) => state.auth);
+
+  const isPurchased = useAppSelector((state) =>
+    hasPurchasedPost(state, post._id)
+  );
   const {
     handleSubmit,
     reset,
@@ -54,8 +67,10 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
     formState: { errors },
   } = methods;
 
-  const [addComment] = useAddCommentMutation();
+  const [addComment, { isLoading }] = useAddCommentMutation();
   const { data, isFetching } = useGetCommentQuery({ postId: post._id });
+  const [makePayment, { isLoading: isMakePaymentLoading }] =
+    useMakePaymentForPremiumPostMutation();
 
   const onSubmit = handleSubmit(async (data) => {
     if (!user) {
@@ -99,6 +114,23 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
     // Otherwise, show the full content
     return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
   };
+
+  const handleMakePayment = async () => {
+    try {
+      const res = await makePayment({
+        postId: post._id,
+        amount: post.price ? Number(post.price) : 51,
+      }).unwrap();
+      if (res.success) {
+        console.log(res.message);
+        router.push(res.data.payment_url);
+      } else {
+        console.log(res.message);
+      }
+    } catch (error: any) {
+      console.log(error.data.message);
+    }
+  };
   return (
     <Dialog
       open={dialog.value}
@@ -136,14 +168,59 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
 
             <div className="text-gray-700">
               {renderContent()}
-              {isContentLong && (
+              {/* {isContentLong && (
                 <button
+                  type="button"
                   onClick={() => setSeeMore(!seeMore)}
                   className="text-blue-500 hover:underline text-sm"
                 >
                   {seeMore ? "Show Less" : "Show More"}
                 </button>
-              )}
+              )} */}
+              {isContentLong &&
+                (!isMyProfile && post.isPremium && !isPurchased ? (
+                  <div className="relative h-20 w-full">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 bg-black text-white">
+                      <p>This content is premium. Pay to read more.</p>
+                      {!user ? (
+                        <LoadingButton
+                          size="small"
+                          variant="contained"
+                          color="primary"
+                          loading={isLoading}
+                          sx={{
+                            textTransform: "capitalize",
+                            mt: 1,
+                          }}
+                          onClick={() => router.push(paths.auth.login)}
+                        >
+                          Login then pay to read
+                        </LoadingButton>
+                      ) : (
+                        <LoadingButton
+                          size="small"
+                          variant="contained"
+                          color="primary"
+                          loading={isMakePaymentLoading}
+                          sx={{
+                            textTransform: "capitalize",
+                            mt: 1,
+                          }}
+                          onClick={handleMakePayment}
+                        >
+                          Pay to Read
+                        </LoadingButton>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setSeeMore(!seeMore)}
+                    className={`text-blue-500 hover:underline text-sm`}
+                  >
+                    {seeMore ? "Show Less" : "Show More"}
+                  </button>
+                ))}
             </div>
 
             {/* Media (Images with Smart Layout) */}
@@ -217,7 +294,7 @@ const PostWithCommentDialog = ({ dialog, post, user }: Props) => {
                   bottom: 5,
                 }}
               >
-                <Send />
+                {isLoading ? <CircularProgress size={30} /> : <Send />}
               </IconButton>
             </div>
           </DialogActions>

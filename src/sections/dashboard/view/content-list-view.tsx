@@ -18,7 +18,7 @@ import Skeleton from "@mui/material/Skeleton";
 import PostRow from "../dashboard-post-row";
 
 const ContentListView = () => {
-  const { data, isLoading } = useGetPostListQuery();
+  const { data, isFetching } = useGetPostListQuery();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -40,7 +40,7 @@ const ContentListView = () => {
         Content List
       </Typography>
 
-      {isLoading ? (
+      {isFetching ? (
         <SkeletonLoader />
       ) : data && data.data.length > 0 ? (
         <TableContainer component={Paper}>

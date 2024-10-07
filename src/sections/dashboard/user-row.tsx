@@ -50,7 +50,7 @@ const UserTableRow: React.FC<UserTableRowProps> = ({ user }) => {
           </Button>
         </TableCell>
       </TableRow>
-      <UpdateUserByAdminDialog dialog={dialog} data={user} />
+      <UpdateUserByAdminDialog dialog={dialog} userData={user} />
     </>
   );
 };

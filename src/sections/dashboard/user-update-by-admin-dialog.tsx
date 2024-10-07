@@ -22,17 +22,17 @@ export const profileUpdateSchema = z.object({
 
 interface Props {
   dialog: BooleanState;
-  data: IUser;
+  userData: IUser;
 }
 
-const UpdateUserByAdminDialog = ({ dialog, data }: Props) => {
+const UpdateUserByAdminDialog = ({ dialog, userData }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
 
   const methods = useForm({
     resolver: zodResolver(profileUpdateSchema),
     defaultValues: {
-      role: data?.role,
-      status: data?.status,
+      role: userData?.role,
+      status: userData?.status,
     },
   });
 
@@ -46,13 +46,13 @@ const UpdateUserByAdminDialog = ({ dialog, data }: Props) => {
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
-    const payload: Partial<IUser> = { _id: user?._id as string };
+    const payload: Partial<IUser> = { _id: userData?._id as string };
 
     // Only add fields to the payload if they have changed
-    if (data.role !== user?.role) {
+    if (data.role !== userData?.role) {
       payload.role = data.role;
     }
-    if (data.status !== user?.status) {
+    if (data.status !== userData?.status) {
       payload.status = data.status;
     }
     if (Object.keys(payload).length === 1) {
