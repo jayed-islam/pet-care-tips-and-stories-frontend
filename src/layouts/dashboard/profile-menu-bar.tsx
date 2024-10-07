@@ -30,7 +30,7 @@ const ProfileDropDown = ({ user }: Props) => {
 
   useEffect(() => {
     const handleDropDown = (e: any) => {
-      if (!profileRef?.current!.contains(e.target)) setState(false);
+      if (!profileRef?.current?.contains(e.target)) setState(false);
     };
     document.addEventListener("click", handleDropDown);
   }, []);

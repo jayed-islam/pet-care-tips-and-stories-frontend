@@ -153,6 +153,15 @@ const NutritionCalculator: React.FC = () => {
             <Typography variant="h4" align="center" gutterBottom>
               Nutrition Calculator
             </Typography>
+            <Typography
+              variant="body2"
+              align="center"
+              color="green"
+              gutterBottom
+            >
+              Afer calculation you can download your pets Nutrition Chart, its
+              easy!!!
+            </Typography>
             <RHFTextField name="age" label="Age (in years)" />
             <RHFTextField name="weight" label="Weight (in kg)" />
 

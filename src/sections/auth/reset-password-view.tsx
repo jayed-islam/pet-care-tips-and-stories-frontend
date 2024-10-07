@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +16,7 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import { LoadingButton } from "@mui/lab";
+import FormProvider, { RHFTextField } from "@/components/react-hook-form";
 
 const resetPasswordSchema = z
   .object({
@@ -50,7 +52,7 @@ const ResetPassword = () => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = async (data: FieldValues) => {
+  const onSubmit = handleSubmit(async (data) => {
     // Assert the type of data
     const { newPassword, confirmPassword } = data as {
       newPassword: string;
@@ -77,43 +79,27 @@ const ResetPassword = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  });
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper elevation={3} sx={{ padding: 3 }}>
-        <Typography variant="h5" align="center">
-          Reset Password
-        </Typography>
+    <FormProvider methods={methods} onSubmit={onSubmit}>
+      <Container component="main" maxWidth="xs">
+        <Paper elevation={3} sx={{ padding: 3, mt: 15 }}>
+          <Typography variant="h5" align="center">
+            Reset Password
+          </Typography>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <div>
-            <TextField
-              {...methods.register("newPassword")}
+          <div className="flex items-center flex-col gap-3 mt-5 mb-5">
+            <RHFTextField
               type="password"
+              name="newPassword"
               label="New Password"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              error={!!errors.newPassword}
-              helperText={
-                errors.newPassword ? (errors.newPassword.message as string) : ""
-              }
             />
 
-            <TextField
-              {...methods.register("confirmPassword")}
+            <RHFTextField
               type="password"
+              name="confirmPassword"
               label="Confirm Password"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              error={!!errors.confirmPassword}
-              helperText={
-                errors.confirmPassword
-                  ? (errors.confirmPassword.message as string)
-                  : ""
-              }
             />
           </div>
 
@@ -128,9 +114,9 @@ const ResetPassword = () => {
           >
             {isLoading ? <CircularProgress size={24} /> : "Reset Password"}
           </LoadingButton>
-        </form>
-      </Paper>
-    </Container>
+        </Paper>
+      </Container>
+    </FormProvider>
   );
 };
 

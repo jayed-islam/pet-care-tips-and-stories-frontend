@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent } from "react";
 import { paths } from "../paths";
+import { logout } from "@/redux/reducers/auth/authSlice";
 
 const RightSide = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -59,7 +60,7 @@ const RightSide = () => {
           </IconButton>
         </div>
 
-        <Link href={paths.dashboard.root} className="lg:hidden mb-7 border-b ">
+        <Link href={paths.dashboard.root} className="lg:hidden mb-7 border-b">
           <Button
             sx={{
               textTransform: "capitalize",
@@ -69,36 +70,38 @@ const RightSide = () => {
             Admin Dashboard
           </Button>
         </Link>
-        {user ? (
-          <div
-            className="flex items-center space-x-4 cursor-pointer hover:bg-gray-200 py-1 px-1 rounded-sm"
-            onClick={handleProfileClick}
-          >
-            <Image
-              src={user.profilePicture || "https://via.placeholder.com/40"}
-              alt="User Profile"
-              className="w-10 h-10 rounded-full object-cover"
-              height={100}
-              width={100}
-            />
-            <div>
-              <h3 className="font-semibold text-gray-800">
-                {user.name ?? "Unnamed user"}
-              </h3>
-            </div>
-          </div>
-        ) : (
-          <div onClick={authDialog.setTrue}>
-            <Button
-              variant="contained"
-              sx={{
-                textTransform: "capitalize",
-              }}
+        <div className="mt-5">
+          {user ? (
+            <div
+              className="flex items-center space-x-4 cursor-pointer hover:bg-gray-200 py-1 px-1 rounded-sm"
+              onClick={handleProfileClick}
             >
-              Log in
-            </Button>
-          </div>
-        )}
+              <Image
+                src={user.profilePicture || "https://via.placeholder.com/40"}
+                alt="User Profile"
+                className="w-10 h-10 rounded-full object-cover"
+                height={100}
+                width={100}
+              />
+              <div>
+                <h3 className="font-semibold text-gray-800">
+                  {user.name ?? "Unnamed user"}
+                </h3>
+              </div>
+            </div>
+          ) : (
+            <div onClick={authDialog.setTrue}>
+              <Button
+                variant="contained"
+                sx={{
+                  textTransform: "capitalize",
+                }}
+              >
+                Log in
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="mb-6 lg:hidden">
@@ -154,6 +157,19 @@ const RightSide = () => {
         </div>
       </div>
 
+      {user && user._id && (
+        <div className="lg:hidden mt-5">
+          <Button
+            onClick={() => dispatch(logout())}
+            variant="contained"
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            Logout
+          </Button>
+        </div>
+      )}
       {/* Authentication Dialog */}
       <AuthDialog dialog={authDialog} />
     </div>

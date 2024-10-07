@@ -3,9 +3,11 @@
 import { useState } from "react";
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   Divider,
+  FormControlLabel,
   IconButton,
 } from "@mui/material";
 import { BooleanState } from "@/types/utils";
@@ -19,11 +21,11 @@ import ImageIcon from "../../../public/icons/image.png";
 import Image from "next/image";
 import { useCreatePostMutation } from "@/redux/reducers/post/postApi";
 import toast from "react-hot-toast";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
-import { RHFSelect } from "@/components/react-hook-form";
+import { RHFSelect, RHFTextField } from "@/components/react-hook-form";
 import { LoadingButton } from "@mui/lab";
 
 export const authLoginSchema = z.object({
@@ -69,8 +71,12 @@ const PostDialog = ({ dialog }: Props) => {
   const {
     handleSubmit,
     formState: { errors },
+    control,
     reset,
+    watch,
   } = methods;
+
+  const isPremium = watch("isPremium");
 
   const onSubmit = handleSubmit(async (data) => {
     if (!value.trim()) {
@@ -147,10 +153,12 @@ const PostDialog = ({ dialog }: Props) => {
 
           {/* Profile Section */}
           <div className="flex items-center px-5 pt-4">
-            <img
-              src="https://plus.unsplash.com/premium_photo-1666298862681-c993ceb7865e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            <Image
+              src={user?.profilePicture || "https://via.placeholder.com/40"}
               // src={user.profilePicture || "https://plus.unsplash.com/premium_photo-1666298862681-c993ceb7865e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
               alt="Profile"
+              height={100}
+              width={100}
               className="w-12 h-12 rounded-full mr-2 object-cover"
             />
             <div className="flex flex-col">
@@ -188,6 +196,29 @@ const PostDialog = ({ dialog }: Props) => {
                 placeholder="What's on your mind?"
                 className="react-quill h-52"
               />
+            </div>
+            <div className="flex items-center gap-3 w-full flex-col lg:flex-row mt-3 lg:mt-1 mb-5">
+              <Controller
+                name="isPremium"
+                control={control}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <FormControlLabel
+                    sx={{
+                      width: "100%",
+                    }}
+                    control={
+                      <Checkbox
+                        checked={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        inputRef={ref}
+                      />
+                    }
+                    label="Is Premium?"
+                  />
+                )}
+              />
+              {isPremium && <RHFTextField name="price" label="Price" />}
             </div>
             <div className="flex items-center gap-3 w-full flex-col lg:flex-row mt-3 lg:mt-1">
               <label htmlFor="image" className="w-full">
