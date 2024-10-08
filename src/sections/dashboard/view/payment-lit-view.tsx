@@ -12,6 +12,7 @@ import {
   Paper,
   Typography,
   TablePagination,
+  Chip,
 } from "@mui/material";
 import { useGetPaymentListQuery } from "@/redux/reducers/post/postApi";
 import Skeleton from "@mui/material/Skeleton";
@@ -33,6 +34,20 @@ const PaymentListView = () => {
     setPage(0);
   };
 
+  // Function to get chip color based on payment status
+  const getChipColor = (status: "PENDING" | "COMPLETED" | "FAILED") => {
+    switch (status) {
+      case "COMPLETED":
+        return "success"; // Green color
+      case "PENDING":
+        return "warning"; // Yellow color
+      case "FAILED":
+        return "error"; // Red color
+      default:
+        return "default"; // Grey color for unknown status
+    }
+  };
+
   return (
     <div className="p-4">
       <Typography variant="h4" gutterBottom>
@@ -49,6 +64,7 @@ const PaymentListView = () => {
                 <TableCell>User Name</TableCell>
                 <TableCell>Post Title</TableCell>
                 <TableCell>Payment Amount</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Date & Time</TableCell>
               </TableRow>
             </TableHead>
@@ -62,6 +78,12 @@ const PaymentListView = () => {
                       {showTitle(payment.post.content).slice(0, 35)}
                     </TableCell>
                     <TableCell>{payment.amount}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={payment.paymentStatus}
+                        color={getChipColor(payment.paymentStatus)}
+                      />
+                    </TableCell>
                     <TableCell>
                       {new Date(payment.createdAt).toLocaleString()}
                     </TableCell>

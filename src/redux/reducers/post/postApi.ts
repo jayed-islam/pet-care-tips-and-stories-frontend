@@ -88,7 +88,7 @@ export const postApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: ["posts", "user-posts"],
+      invalidatesTags: ["posts", "user-posts", "user-me"],
     }),
     voteAPost: builder.mutation<IGetSinglePostResponse, IVotePostBody>({
       query: ({ postId, voteType }) => ({

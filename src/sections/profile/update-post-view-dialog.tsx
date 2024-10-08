@@ -66,10 +66,28 @@ const UpdatePostDialog = ({ dialog, post }: Props) => {
     setVisibility(event.target.value as string);
   };
 
-  // Handle image selection
+  // // Handle image selection
+  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = Array.from(event.target.files || []);
+  //   setImages((prevImages) => [...prevImages, ...files]);
+  // };
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    setImages((prevImages) => [...prevImages, ...files]);
+    const maxSize = 2 * 1024 * 1024;
+    const validFiles: File[] = [];
+
+    files.forEach((file) => {
+      if (file.size > maxSize) {
+        toast.error(`${file.name} exceeds the 2 MB size limit.`);
+      } else {
+        validFiles.push(file);
+      }
+    });
+
+    if (validFiles.length > 0) {
+      setImages((prevImages) => [...prevImages, ...validFiles]);
+    }
   };
 
   // Remove an image from the list
