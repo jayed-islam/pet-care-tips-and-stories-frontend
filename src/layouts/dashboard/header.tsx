@@ -28,7 +28,7 @@ const Header = ({ handleDrawerToggle }: HeaderProps) => {
 
         {/* Title */}
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          <Link href={paths.dashboard.root}>Dashboard</Link>
+          <Link href={paths.root}>Eyebook | Dashboard</Link>
         </Typography>
 
         {/* Link to Home */}

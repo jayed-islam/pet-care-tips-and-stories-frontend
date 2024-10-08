@@ -13,6 +13,7 @@ import useBoolean from "@/hooks/use-boolean";
 import PostCreationStatusSection from "@/sections/home/post-creation-status-section";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import PostDialog from "@/sections/profile/post-create-dialog";
+import PostSnackbar from "../post-snackbar-after-creation";
 
 interface Props {
   id?: string;
@@ -20,6 +21,8 @@ interface Props {
 
 const MyProfileView = ({ id }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
+
+  const snackbar = useBoolean();
 
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -131,7 +134,8 @@ const MyProfileView = ({ id }: Props) => {
       </div>
       <UpdateMyProfileDialog dialog={updateProfileDialog} />
       <AuthDialog dialog={auth} />
-      <PostDialog dialog={postCreation} />
+      <PostDialog dialog={postCreation} snackbar={snackbar} />
+      <PostSnackbar snackbar={snackbar} />
     </div>
   );
 };

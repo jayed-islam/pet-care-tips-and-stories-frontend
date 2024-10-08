@@ -1,8 +1,8 @@
-import PostDetailView from "@/sections/post/view/post-detail-view";
+import FadakoUserProfileView from "@/sections/profile/view/fadako-user-profile-view";
 import { FC } from "react";
 
 export const metadata = {
-  title: "Fodako: Post",
+  title: "Eyebook: User",
 };
 
 interface IProps {
@@ -14,7 +14,7 @@ interface IProps {
 const Page: FC<IProps> = ({ params }) => {
   const { id } = params;
 
-  return <PostDetailView id={id} />;
+  return <FadakoUserProfileView id={id} />;
 };
 
 export default Page;

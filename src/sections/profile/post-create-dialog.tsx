@@ -35,15 +35,14 @@ export const authLoginSchema = z.object({
 
 interface Props {
   dialog: BooleanState;
+  snackbar: BooleanState;
 }
 
-const PostDialog = ({ dialog }: Props) => {
+const PostDialog = ({ dialog, snackbar }: Props) => {
   const [value, setValue] = useState("");
   const [visibility, setVisibility] = useState("public");
   const { user } = useAppSelector((state) => state.auth);
   const [images, setImages] = useState<File[]>([]);
-
-  console.log("user", user);
 
   const methods = useForm({
     resolver: zodResolver(authLoginSchema),
@@ -58,9 +57,27 @@ const PostDialog = ({ dialog }: Props) => {
   };
 
   // Handle image selection
+  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = Array.from(event.target.files || []);
+  //   setImages((prevImages) => [...prevImages, ...files]);
+  // };
+
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    setImages((prevImages) => [...prevImages, ...files]);
+    const maxSize = 2 * 1024 * 1024;
+    const validFiles: File[] = [];
+
+    files.forEach((file) => {
+      if (file.size > maxSize) {
+        toast.error(`${file.name} exceeds the 2 MB size limit.`);
+      } else {
+        validFiles.push(file);
+      }
+    });
+
+    if (validFiles.length > 0) {
+      setImages((prevImages) => [...prevImages, ...validFiles]);
+    }
   };
 
   // Remove an image from the list
@@ -109,13 +126,16 @@ const PostDialog = ({ dialog }: Props) => {
       const res = await createPost(formData).unwrap();
       if (res.success) {
         toast.success(res.message);
+
+        snackbar.setTrue();
         dialog.setFalse();
         setValue("");
       } else {
         toast.error(res.message);
       }
     } catch (error: any) {
-      toast.error(error.data.message);
+      console.log("err", error);
+      toast.error(error.message);
       console.error("Failed to create post", error);
     }
   });

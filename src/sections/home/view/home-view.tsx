@@ -14,10 +14,12 @@ import PostCreationStatusSection from "../post-creation-status-section";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import PostShimmerCard from "../post-card-shimmer";
 import { setPage } from "@/redux/reducers/post/postSlice";
+import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
 
 const HomeView = () => {
   const auth = useBoolean();
   const postCreation = useBoolean();
+  const snackbar = useBoolean();
   const { user } = useAppSelector((state) => state.auth);
 
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -102,7 +104,8 @@ const HomeView = () => {
         </InfiniteScroll>
       </div>
       <AuthDialog dialog={auth} />
-      <PostDialog dialog={postCreation} />
+      <PostDialog dialog={postCreation} snackbar={snackbar} />
+      <PostSnackbar snackbar={snackbar} />
     </div>
   );
 };

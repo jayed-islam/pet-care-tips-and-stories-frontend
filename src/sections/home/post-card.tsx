@@ -151,40 +151,6 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
     return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
   };
 
-  // const renderContent = () => {
-  //   if (post.isPremium && !isPurchased) {
-  //     return (
-  //       <div className="relative">
-  //         <div className="blur-sm">
-  //           <ReactQuill
-  //             value={post.content.slice(0, characterLimit) + "..."}
-  //             readOnly
-  //             theme="bubble"
-  //           />
-  //         </div>
-  //         <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 bg-black text-white">
-  //           <p>This content is premium. Pay to read more.</p>
-  //           <Button variant="contained" color="primary">
-  //             Pay to Read
-  //           </Button>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-
-  //   if (isContentLong && !seeMore) {
-  //     return (
-  //       <ReactQuill
-  //         value={`${post.content.slice(0, characterLimit)}...`}
-  //         readOnly={true}
-  //         theme="bubble"
-  //       />
-  //     );
-  //   }
-
-  //   // Otherwise, show the full content
-  //   return <ReactQuill value={post.content} readOnly={true} theme="bubble" />;
-  // };
 
   return (
     <>
@@ -202,15 +168,6 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
             </div>
           )}
         </div>
-
-        {/* <div className="relative">
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 bg-black text-white">
-                  <p>This content is premium. Pay to read more.</p>
-                  <Button variant="contained" color="primary">
-                    Pay to Read
-                  </Button>
-                </div>
-              </div> */}
 
         <div className="text-gray-700">
           {renderContent()}

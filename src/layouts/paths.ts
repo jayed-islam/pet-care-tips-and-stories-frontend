@@ -5,6 +5,7 @@ export const paths = {
     root: "/posts",
   },
   myAccount: {
+    root: "/my-profile",
     purchaed: "/my-profile/purchased",
   },
   dashboard: {
@@ -14,7 +15,7 @@ export const paths = {
     payments: "/dashboard/payments",
   },
   profile: {
-    root: "/profile",
+    root: "/user-profile",
   },
   auth: {
     login: "/auth/login",

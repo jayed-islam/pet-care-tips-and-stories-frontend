@@ -4,7 +4,7 @@ import { paths } from "../paths";
 const configNavs = [
   {
     title: "Home",
-    path: paths.root,
+    path: paths.dashboard.root,
     icon: <Home />,
   },
   {
