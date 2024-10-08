@@ -97,7 +97,7 @@ const AuthDialog = ({ dialog }: Props) => {
           </IconButton>
           <div className="text-center pb-8">
             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">
-              See more on Fadako
+              See more on Eyebook
             </h3>
           </div>
           <RHFTextField name="email" label="Email" type="email" />

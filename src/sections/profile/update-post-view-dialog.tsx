@@ -209,7 +209,7 @@ const UpdatePostDialog = ({ dialog, post }: Props) => {
             />
             <div className="flex flex-col">
               <h2 className="font-semibold text-sm mb-1 text-gray-900">
-                {(user && user?.name) ?? "Fadako"}
+                {(user && user?.name) ?? "Eyebook"}
               </h2>
               <div className="relative">
                 {/* Hidden select element */}
