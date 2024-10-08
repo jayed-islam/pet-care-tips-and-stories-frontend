@@ -10,7 +10,7 @@ import { paths } from "../paths";
 import { setSearchTerm } from "@/redux/reducers/post/postSlice";
 import { FiSearch } from "react-icons/fi";
 import Image from "next/image";
-import logo from "../../../public/image/logo.jpg";
+import logo from "../../../public/image/logo.png";
 import { IUser } from "@/types/auth";
 
 const Header = ({

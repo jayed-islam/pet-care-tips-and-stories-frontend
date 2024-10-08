@@ -6,6 +6,7 @@ import { IUser } from "@/types/auth";
 import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/reducers/auth/authSlice";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Props {
   user: IUser;
@@ -43,11 +44,11 @@ const ProfileDropDown = ({ user }: Props) => {
           className="w-10 h-10 outline-none rounded-full ring-offset-2 ring-gray-200 ring-2 lg:focus:ring-indigo-600"
           onClick={() => setState(!state)}
         >
-          <img
-            src={
-              user?.profilePicture ??
-              "https://randomuser.me/api/portraits/men/46.jpg"
-            }
+          <Image
+            src={user?.profilePicture ?? "https://via.placeholder.com/40"}
+            alt="image"
+            height={100}
+            width={100}
             className="w-full h-full rounded-full"
           />
         </button>

@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/redux/hooks";
 import { useDeleteCommentMutation } from "@/redux/reducers/comment/commentApi";
 import { IComment } from "@/types/comment";
 import { Delete } from "@mui/icons-material";
@@ -11,9 +12,20 @@ interface Props {
 }
 
 const PostComentItem = ({ comment }: Props) => {
+  const { user } = useAppSelector((state) => state.auth);
   const [deleteComment, { isLoading }] = useDeleteCommentMutation();
 
   const handleDeleteComment = async (commentId: string) => {
+    if (!user) {
+      toast.error("You need to be logged in to delete comments");
+      return;
+    }
+
+    // If user is not the author, prevent deletion
+    if (comment.author._id !== user._id) {
+      toast.error("You are not allowed to delete this comment");
+      return;
+    }
     try {
       const response = await deleteComment({
         commentId,
@@ -41,16 +53,18 @@ const PostComentItem = ({ comment }: Props) => {
       <div className="flex-1 bg-gray-100 px-5 pt-2 pb-5 rounded-lg">
         {comment.content}
       </div>
-      <IconButton
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          right: 5,
-        }}
-        onClick={() => handleDeleteComment(comment._id)}
-      >
-        {isLoading ? <CircularProgress size={20} /> : <Delete />}
-      </IconButton>
+      {user && comment.author._id === user._id && (
+        <IconButton
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            right: 5,
+          }}
+          onClick={() => handleDeleteComment(comment._id)}
+        >
+          {isLoading ? <CircularProgress size={20} /> : <Delete />}
+        </IconButton>
+      )}
     </div>
   );
 };
