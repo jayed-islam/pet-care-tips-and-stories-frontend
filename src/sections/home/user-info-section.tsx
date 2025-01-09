@@ -20,7 +20,7 @@ const UserProfileForPost = ({ post }: Props) => {
   // Check if the targeted user is in the current user's following list
   useEffect(() => {
     if (
-      user?.following.some(
+      user?.following?.some(
         (followingUser) => followingUser._id === post.author._id
       )
     ) {
