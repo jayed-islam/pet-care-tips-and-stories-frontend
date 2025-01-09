@@ -20,7 +20,12 @@ const authSignupSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
     .email("Invalid email"),
-  password: z.string({ required_error: "Password is required" }),
+  password: z
+    .string({ required_error: "Password is required" })
+    .nonempty({ message: "Password can'nt be empty!" }),
+  name: z
+    .string({ required_error: "Password is required" })
+    .nonempty({ message: "Name is required" }),
 });
 
 const SignupPageView = () => {
@@ -45,7 +50,9 @@ const SignupPageView = () => {
       setErrorMsg("");
       const response = await register({
         email: data.email,
+        name: data.name,
         password: data.password,
+        username: data?.email.split("@")[0],
       }).unwrap();
       if (response?.data) {
         toast.success(response.message);
@@ -67,7 +74,7 @@ const SignupPageView = () => {
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Container component="main" maxWidth="xs">
           <Link href={paths.root}>
-            <h2 className="text-4xl font-bold text-center">Eyebook</h2>
+            <h2 className="text-4xl font-bold text-center">eyebook</h2>
           </Link>
           <Paper
             elevation={3}
@@ -86,6 +93,13 @@ const SignupPageView = () => {
               </div>
               <Divider />
               <div className="px-4 py-5 gap-3 w-full">
+                <RHFTextField
+                  name="name"
+                  label="Your name"
+                  sx={{
+                    mb: 3,
+                  }}
+                />
                 <RHFTextField
                   name="email"
                   label="Email"

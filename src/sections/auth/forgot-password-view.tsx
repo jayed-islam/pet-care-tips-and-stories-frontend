@@ -62,7 +62,7 @@ const ForgotPasswordPageView = () => {
           }}
         >
           <Link href={paths.root}>
-            <h2 className="text-4xl font-bold text-center">Eyebook</h2>
+            <h2 className="text-4xl font-bold text-center">eyebook</h2>
           </Link>
           <Paper
             elevation={3}

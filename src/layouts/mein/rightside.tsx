@@ -1,58 +1,160 @@
 "use client";
 
-import useBoolean from "@/hooks/use-boolean";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setSearchTerm, toggleCategory } from "@/redux/reducers/post/postSlice";
-import AuthDialog from "@/sections/auth/auth-dialog";
-import { MoreHoriz } from "@mui/icons-material";
-import { Button, Checkbox, FormControlLabel, IconButton } from "@mui/material";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { HiBadgeCheck } from "react-icons/hi";
+import { Button } from "@mui/material";
+import { FiSearch } from "react-icons/fi";
+import { setSearchTerm } from "@/redux/reducers/post/postSlice";
 import { ChangeEvent } from "react";
-import { paths } from "../paths";
-import { logout } from "@/redux/reducers/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const RightSide = () => {
-  const { user } = useAppSelector((state) => state.auth);
-  const authDialog = useBoolean();
-  const router = useRouter();
+  // const { user } = useAppSelector((state) => state.auth);
+  // const authDialog = useBoolean();
+  // const router = useRouter();
 
-  const handleProfileClick = () => {
-    if (user) {
-      router.push("/my-profile");
-    } else {
-      authDialog.setTrue();
-    }
-  };
+  // const handleProfileClick = () => {
+  //   if (user) {
+  //     router.push("/my-profile");
+  //   } else {
+  //     authDialog.setTrue();
+  //   }
+  // };
 
   const dispatch = useAppDispatch();
-  const { selectedCategories, searchTerm } = useAppSelector(
-    (state) => state.post
-  );
+  const { searchTerm } = useAppSelector((state) => state.post);
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchTerm(e.target.value));
   };
 
-  const handleCategoryChange = (category: string) => {
-    dispatch(toggleCategory(category));
-  };
+  // const handleCategoryChange = (category: string) => {
+  //   dispatch(toggleCategory(category));
+  // };
 
-  const categories = [
+  // const categories = [
+  //   {
+  //     label: "Tips",
+  //     value: "66fa38dfae27dd09c8f012bd",
+  //   },
+  //   {
+  //     label: "Stories",
+  //     value: "66fa3bd77dc9d17e683597c4",
+  //   },
+  // ];
+
+  const users = [
     {
-      label: "Tips",
-      value: "66fa38dfae27dd09c8f012bd",
+      id: 1,
+      name: "John Doe",
+      title: "Web Developer",
+      isVerified: true,
     },
     {
-      label: "Stories",
-      value: "66fa3bd77dc9d17e683597c4",
+      id: 2,
+      name: "Jane Smith",
+      title: "UI/UX Designer",
+      isVerified: false,
+    },
+    {
+      id: 3,
+      name: "Michael Brown",
+      title: "Full Stack Engineer",
+      isVerified: true,
     },
   ];
 
   return (
-    <div className="">
-      <div className="mb-6">
+    <div className="relative h-min w-[23rem]">
+      <div className="relative hidden md:flex z-50 bg-white w-[23rem] mt-2 border rounded-full border-gray-300">
+        <FiSearch className="absolute left-5 top-3.5 text-xl" />
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={handleSearchInputChange}
+          className="px-12 outline-none pt-2 pb-2.5 border-2 border-transparent rounded-full w-full focus:border-green-500"
+        />
+      </div>
+      <div className="border rounded-3xl p-4 mt-5">
+        <h2 className="text-xl font-bold">Subscribe to Premium</h2>
+        <p className="text-base text-gray-600 mt-3">
+          Subscribe to unlock new features and if eligible, receive a share of
+          revenue.
+        </p>
+        <Button
+          sx={{
+            mt: 2,
+            borderRadius: "3rem",
+            textTransform: "capitalize",
+            bgcolor: "#3b82f6",
+            px: 3,
+          }}
+          disableElevation
+          variant="contained"
+        >
+          Subscribe
+        </Button>
+      </div>
+      <div className="border rounded-3xl pt-4 mt-6">
+        <h2 className="text-xl font-bold  pl-4">Who to follow</h2>
+        <div className="mt-4">
+          {users.map((user) => (
+            <div
+              key={user.id}
+              className="flex items-center justify-between py-2 last:border-none px-4 hover:bg-gray-100 transition-all duration-500 cursor-pointer"
+            >
+              {/* User Info */}
+              <div className="flex items-center">
+                {/* Placeholder Logo */}
+                <div className="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0"></div>
+                {/* User Details */}
+                <div className="ml-4">
+                  <div className="flex items-center">
+                    <h3 className="text-sm font-semibold hover:underline">
+                      {user.title}
+                    </h3>
+                    {user.isVerified && (
+                      <HiBadgeCheck className="mt-1 ml-1 text-blue-500" />
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-500">{user.name}</p>
+                </div>
+              </div>
+              {/* Follow Button */}
+              <Button
+                sx={{
+                  borderRadius: "3rem",
+                  textTransform: "capitalize",
+                  bgcolor: "black",
+                }}
+                disableElevation
+                variant="contained"
+                size="small"
+              >
+                Follow
+              </Button>
+            </div>
+          ))}
+
+          <div className="rounded-b-3xl hover:bg-gray-100 transition-all duration-500 p-4">
+            <h2 className="text-md text-blue-500">Show more</h2>
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="absolute top-0 z-50 bg-white right-0 left-0 w-full">
+        <div className="relative hidden md:flex mt-2 w-full">
+          <FiSearch className="absolute left-3 top-3.5 text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            className=" pl-8 outline-none py-2 border border-gray-300 rounded-full bg-gray-100 w-full"
+          />
+        </div>
+      </div> */}
+      {/* <div className="">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-bold">Manage your Profile</h2>
           <IconButton>
@@ -104,9 +206,9 @@ const RightSide = () => {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
-      <div className="mb-6 lg:hidden">
+      {/* <div className="mb-6 lg:hidden">
         <input
           type="text"
           placeholder="Search posts..."
@@ -114,33 +216,8 @@ const RightSide = () => {
           onChange={handleSearchInputChange}
           className="w-full px-5 outline-none py-3  border border-gray-300 rounded-full"
         />
-      </div>
-
-      {/* <div className="mb-6">
-        <h2 className="text-lg font-bold mb-2">Filter by Category</h2>
-        <div className="flex gap-2">
-          {categorites.map((category, idx) => (
-            <Button
-              key={idx}
-              fullWidth
-              variant={
-                selectedCategories.includes(category.value)
-                  ? "contained"
-                  : "outlined"
-              }
-              color="primary"
-              onClick={() => handleCategoryClick(category.value)}
-              sx={{
-                textTransform: "capitalize",
-              }}
-            >
-              {category.label}
-            </Button>
-          ))}
-        </div>
       </div> */}
-
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <h2 className="text-lg font-bold mb-2">Filter by Category</h2>
         <div className="flex flex-col gap-2">
           {categories.map((category) => (
@@ -157,9 +234,9 @@ const RightSide = () => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
 
-      {user && user._id && (
+      {/* {user && user._id && (
         <div className="lg:hidden mt-5">
           <Button
             onClick={() => dispatch(logout())}
@@ -171,9 +248,9 @@ const RightSide = () => {
             Logout
           </Button>
         </div>
-      )}
+      )} */}
       {/* Authentication Dialog */}
-      <AuthDialog dialog={authDialog} />
+      {/* <AuthDialog dialog={authDialog} /> */}
     </div>
   );
 };

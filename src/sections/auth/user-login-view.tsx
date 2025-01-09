@@ -78,7 +78,7 @@ const LoginPageView = () => {
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Container component="main" maxWidth="xs">
           <Link href={paths.root}>
-            <h2 className="text-4xl font-bold text-center">Eyebook</h2>
+            <h2 className="text-4xl font-bold text-center">eyebook</h2>
           </Link>
           <Paper
             elevation={3}
@@ -89,7 +89,7 @@ const LoginPageView = () => {
             <div>
               <div className="p-3">
                 <h2 className="text-xl font-semibold text-center">
-                  Log in to fadako
+                  Log in to eyebook
                 </h2>
               </div>
               <Divider />
@@ -132,7 +132,7 @@ const LoginPageView = () => {
                   </Link>
                   <Link href={paths.auth.signup}>
                     <h2 className="text-center  text-md text-blue-600 hover:underline">
-                      Sign up for fadako
+                      Sign up for eyebook
                     </h2>
                   </Link>
                 </div>

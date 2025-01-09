@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -69,7 +70,7 @@ const HomeView = () => {
   };
 
   return (
-    <div className="h-full max-w-xl mx-auto">
+    <div className="h-full w-full">
       <div className="w-full pb-16">
         <div className="w-full mb-5">
           <PostCreationStatusSection dialog={auth} postDialog={postCreation} />

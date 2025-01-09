@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Drawer, IconButton } from "@mui/material";
-import Header from "./header";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
 import { Close } from "@mui/icons-material";
@@ -19,25 +18,37 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5]">
-      <Header
+    <div className="min-h-screen bg-[#F0F2F5 bg-white">
+      {/* <Header
         toggleLeftDrawer={toggleLeftDrawer}
         toggleRightDrawer={toggleRightDrawer}
-      />
+      /> */}
 
-      <div className="max-w-screen-2xl mx-auto pt-16 ">
+      <div className="max-w-[78rem] mx-auto flex items-start">
         {/* Left Sidebar for Large Screens */}
-        <div className="hidden lg:block lg:w-72 xl:w-[23rem] fixed top-16 left-0 h-[calc(100vh-64px)] p-4">
+        <div
+          className="hidden lg:block lg:w-72 xl:w-[17rem] h-screen border-r fixed z-50 top-0"
+          style={{ marginLeft: "0" }}
+        >
           <LeftSide />
         </div>
 
         {/* Main Content */}
-        <main className="flex-grow xl:ml-[23rem] xl:mr-[23rem] lg:ml-72 lg:mr-72 pt-5 md:mx-2 md:px-4">
+        <main
+          className="flex-1 pr-5"
+          style={{
+            maxWidth: "calc(78rem - 40rem)",
+            marginLeft: "17rem",
+            marginRight: "23rem",
+          }}
+        >
           {children}
         </main>
 
-        {/* Right Sidebar - Fixed for large screens */}
-        <div className="hidden lg:block lg:w-72 xl:w-[23rem] fixed top-16 right-0 h-[calc(100vh-64px)] p-4">
+        <div
+          className="hidden xl:block xl:w-[23rem] h-screen fixed top-0 right-auto bg-white"
+          style={{ marginLeft: "calc(78rem - 23rem)" }}
+        >
           <RightSide />
         </div>
       </div>
