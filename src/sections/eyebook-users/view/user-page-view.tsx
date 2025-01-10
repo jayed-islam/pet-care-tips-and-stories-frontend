@@ -72,7 +72,7 @@ const UserPagesView = () => {
                   md: 6,
                 }}
               >
-                <Link href={`/`}>
+                <Link href={`/pages/${page._id}`}>
                   <div className="border rounded-3xl p-3">
                     <Card elevation={0}>
                       <CardMedia

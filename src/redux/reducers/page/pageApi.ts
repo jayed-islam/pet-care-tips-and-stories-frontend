@@ -23,7 +23,7 @@ export const pageApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getSinglePage: builder.query<IGetSinglePageResponse, string>({
       query: (id) => ({
-        url: `/page/get-single/${id}`,
+        url: `/page/${id}`,
         method: "GET",
       }),
       providesTags: ["page"],
@@ -63,8 +63,24 @@ export const pageApi = api.injectEndpoints({
       },
       providesTags: ["pages"],
     }),
+    // updateUserProfilePicture: builder.mutation<
+    //   IGetSinglePageResponse,
+    //   { userId: string; data: File }
+    // >({
+    //   query: ({ userId, data }) => {
+    //     const formData = new FormData();
+    //     formData.append("file", data);
+
+    //     return {
+    //       url: `/user/me/update/profile-picture/${userId}`,
+    //       method: "PUT",
+    //       body: formData,
+    //     };
+    //   },
+    //   invalidatesTags: ["user-me", "user-posts"],
+    // }),
   }),
   overrideExisting: true,
 });
 
-export const { useCreatePageMutation } = pageApi;
+export const { useCreatePageMutation, useGetSinglePageQuery } = pageApi;

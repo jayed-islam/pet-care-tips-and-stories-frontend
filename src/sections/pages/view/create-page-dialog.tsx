@@ -58,6 +58,9 @@ const CreatePageDialog = ({ dialog }: Props) => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    if (!image) {
+      toast.error("Please select a logo");
+    }
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(data));

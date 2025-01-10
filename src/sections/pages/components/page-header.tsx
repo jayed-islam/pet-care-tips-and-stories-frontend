@@ -1,17 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useBoolean from "@/hooks/use-boolean";
-import ProfilePictureUploader from "@/layouts/profile/components/profile-photo-change";
 import { useAppSelector } from "@/redux/hooks";
-import { IUser } from "@/types/auth";
 import { Box, Button, Tab, Tabs } from "@mui/material";
 import Image from "next/image";
-import React, { useState } from "react";
-import banner from "../../../public/image/banner.jpg";
+import React from "react";
+import banner from "../../../../public/image/banner.jpg";
 import UpdateMyProfileDialog from "@/sections/profile/view/update-my-profile";
 import { HiBadgeCheck } from "react-icons/hi";
 import { SlCalender } from "react-icons/sl";
-import { pageNavLinks } from "./config-navs";
+import { IPage } from "@/types/page";
+import PageLogoView from "./page-logo-view";
 
-const PageHeader = () => {
+interface PageHeaderProps {
+  activeTab: number;
+  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  pageNavLinks: any[];
+  page: IPage;
+}
+
+const PageHeader = ({
+  activeTab,
+  handleTabChange,
+  pageNavLinks,
+  page,
+}: PageHeaderProps) => {
   const { user } = useAppSelector((state) => state.auth);
   const updateProfileDialog = useBoolean();
 
@@ -22,12 +34,6 @@ const PageHeader = () => {
     year: "numeric",
     month: "long",
   });
-
-  const [activeTab, setActiveTab] = useState(0);
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
 
   return (
     <>
@@ -42,7 +48,7 @@ const PageHeader = () => {
 
         <div className="w-full mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row px-5">
           <div className="flex items-start gap-5 flex-col md:flex-row ">
-            <ProfilePictureUploader user={user as IUser} />
+            <PageLogoView page={page} />
           </div>
           <Button
             variant="outlined"
@@ -55,7 +61,7 @@ const PageHeader = () => {
             }}
             onClick={updateProfileDialog.setTrue}
           >
-            Set up profile
+            Set up Page
           </Button>
         </div>
 
