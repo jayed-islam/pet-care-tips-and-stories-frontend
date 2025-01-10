@@ -1,4 +1,5 @@
 import { IPagination } from "./common";
+import { IPage } from "./page";
 import { IPost } from "./post";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -33,6 +34,7 @@ export interface IUser {
   receivedFriendRequests: IUser[];
   friends: IUser[];
   purchasedPosts: IPost[];
+  pages: IPage[];
   isDeleted: boolean;
   isVerified: boolean;
   passwordChangedAt?: Date;

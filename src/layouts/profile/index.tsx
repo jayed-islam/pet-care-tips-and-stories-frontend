@@ -21,14 +21,14 @@ const ProfileLayout = ({ children, isMyProfile = false }: Props) => {
   };
 
   return (
-    <div className="bg-[#F0F2F5]">
+    <div className="">
       {/* <Header /> */}
       <ProfileHeader />
 
-      <div className="flex items-start w-full xl:px-0 py-5">
-        <div className="hidden lg:block sticky top-20 shadow-lg border">
+      <div className="flex items-start w-full py-5 border-r">
+        {/* <div className="hidden lg:block sticky top-20 shadow-lg border">
           <ProfileSidebar isMobile={false} />
-        </div>
+        </div> */}
         <main className="flex-1 px-5">
           <div className="lg:hidden mb-5">
             <Button

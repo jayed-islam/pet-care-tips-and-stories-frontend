@@ -9,10 +9,9 @@ import banner from "../../../public/image/banner.jpg";
 import UpdateMyProfileDialog from "@/sections/profile/view/update-my-profile";
 import { HiBadgeCheck } from "react-icons/hi";
 import { SlCalender } from "react-icons/sl";
-import { navLinks } from "./config-navs";
-import { useRouter } from "next/navigation";
+import { pageNavLinks } from "./config-navs";
 
-const ProfileHeader = () => {
+const PageHeader = () => {
   const { user } = useAppSelector((state) => state.auth);
   const updateProfileDialog = useBoolean();
 
@@ -25,12 +24,11 @@ const ProfileHeader = () => {
   });
 
   const [activeTab, setActiveTab] = useState(0);
-  const router = useRouter();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
-    router.push(navLinks[newValue].path);
   };
+
   return (
     <>
       <div className="w-full bg-white border relative pb-5">
@@ -99,7 +97,7 @@ const ProfileHeader = () => {
               },
             }}
           >
-            {navLinks.map((link, index) => (
+            {pageNavLinks.map((link, index) => (
               <Tab
                 key={index}
                 label={link.title}
@@ -125,4 +123,4 @@ const ProfileHeader = () => {
   );
 };
 
-export default ProfileHeader;
+export default PageHeader;

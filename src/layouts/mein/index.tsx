@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Drawer, IconButton } from "@mui/material";
-import Header from "./header";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
 import { Close } from "@mui/icons-material";
