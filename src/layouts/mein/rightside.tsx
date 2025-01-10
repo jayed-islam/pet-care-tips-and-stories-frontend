@@ -64,8 +64,8 @@ const RightSide = () => {
   ];
 
   return (
-    <div className="relative h-min w-[23rem]">
-      <div className="relative hidden md:flex z-50 bg-white w-[23rem] mt-2 border rounded-full border-gray-300">
+    <div className="h-full w-full">
+      <div className="relative hidden lg:flex z-50 bg-white mt-2 border rounded-full border-gray-300">
         <FiSearch className="absolute left-5 top-3.5 text-xl" />
         <input
           type="text"

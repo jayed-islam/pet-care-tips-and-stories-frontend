@@ -17,6 +17,11 @@ import PostShimmerCard from "../post-card-shimmer";
 import { setPage } from "@/redux/reducers/post/postSlice";
 import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
 
+const tabs = [
+  { title: "For You", value: "forYou" },
+  { title: "Hipeable", value: "Hipeable" },
+];
+
 const HomeView = () => {
   const auth = useBoolean();
   const postCreation = useBoolean();
@@ -25,6 +30,8 @@ const HomeView = () => {
 
   const [posts, setPosts] = useState<IPost[]>([]);
   const [hasMore, setHasMore] = useState(true);
+
+  const [activeTab, setActiveTab] = useState("forYou");
 
   const dispatch = useAppDispatch();
 
@@ -70,43 +77,79 @@ const HomeView = () => {
   };
 
   return (
-    <div className="h-full w-full">
-      <div className="w-full pb-16">
-        <div className="w-full mb-5">
-          <PostCreationStatusSection dialog={auth} postDialog={postCreation} />
+    <div className="pr-3">
+      <div className="h-full w-full relative border-r">
+        {/* <div className="bg-white bg-opacity-30 backdrop-blur-lg h-16 w-full sticky top-0 border-b mt-2"></div> */}
+
+        <div className="bg-white bg-opacity-30 backdrop-blur-lg h-[4rem] w-full sticky top-0 border-b flex items-center justify-between z-50">
+          {tabs.map((tab) => (
+            <div
+              key={tab.value}
+              className="w-full h-full relative flex items-center justify-center cursor-pointer hover:bg-gray-100"
+              onClick={() => setActiveTab(tab.value)}
+            >
+              <h2
+                className={`text-md text-center ${
+                  activeTab === tab.value
+                    ? "font-bold text-black"
+                    : "text-gray-700 font-semibold"
+                }`}
+              >
+                {tab.title}
+              </h2>
+              {activeTab === tab.value && (
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[4rem] h-1 bg-blue-500 rounded-sm "></div>
+              )}
+            </div>
+          ))}
         </div>
-        {isFetching && page === 1 && (
-          <div className="flex flex-col w-full gap-5">
-            {[...Array(10)].map((_, index) => (
-              <PostShimmerCard key={index} />
-            ))}
+
+        <div className="w-full pb-16 px-3">
+          <div className="w-full mb-5 mt-5">
+            <PostCreationStatusSection
+              dialog={auth}
+              postDialog={postCreation}
+            />
           </div>
-        )}
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchMorePosts}
-          hasMore={hasMore}
-          loader={
-            <div className="grid grid-cols-1 gap-3">
-              {[...Array(2)].map((_, index) => (
+          {isFetching && page === 1 && (
+            <div className="flex flex-col w-full gap-5">
+              {[...Array(10)].map((_, index) => (
                 <PostShimmerCard key={index} />
               ))}
             </div>
-          }
-          endMessage={
-            <p className="text-center text-gray-500">No more posts available</p>
-          }
-        >
-          <div className="flex flex-col gap-5 w-full">
-            {posts.map((post, index) => (
-              <PostCard post={post} key={index} userId={user?._id as string} />
-            ))}
-          </div>
-        </InfiniteScroll>
+          )}
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={fetchMorePosts}
+            hasMore={hasMore}
+            loader={
+              <div className="grid grid-cols-1 gap-3">
+                {[...Array(2)].map((_, index) => (
+                  <PostShimmerCard key={index} />
+                ))}
+              </div>
+            }
+            endMessage={
+              <p className="text-center text-gray-500">
+                No more posts available
+              </p>
+            }
+          >
+            <div className="flex flex-col gap-5 w-full">
+              {posts.map((post, index) => (
+                <PostCard
+                  post={post}
+                  key={index}
+                  userId={user?._id as string}
+                />
+              ))}
+            </div>
+          </InfiniteScroll>
+        </div>
+        <AuthDialog dialog={auth} />
+        <PostDialog dialog={postCreation} snackbar={snackbar} />
+        <PostSnackbar snackbar={snackbar} />
       </div>
-      <AuthDialog dialog={auth} />
-      <PostDialog dialog={postCreation} snackbar={snackbar} />
-      <PostSnackbar snackbar={snackbar} />
     </div>
   );
 };

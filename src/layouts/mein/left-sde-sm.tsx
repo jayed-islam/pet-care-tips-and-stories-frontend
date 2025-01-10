@@ -2,10 +2,12 @@
 import {
   ContactMailOutlined,
   Home,
+  InfoOutlined,
   Search,
   NotificationsOutlined,
   Person,
   WorkspacePremium,
+  Edit,
 } from "@mui/icons-material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,10 +17,8 @@ import { paths } from "../paths";
 import { useAppSelector } from "@/redux/hooks";
 import useBoolean from "@/hooks/use-boolean";
 import { useRouter } from "next/navigation";
-import { Button } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { BsPersonFillAdd } from "react-icons/bs";
 
 const navItems = [
   { href: "/", label: "Home", icon: <Home /> },
@@ -30,11 +30,11 @@ const navItems = [
   },
   { href: paths.myAccount.root, label: "Profile", icon: <Person /> },
   { href: "/premium", label: "Premium", icon: <WorkspacePremium /> },
-  { href: paths.eyebookUsers, label: "Add Friend", icon: <BsPersonFillAdd /> },
+  { href: "/about-us", label: "About Us", icon: <InfoOutlined /> },
   { href: "/contact-us", label: "Contact Us", icon: <ContactMailOutlined /> },
 ];
 
-const LeftSide = () => {
+const LeftSideSm = () => {
   const pathname = usePathname();
 
   const { user } = useAppSelector((state) => state.auth);
@@ -53,41 +53,39 @@ const LeftSide = () => {
     <nav className="h-full w-full flex flex-col justify-between">
       <div className="p-5">
         <Link href={paths.root} className="">
-          <Image src={logo} alt="eyebook" className="ml-3 w-11 rounded-full" />
+          <Image src={logo} alt="eyebook" className="w-11 rounded-full" />
         </Link>
         <div className="flex-col mt-7">
           {navItems.map((item) => (
-            <Link href={item.href} key={item.href} className="group">
-              <div
-                className={`w-min flex items-center transition-all duration-500 rounded-full text-gray-800 text-xl pl-3 pr-5 pt-2 pb-3 ${
-                  pathname === item.href
-                    ? "font-bold group-hover:bg-gray-200"
-                    : "group-hover:bg-gray-200"
-                }`}
-              >
-                <span className="mr-5">{item.icon}</span>
-                <h2 className="hidden xl:block whitespace-nowrap ">
-                  {item.label}
-                </h2>
-              </div>
-            </Link>
+            <Tooltip title={item.label} arrow key={item.label}>
+              <Link href={item.href} key={item.href} className="group">
+                <div
+                  className={`transition-all duration-500 rounded-full text-gray-800 h-12 w-12 flex items-start justify-center ${
+                    pathname === item.href
+                      ? "group-hover:bg-gray-200"
+                      : "group-hover:bg-gray-200"
+                  }`}
+                >
+                  <h2 className="text-3xl">{item.icon}</h2>
+                </div>
+              </Link>
+            </Tooltip>
           ))}
           {user && user?._id && (
-            <Button
-              variant="contained"
-              fullWidth
-              disableElevation
+            <IconButton
               sx={{
-                textTransform: "capitalize",
-                borderRadius: "3rem",
-                mt: 3,
-                py: 1.5,
+                height: "3rem",
+                width: "3rem",
                 bgcolor: "black",
+                mt: 3,
+                "&:hover": {
+                  opacity: 0.7,
+                  bgcolor: "black",
+                },
               }}
-              size="large"
             >
-              Post
-            </Button>
+              <Edit className="text-white" />
+            </IconButton>
           )}
         </div>
       </div>
@@ -96,24 +94,14 @@ const LeftSide = () => {
         <div className="mt-5">
           {user ? (
             <div
-              className="flex items-center space-x-3 px-3 cursor-pointer hover:bg-gray-200 py-2 rounded-full relative"
+              className="flex items-center cursor-pointer hover:bg-gray-200 rounded-full relative w-11 h-11"
               onClick={handleProfileClick}
             >
               <img
                 src={user?.profilePicture ?? "https://via.placeholder.com/40"}
                 alt="User Profile"
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-11 h-11 rounded-full object-cover"
               />
-              <div>
-                <h3 className="font-semibold text-gray-800">
-                  {user.name ?? "eyebook user"}
-                </h3>
-                <h3 className="text-gray-600 text-sm">
-                  @{user.username ?? "username"}
-                </h3>
-              </div>
-
-              <HiDotsHorizontal className="absolute right-3" />
             </div>
           ) : (
             <div onClick={authDialog.setTrue}>
@@ -138,4 +126,4 @@ const LeftSide = () => {
   );
 };
 
-export default LeftSide;
+export default LeftSideSm;

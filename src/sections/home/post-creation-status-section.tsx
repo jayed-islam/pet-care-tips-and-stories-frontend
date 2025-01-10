@@ -21,7 +21,7 @@ const PostCreationStatusSection = ({ dialog, postDialog }: Props) => {
 
   return (
     <div
-      className="bg-white rounded-lg shadow-sm p-4 border cursor-pointer z-0"
+      className="bg-white rounded-3xl p-4 border cursor-pointer z-0"
       onClick={handleClick}
     >
       <div className="flex items-center space-x-3">

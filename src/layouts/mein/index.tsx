@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import { Drawer, IconButton } from "@mui/material";
+import Header from "./header";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
 import { Close } from "@mui/icons-material";
+import LeftSideSm from "./left-sde-sm";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
@@ -25,29 +27,44 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       /> */}
 
       <div className="max-w-[78rem] mx-auto flex items-start">
-        {/* Left Sidebar for Large Screens */}
-        <div
-          className="hidden lg:block lg:w-72 xl:w-[17rem] h-screen border-r fixed z-50 top-0"
-          style={{ marginLeft: "0" }}
-        >
+        <div className="hidden xl:block md:w-64 lg:w-72 xl:w-[17rem] h-screen border-r fixed z-50 top-0">
           <LeftSide />
         </div>
 
-        {/* Main Content */}
+        <div className="hidden sm:block xl:hidden sm:w-[5.5rem]  h-screen border-r fixed z-50 top-0">
+          <LeftSideSm />
+        </div>
+
         <main
-          className="flex-1 pr-5"
-          style={{
-            maxWidth: "calc(78rem - 40rem)",
-            marginLeft: "17rem",
-            marginRight: "23rem",
-          }}
+          className="
+    w-full
+    lg:max-w-[calc(78rem-40rem)] 
+    mx-auto
+    sm:ml-[5.5rem]
+    xl:ml-[17rem]
+  "
+          // lg:ml-[17rem]
+          // lg:mr-[23rem]
         >
           {children}
         </main>
 
         <div
-          className="hidden xl:block xl:w-[23rem] h-screen fixed top-0 right-auto bg-white"
-          style={{ marginLeft: "calc(78rem - 23rem)" }}
+          className="
+    hidden 
+    lg:flex
+    lg:w-[19rem] 
+    xl:w-[23rem]
+    h-screen 
+    fixed 
+    top-0  
+    xl:ml-[calc(78rem-23rem)]
+    lg:ml-[calc(78rem-19rem)]
+    right-0
+    xl:right-auto
+    mr-5
+    xl:mr-0
+  "
         >
           <RightSide />
         </div>
