@@ -1,12 +1,5 @@
 "use client";
-import {
-  ContactMailOutlined,
-  Home,
-  Search,
-  NotificationsOutlined,
-  Person,
-  WorkspacePremium,
-} from "@mui/icons-material";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -19,20 +12,10 @@ import { Button } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { BsPersonFillAdd } from "react-icons/bs";
-
-const navItems = [
-  { href: "/", label: "Home", icon: <Home /> },
-  { href: "/explore", label: "Explore", icon: <Search /> },
-  {
-    href: "/notification",
-    label: "Notification",
-    icon: <NotificationsOutlined />,
-  },
-  { href: paths.myAccount.root, label: "Profile", icon: <Person /> },
-  { href: "/premium", label: "Premium", icon: <WorkspacePremium /> },
-  { href: paths.eyebookUsers, label: "Add Friend", icon: <BsPersonFillAdd /> },
-  { href: "/contact-us", label: "Contact Us", icon: <ContactMailOutlined /> },
-];
+import { mainNavItems } from "./conf-navigation";
+import { LogoutOutlined } from "@mui/icons-material";
+import { logout } from "@/redux/reducers/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 const LeftSide = () => {
   const pathname = usePathname();
@@ -48,7 +31,11 @@ const LeftSide = () => {
       authDialog.setTrue();
     }
   };
-
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push(paths.root);
+  };
   return (
     <nav className="h-full w-full flex flex-col justify-between">
       <div className="p-5">
@@ -56,7 +43,7 @@ const LeftSide = () => {
           <Image src={logo} alt="eyebook" className="ml-3 w-11 rounded-full" />
         </Link>
         <div className="flex-col mt-7">
-          {navItems.map((item) => (
+          {mainNavItems.map((item) => (
             <Link href={item.href} key={item.href} className="group">
               <div
                 className={`w-min flex items-center transition-all duration-500 rounded-full text-gray-800 text-xl pl-3 pr-5 pt-2 pb-3 ${
@@ -72,6 +59,16 @@ const LeftSide = () => {
               </div>
             </Link>
           ))}
+
+          <div
+            onClick={handleLogout}
+            className={`w-min flex items-center transition-all duration-500 rounded-full text-gray-800 text-xl pl-3 pr-5 pt-2 pb-3 hover:bg-gray-200 cursor-pointer`}
+          >
+            <span className="mr-5">
+              <LogoutOutlined />
+            </span>
+            <h2 className="hidden xl:block whitespace-nowrap ">Logout</h2>
+          </div>
           {user && user?._id && (
             <Button
               variant="contained"

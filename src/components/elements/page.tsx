@@ -7,7 +7,7 @@ interface PageHeaderProps {
   children?: React.ReactNode;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({
+const PageHeaderGlobal: React.FC<PageHeaderProps> = ({
   title = "eyebook",
   children,
 }) => {
@@ -26,4 +26,4 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   );
 };
 
-export default PageHeader;
+export default PageHeaderGlobal;

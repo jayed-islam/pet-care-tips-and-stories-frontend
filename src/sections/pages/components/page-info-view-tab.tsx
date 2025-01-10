@@ -1,28 +1,25 @@
 "use client";
 
 import React from "react";
-import PostCard from "@/sections/home/post-card";
 import { IPage } from "@/types/page";
-import { useAppSelector } from "@/redux/hooks";
 
 interface Props {
   page: IPage;
 }
+
 const PageInfoViewTab = ({ page }: Props) => {
-  const { user } = useAppSelector((state) => state.auth);
   return (
-    <div className="w-full ">
-      {page?.posts.length === 0 ? (
-        <div className="bg-white p-5 shadow-md rounded-lg text-center">
-          <h2 className="text-xl font-semibold">No Posts available</h2>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-5">
-          {page?.posts.map((post, index) => (
-            <PostCard post={post} userId={user?._id as string} key={index} />
-          ))}
-        </div>
-      )}
+    <div className="w-full">
+      {/* Page Information Section */}
+      <div className="bg-white p-5 shadow-md rounded-lg">
+        <h2 className="text-2xl font-semibold mb-3">{page?.name}</h2>
+        <p className="text-gray-600 mb-2">
+          <strong>Followers:</strong> {page?.followers.length || 0}
+        </p>
+        <p className="text-gray-600">
+          <strong>Posts:</strong> {page?.posts.length || 0}
+        </p>
+      </div>
     </div>
   );
 };

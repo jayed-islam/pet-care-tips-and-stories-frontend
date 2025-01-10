@@ -25,6 +25,12 @@ const SinglePageView = ({ id }: Props) => {
 
   const pageNavLinks = [
     {
+      title: "Page Info",
+      path: "/page",
+      icon: <FaUser />,
+      content: currentPage ? <PageInfoViewTab page={currentPage} /> : null,
+    },
+    {
       title: "Posts",
       path: "/pages/posts",
       icon: <FaFileAlt />,
@@ -35,12 +41,6 @@ const SinglePageView = ({ id }: Props) => {
       path: "/page/followers",
       icon: <FaUsers />,
       content: currentPage ? <PageFollowerViewTab page={currentPage} /> : null,
-    },
-    {
-      title: "Page Info",
-      path: "/page",
-      icon: <FaUser />,
-      content: currentPage ? <PageInfoViewTab page={currentPage} /> : null,
     },
   ];
 

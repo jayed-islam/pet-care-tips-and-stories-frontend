@@ -60,6 +60,7 @@ const CreatePageDialog = ({ dialog }: Props) => {
   const onSubmit = handleSubmit(async (data) => {
     if (!image) {
       toast.error("Please select a logo");
+      return;
     }
     const formData = new FormData();
 

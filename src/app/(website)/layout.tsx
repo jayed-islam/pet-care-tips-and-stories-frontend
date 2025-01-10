@@ -1,3 +1,4 @@
+import { AuthGuard } from "@/auth/guard/auth-guard";
 import MainLayout from "@/layouts/mein";
 import React, { ReactNode } from "react";
 
@@ -6,10 +7,11 @@ interface Props {
 }
 
 const WebsiteLayout = ({ children }: Props) => {
-  return <MainLayout>{children}</MainLayout>;
+  return (
+    <AuthGuard>
+      <MainLayout>{children}</MainLayout>
+    </AuthGuard>
+  );
 };
-// const WebsiteLayout = ({ children }: Props) => {
-//   return <MainLayout>{children}</MainLayout>;
-// };
 
 export default WebsiteLayout;

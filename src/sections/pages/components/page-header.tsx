@@ -4,12 +4,10 @@ import { useAppSelector } from "@/redux/hooks";
 import { Box, Button, Tab, Tabs } from "@mui/material";
 import Image from "next/image";
 import React from "react";
-import banner from "../../../../public/image/banner.jpg";
-import UpdateMyProfileDialog from "@/sections/profile/view/update-my-profile";
-import { HiBadgeCheck } from "react-icons/hi";
-import { SlCalender } from "react-icons/sl";
+import banner from "../../../../public/image/page-banner.jpg";
 import { IPage } from "@/types/page";
 import PageLogoView from "./page-logo-view";
+import UpdatePageDialog from "../view/update-page-dialog";
 
 interface PageHeaderProps {
   activeTab: number;
@@ -25,15 +23,7 @@ const PageHeader = ({
   page,
 }: PageHeaderProps) => {
   const { user } = useAppSelector((state) => state.auth);
-  const updateProfileDialog = useBoolean();
-
-  const date = new Date(user?.createdAt ?? Date.now());
-
-  // Format the date as "Joined December 2024"
-  const formattedDate = date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-  });
+  const updatePageDialog = useBoolean();
 
   return (
     <>
@@ -50,44 +40,31 @@ const PageHeader = ({
           <div className="flex items-start gap-5 flex-col md:flex-row ">
             <PageLogoView page={page} />
           </div>
-          <Button
-            variant="outlined"
-            sx={{
-              textTransform: "capitalize",
-              borderRadius: "3rem",
-              mt: {
-                sm: "-5rem",
-              },
-            }}
-            onClick={updateProfileDialog.setTrue}
-          >
-            Set up Page
-          </Button>
+          {page.createdBy._id === user?._id && (
+            <Button
+              variant="outlined"
+              sx={{
+                textTransform: "capitalize",
+                borderRadius: "3rem",
+                mt: {
+                  sm: "-5rem",
+                },
+              }}
+              onClick={updatePageDialog.setTrue}
+            >
+              Set up Page
+            </Button>
+          )}
         </div>
 
         <div className="px-5 mt-5">
           <div className="flex items-center">
             <h3 className="text-xl font-bold hover:underline">
-              {user?.name ?? "eyebook user"}
+              {page?.name ?? "eyebook page"}
             </h3>
-            {user?.isVerified && (
-              <HiBadgeCheck className="mt-1 ml-1 text-blue-500" />
-            )}
           </div>
           <p className="text-base text-gray-700">
-            {user?.username ?? "@eyebookuser"}
-          </p>
-
-          <h2 className="flex items-center gap-2 text-base  text-gray-700 mt-3">
-            <SlCalender className="text-sm" />
-            <span>Joined {formattedDate}</span>
-          </h2>
-
-          <p className="text-sm text-gray-500 mt-2">
-            <span className="font-bold">{user?.followers?.length ?? 0}</span>{" "}
-            followers |{" "}
-            <span className="font-bold">{user?.following?.length ?? 0}</span>{" "}
-            following
+            {page?.description ?? "N/A"}
           </p>
         </div>
 
@@ -124,7 +101,7 @@ const PageHeader = ({
           </Tabs>
         </Box>
       </div>
-      <UpdateMyProfileDialog dialog={updateProfileDialog} />
+      <UpdatePageDialog dialog={updatePageDialog} page={page} />
     </>
   );
 };

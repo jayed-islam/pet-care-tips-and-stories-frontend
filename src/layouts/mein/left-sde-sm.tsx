@@ -1,14 +1,5 @@
 "use client";
-import {
-  ContactMailOutlined,
-  Home,
-  InfoOutlined,
-  Search,
-  NotificationsOutlined,
-  Person,
-  WorkspacePremium,
-  Edit,
-} from "@mui/icons-material";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -19,20 +10,8 @@ import useBoolean from "@/hooks/use-boolean";
 import { useRouter } from "next/navigation";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
-
-const navItems = [
-  { href: "/", label: "Home", icon: <Home /> },
-  { href: "/explore", label: "Explore", icon: <Search /> },
-  {
-    href: "/notification",
-    label: "Notification",
-    icon: <NotificationsOutlined />,
-  },
-  { href: paths.myAccount.root, label: "Profile", icon: <Person /> },
-  { href: "/premium", label: "Premium", icon: <WorkspacePremium /> },
-  { href: "/about-us", label: "About Us", icon: <InfoOutlined /> },
-  { href: "/contact-us", label: "Contact Us", icon: <ContactMailOutlined /> },
-];
+import { mainNavItems } from "./conf-navigation";
+import { Edit } from "@mui/icons-material";
 
 const LeftSideSm = () => {
   const pathname = usePathname();
@@ -56,7 +35,7 @@ const LeftSideSm = () => {
           <Image src={logo} alt="eyebook" className="w-11 rounded-full" />
         </Link>
         <div className="flex-col mt-7">
-          {navItems.map((item) => (
+          {mainNavItems.map((item) => (
             <Tooltip title={item.label} arrow key={item.label}>
               <Link href={item.href} key={item.href} className="group">
                 <div

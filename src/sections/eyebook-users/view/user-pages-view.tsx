@@ -2,18 +2,10 @@
 
 import React from "react";
 import { useAppSelector } from "@/redux/hooks";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Grid2 as Grid,
-  Button,
-} from "@mui/material";
-import pageLogo from "../../../../public/image/page.jpg";
+import { Grid2 as Grid, Button, Typography } from "@mui/material";
 import CreatePageDialog from "@/sections/pages/view/create-page-dialog";
 import useBoolean from "@/hooks/use-boolean";
-import Link from "next/link";
+import PageCard from "@/sections/pages/components/page-card";
 
 const UserPagesView = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -65,34 +57,7 @@ const UserPagesView = () => {
           </div>
           <Grid container spacing={3}>
             {user.pages.map((page) => (
-              <Grid
-                key={page._id}
-                size={{
-                  xs: 12,
-                  md: 6,
-                }}
-              >
-                <Link href={`/pages/${page._id}`}>
-                  <div className="border rounded-3xl p-3">
-                    <Card elevation={0}>
-                      <CardMedia
-                        component="img"
-                        height="140"
-                        image={page.logo || pageLogo.src}
-                        alt={page.name}
-                      />
-                      <CardContent>
-                        <Typography variant="h6" component="div">
-                          {page.name}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          {page.description || "No description provided."}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </Link>
-              </Grid>
+              <PageCard page={page} />
             ))}
           </Grid>
         </div>

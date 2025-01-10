@@ -1,6 +1,6 @@
 "use client";
 
-import PageHeader from "@/components/elements/page";
+import PageHeaderGlobal from "@/components/elements/page";
 import { useGetUserListForUserQuery } from "@/redux/reducers/user/userApi";
 import { CircularProgress, Pagination } from "@mui/material";
 import React, { useState } from "react";
@@ -33,7 +33,7 @@ const EyebookUserListView = () => {
   return (
     <div className="pr-3">
       <div className="h-full w-full relative border-r">
-        <PageHeader title="eyebook users" />
+        <PageHeaderGlobal title="eyebook users" />
         <div className="px-3">
           <div className="relative hidden lg:flex w-full z-50 bg-white mt-2 border rounded-full border-gray-300">
             <FiSearch className="absolute left-5 top-3.5 text-xl" />
@@ -62,7 +62,7 @@ const EyebookUserListView = () => {
             {data?.data && data.data?.users && (
               <div className="flex justify-center mt-4">
                 <Pagination
-                  count={data.data.pagination?.totalPages}
+                  count={data.data.pagination?.totalItems}
                   page={page}
                   onChange={handlePageChange}
                   color="primary"

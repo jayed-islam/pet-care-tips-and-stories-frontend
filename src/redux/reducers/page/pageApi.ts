@@ -11,10 +11,7 @@ export interface IGetSinglePageResponse {
 }
 
 export interface IGetPageListResponse {
-  data: {
-    pages: IPage[];
-    pagination: IPagination;
-  };
+  data: IPage[];
   message: string;
   success: boolean;
 }
@@ -38,12 +35,19 @@ export const pageApi = api.injectEndpoints({
     }),
     updatePage: builder.mutation<
       IGetSinglePageResponse,
-      { body: FormData; id: string }
+      { body: Partial<IPage>; id: string }
     >({
       query: ({ body, id }) => ({
-        url: `/page/update/${id}`,
+        url: `/page/${id}`,
         method: "PUT",
         body,
+      }),
+      invalidatesTags: ["user-me", "pages"],
+    }),
+    toggleFollow: builder.mutation<IGetSinglePageResponse, string>({
+      query: (id) => ({
+        url: `/page/${id}/toggle-follow`,
+        method: "POST",
       }),
       invalidatesTags: ["user-me", "pages"],
     }),
@@ -57,7 +61,7 @@ export const pageApi = api.injectEndpoints({
     getPageList: builder.query<IGetPageListResponse, void>({
       query: () => {
         return {
-          url: `/page/get-list/`,
+          url: `/page`,
           method: "GET",
         };
       },
@@ -83,4 +87,10 @@ export const pageApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useCreatePageMutation, useGetSinglePageQuery } = pageApi;
+export const {
+  useCreatePageMutation,
+  useGetSinglePageQuery,
+  useUpdatePageMutation,
+  useToggleFollowMutation,
+  useGetPageListQuery,
+} = pageApi;
