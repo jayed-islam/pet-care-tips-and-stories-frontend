@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { Drawer, IconButton } from "@mui/material";
-import Header from "./header";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
 import { Close } from "@mui/icons-material";
+import LeftSideSm from "./left-sde-sm";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
@@ -19,25 +19,52 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5]">
-      <Header
+    <div className="min-h-screen bg-[#F0F2F5 bg-white">
+      {/* <Header
         toggleLeftDrawer={toggleLeftDrawer}
         toggleRightDrawer={toggleRightDrawer}
-      />
+      /> */}
 
-      <div className="max-w-screen-2xl mx-auto pt-16 ">
-        {/* Left Sidebar for Large Screens */}
-        <div className="hidden lg:block lg:w-72 xl:w-[23rem] fixed top-16 left-0 h-[calc(100vh-64px)] p-4">
+      <div className="max-w-[78rem] mx-auto flex items-start">
+        <div className="hidden xl:block md:w-64 lg:w-72 xl:w-[17rem] h-screen border-r fixed z-50 top-0">
           <LeftSide />
         </div>
 
-        {/* Main Content */}
-        <main className="flex-grow xl:ml-[23rem] xl:mr-[23rem] lg:ml-72 lg:mr-72 pt-5 md:mx-2 md:px-4">
+        <div className="hidden sm:block xl:hidden sm:w-[5.5rem]  h-screen border-r fixed z-50 top-0">
+          <LeftSideSm />
+        </div>
+
+        <main
+          className="
+    w-full
+    lg:max-w-[calc(78rem-40rem)] 
+    mx-auto
+    sm:ml-[5.5rem]
+    xl:ml-[17rem]
+  "
+          // lg:ml-[17rem]
+          // lg:mr-[23rem]
+        >
           {children}
         </main>
 
-        {/* Right Sidebar - Fixed for large screens */}
-        <div className="hidden lg:block lg:w-72 xl:w-[23rem] fixed top-16 right-0 h-[calc(100vh-64px)] p-4">
+        <div
+          className="
+    hidden 
+    lg:flex
+    lg:w-[19rem] 
+    xl:w-[23rem]
+    h-screen 
+    fixed 
+    top-0  
+    xl:ml-[calc(78rem-23rem)]
+    lg:ml-[calc(78rem-19rem)]
+    right-0
+    xl:right-auto
+    mr-5
+    xl:mr-0
+  "
+        >
           <RightSide />
         </div>
       </div>

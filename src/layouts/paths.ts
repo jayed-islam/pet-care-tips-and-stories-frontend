@@ -4,6 +4,7 @@ export const paths = {
   post: {
     root: "/posts",
   },
+  eyebookUsers: "/eyebook-users",
   myAccount: {
     root: "/my-profile",
     purchaed: "/my-profile/purchased",

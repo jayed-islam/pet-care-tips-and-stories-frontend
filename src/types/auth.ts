@@ -1,3 +1,5 @@
+import { IPagination } from "./common";
+import { IPage } from "./page";
 import { IPost } from "./post";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -9,11 +11,14 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string;
   password: string;
+  name: string;
+  username: string;
 }
 
 export interface IUser {
   _id?: string;
   name: string;
+  username: string;
   email: string;
   password: string;
   phone?: string;
@@ -25,7 +30,11 @@ export interface IUser {
   userType: "basic" | "premium";
   followers: IUser[];
   following: IUser[];
+  sentFriendRequests: IUser[];
+  receivedFriendRequests: IUser[];
+  friends: IUser[];
   purchasedPosts: IPost[];
+  pages: IPage[];
   isDeleted: boolean;
   isVerified: boolean;
   passwordChangedAt?: Date;
@@ -74,4 +83,13 @@ export interface IGetUserListResponse {
   success: boolean;
   message: string;
   data: IUser[];
+}
+
+export interface IGetUserListForUserResponse {
+  success: boolean;
+  message: string;
+  data: {
+    users: IUser[];
+    pagination: IPagination;
+  };
 }

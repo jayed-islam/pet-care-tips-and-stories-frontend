@@ -28,6 +28,9 @@ export const api = createApi({
     "users",
     "admin-posts",
     "payments",
+    "user-list",
+    "pages",
+    "page",
   ],
   endpoints: () => ({}),
 });

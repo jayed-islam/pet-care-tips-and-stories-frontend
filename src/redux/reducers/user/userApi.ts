@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { api } from "@/redux/api";
-import { IGetMeResponse, IGetUserListResponse, IUser } from "@/types/auth";
+import {
+  IGetMeResponse,
+  IGetUserListForUserResponse,
+  IGetUserListResponse,
+  IUser,
+} from "@/types/auth";
 import {
   IToggleFollowUserResponse,
   IUpdateUserProfileData,
@@ -80,6 +85,18 @@ export const userApi = api.injectEndpoints({
       invalidatesTags: ["user-me", "single-user"],
     }),
 
+    toggleUserFriendRequest: builder.mutation<
+      IToggleFollowUserResponse,
+      { targetUserId: string; actionType: string }
+    >({
+      query: (body) => ({
+        url: `/user/toggle-request`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["user-me", "user-list"],
+    }),
+
     getSingleUserProfile: builder.query<IGetMeResponse, { userId: string }>({
       query: ({ userId }) => ({
         url: `/user/single-user/${userId}`,
@@ -94,7 +111,17 @@ export const userApi = api.injectEndpoints({
       providesTags: ["users"],
     }),
 
-    // Add more user-related endpoints as needed
+    getUserListForUser: builder.query<
+      IGetUserListForUserResponse,
+      { search?: string; userType?: string }
+    >({
+      query: (body) => ({
+        url: `/user/get-user-list`,
+        method: "POST",
+        body,
+      }),
+      providesTags: ["user-list"],
+    }),
   }),
   overrideExisting: true,
 });
@@ -106,4 +133,6 @@ export const {
   useUpdateUserProfilePictureMutation,
   useGetUserListQuery,
   useUpdateUserByAdminMutation,
+  useGetUserListForUserQuery,
+  useToggleUserFriendRequestMutation,
 } = userApi;
