@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import {
   Card,
-  CardContent,
-  CardActions,
   Button,
   Typography,
-  Avatar,
-  Box,
   CircularProgress,
+  CardMedia,
 } from "@mui/material";
 import { IUser } from "@/types/auth";
-import { useToggleUserFriendRequestMutation } from "@/redux/reducers/user/userApi"; // Adjust the import to your actual file
+import {
+  useRemoveFrientMutation,
+  useToggleUserFriendRequestMutation,
+} from "@/redux/reducers/user/userApi";
 import { useAppSelector } from "@/redux/hooks";
+import Link from "next/link";
+import userImage from "../../../../public/image/user.jpg";
+import toast from "react-hot-toast";
 
 interface Props {
   user: IUser;
@@ -20,8 +23,13 @@ interface Props {
 const UserProfileCard: React.FC<Props> = ({ user }) => {
   const { user: currentUser } = useAppSelector((state) => state.auth);
   const [isFriend, setIsFriend] = useState<boolean>(false);
-  const [isRequestSent, setIsRequestSent] = useState<boolean>(false);
-  const [toggleFriendRequest, { isLoading }] =
+  const [isRequestReceived, setIsRequestReceived] = useState<boolean>(false);
+  const [confirmFriendRequest, { isLoading: isConfirmRequestLoading }] =
+    useToggleUserFriendRequestMutation();
+  const [removeFriend, { isLoading: isRemoveFriendLoading }] =
+    useRemoveFrientMutation();
+
+  const [deleteFriendRequest, { isLoading: isDeleteRequestLoading }] =
     useToggleUserFriendRequestMutation();
 
   useEffect(() => {
@@ -29,57 +37,68 @@ const UserProfileCard: React.FC<Props> = ({ user }) => {
       setIsFriend(
         currentUser?.friends?.some((friend) => friend._id === user._id)
       );
-      setIsRequestSent(
-        currentUser?.sentFriendRequests?.some(
+      setIsRequestReceived(
+        currentUser?.receivedFriendRequests?.some(
           (request) => request._id === user._id
         )
       );
     }
   }, [currentUser, user]);
 
-  const handleConfirm = async () => {
-    try {
-      // Trigger the mutation to toggle the friend request
-      await toggleFriendRequest({
-        targetUserId: user._id as string,
-        actionType: "accept",
-      });
-
-      // Update state after the friend request is sent
-      setIsRequestSent(true);
-    } catch (error) {
-      console.error("Error sending friend request:", error);
-    }
-  };
-
   const handleDelete = async () => {
     try {
       // Trigger the mutation to cancel or delete the friend request
-      await toggleFriendRequest({
+      await deleteFriendRequest({
         targetUserId: user._id as string,
         actionType: "cancel",
       });
 
       // Update state after the request is deleted
-      setIsRequestSent(false);
+      setIsRequestReceived(false);
+
+      // Success toast
+      toast.success("Friend request canceled successfully.");
     } catch (error) {
       console.error("Error deleting friend request:", error);
+      toast.error("Failed to cancel the friend request.");
+    }
+  };
+
+  const handleRemoveFriend = async () => {
+    try {
+      // Trigger the mutation to remove the friend
+      await removeFriend({
+        targetUserId: user._id as string,
+      });
+
+      // Update state after the friend is removed
+      setIsRequestReceived(false);
+
+      // Success toast
+      toast.success("Friend removed successfully.");
+    } catch (error) {
+      console.error("Error removing friend:", error);
+      toast.error("Failed to remove the friend.");
     }
   };
 
   const handleConfirmFriendship = async () => {
     try {
       // Trigger the mutation to confirm the friendship
-      await toggleFriendRequest({
+      await confirmFriendRequest({
         targetUserId: user._id as string,
-        actionType: "confirm",
+        actionType: "accept",
       });
 
       // Update state after confirming the friendship
       setIsFriend(true);
-      setIsRequestSent(false);
+      setIsRequestReceived(false);
+
+      // Success toast
+      toast.success("Friendship confirmed successfully.");
     } catch (error) {
       console.error("Error confirming friendship:", error);
+      toast.error("Failed to confirm the friendship.");
     }
   };
 
@@ -92,77 +111,138 @@ const UserProfileCard: React.FC<Props> = ({ user }) => {
   return (
     <Card
       sx={{
-        maxWidth: 345,
-        margin: "10px",
         border: "1px solid #ddd",
-        borderRadius: "8px",
+        borderRadius: "0.5rem",
+        p: 0,
+        m: 0,
+        height: "100%",
       }}
+      elevation={1}
     >
-      <CardContent>
-        {/* Display user image */}
-        <Box display="flex" justifyContent="center" mb={2}>
-          <Avatar
+      <div className="h-44">
+        <Link href={`/pages/`}>
+          <CardMedia
+            component="img"
+            height="120"
+            image={user.profilePicture || userImage.src}
             alt={user.name}
-            src={user.profilePicture || "/default-profile.jpg"}
-            sx={{ width: 56, height: 56 }}
           />
-        </Box>
+        </Link>
+      </div>
 
-        {/* Display user name */}
-        <Typography variant="h6" component="div" align="center">
-          {user.name}
+      <div className="p-2">
+        <Typography variant="subtitle1" fontWeight={600}>
+          {user.name ?? "eyebook user"}
         </Typography>
-      </CardContent>
 
-      <CardActions sx={{ justifyContent: "center" }}>
         {/* Conditionally render buttons */}
-        {!isFriend ? (
-          <>
-            {isRequestSent ? (
+        <div className="flex flex-col gap-2 mt-2">
+          {/* Confirm Friendship button */}
+          {isRequestReceived && !isFriend && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleConfirmFriendship}
+              disabled={isConfirmRequestLoading}
+              disableElevation
+              fullWidth
+              sx={{
+                textTransform: "capitalize",
+                outline: "none",
+                border: "none",
+              }}
+            >
+              {isConfirmRequestLoading ? (
+                <CircularProgress size={24} />
+              ) : (
+                "Confirm"
+              )}
+            </Button>
+          )}
+          {!isFriend ? (
+            <>
+              {
+                isRequestReceived && (
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleDelete}
+                    disabled={isDeleteRequestLoading}
+                    disableElevation
+                    fullWidth
+                    className="bg-gray-200"
+                    sx={{
+                      bgcolor: "#e5e7eb",
+                      color: "#000",
+                      textTransform: "capitalize",
+                      outline: "none",
+                      border: "none",
+                    }}
+                  >
+                    {isDeleteRequestLoading ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      "Delete"
+                    )}
+                  </Button>
+                )
+
+                //  : (
+                //   // <Button
+                //   //   variant="contained"
+                //   //   color="primary"
+                //   //   onClick={handleConfirm}
+                //   //   disabled={isLoading}
+                //   //   fullWidth
+                //   // >
+                //   //   {isLoading ? <CircularProgress size={24} /> : "Send Request"}
+                //   // </Button>
+
+                // )
+              }
+            </>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleViewProfile}
+                fullWidth
+                disableElevation
+                sx={{
+                  textTransform: "capitalize",
+                  outline: "none",
+                  border: "none",
+                }}
+              >
+                View Profile
+              </Button>
+
               <Button
                 variant="outlined"
                 color="secondary"
-                sx={{ marginRight: "8px" }}
-                onClick={handleDelete}
-                disabled={isLoading}
+                onClick={handleRemoveFriend}
+                disabled={isRemoveFriendLoading}
+                disableElevation
+                fullWidth
+                sx={{
+                  bgcolor: "#e5e7eb",
+                  color: "#000",
+                  textTransform: "capitalize",
+                  outline: "none",
+                  border: "none",
+                }}
               >
-                {isLoading ? <CircularProgress size={24} /> : "Delete Request"}
+                {isRemoveFriendLoading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  "Remove"
+                )}
               </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ marginRight: "8px" }}
-                onClick={handleConfirm}
-                disabled={isLoading}
-              >
-                {isLoading ? <CircularProgress size={24} /> : "Send Request"}
-              </Button>
-            )}
-          </>
-        ) : (
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleViewProfile}
-          >
-            View Profile
-          </Button>
-        )}
-
-        {/* Confirm Friendship button */}
-        {isRequestSent && !isFriend && (
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleConfirmFriendship}
-            disabled={isLoading}
-            sx={{ marginLeft: "8px" }}
-          >
-            {isLoading ? <CircularProgress size={24} /> : "Confirm Friendship"}
-          </Button>
-        )}
-      </CardActions>
+            </div>
+          )}
+        </div>
+      </div>
     </Card>
   );
 };

@@ -41,11 +41,11 @@ const LeftSideSm = () => {
                 <div
                   className={`transition-all duration-500 rounded-full text-gray-800 h-12 w-12 flex items-start justify-center ${
                     pathname === item.href
-                      ? "group-hover:bg-gray-200"
+                      ? "group-hover:bg-gray-200 bg-gray-200"
                       : "group-hover:bg-gray-200"
                   }`}
                 >
-                  <h2 className="text-3xl">{item.icon}</h2>
+                  <h2 className="text-3xl mt-2">{item.icon}</h2>
                 </div>
               </Link>
             </Tooltip>

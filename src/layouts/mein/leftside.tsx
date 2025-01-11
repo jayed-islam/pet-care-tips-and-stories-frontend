@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import { HiDotsHorizontal } from "react-icons/hi";
-import { BsPersonFillAdd } from "react-icons/bs";
 import { mainNavItems } from "./conf-navigation";
 import { LogoutOutlined } from "@mui/icons-material";
 import { logout } from "@/redux/reducers/auth/authSlice";

@@ -28,9 +28,10 @@ const ProfileHeader = () => {
   const router = useRouter();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
     router.push(navLinks[newValue].path);
+    setActiveTab(newValue);
   };
+
   return (
     <>
       <div className="w-full bg-white border relative pb-5">

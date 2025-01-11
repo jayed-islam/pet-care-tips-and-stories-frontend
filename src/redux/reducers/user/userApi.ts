@@ -84,6 +84,17 @@ export const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ["user-me", "single-user"],
     }),
+    removeFrient: builder.mutation<
+      IToggleFollowUserResponse,
+      { targetUserId: string }
+    >({
+      query: ({ targetUserId }) => ({
+        url: `/user/remove-friend/${targetUserId}`,
+        method: "POST",
+        body: { targetUserId },
+      }),
+      invalidatesTags: ["user-me", "single-user"],
+    }),
 
     toggleUserFriendRequest: builder.mutation<
       IToggleFollowUserResponse,
@@ -135,4 +146,5 @@ export const {
   useUpdateUserByAdminMutation,
   useGetUserListForUserQuery,
   useToggleUserFriendRequestMutation,
+  useRemoveFrientMutation,
 } = userApi;

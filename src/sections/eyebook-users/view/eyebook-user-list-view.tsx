@@ -62,7 +62,7 @@ const EyebookUserListView = () => {
             {data?.data && data.data?.users && (
               <div className="flex justify-center mt-4">
                 <Pagination
-                  count={data.data.pagination?.totalItems}
+                  count={data.data?.pagination?.totalPages}
                   page={page}
                   onChange={handlePageChange}
                   color="primary"

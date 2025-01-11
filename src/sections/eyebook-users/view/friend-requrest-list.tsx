@@ -13,21 +13,21 @@ const FriendRequestList = () => {
     return <div>Loading...</div>;
   }
 
-  const friends = user.friends;
+  const receivedFriendRequests = user.receivedFriendRequests;
 
   return (
-    <div>
+    <div className="bg-gray-200">
       <Typography variant="h5" gutterBottom>
-        Friend Request List
+        Received Friend Request List
       </Typography>
 
-      {friends?.length === 0 ? (
+      {receivedFriendRequests?.length === 0 ? (
         <Typography variant="h6" color="textSecondary">
           You have no friends request yet.
         </Typography>
       ) : (
         <Grid container spacing={2}>
-          {friends.map((friend: IUser) => (
+          {receivedFriendRequests.map((friend: IUser) => (
             <Grid
               size={{
                 xs: 6,

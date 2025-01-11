@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useToggleFollowMutation } from "@/redux/reducers/page/pageApi"; // Assuming you have this mutation
@@ -50,18 +51,21 @@ const PageToggleFollowButton: React.FC<ToggleFollowButtonProps> = ({
 
   return (
     <Button
-      variant="outlined"
+      variant="contained"
       onClick={handleToggleFollow}
-      disabled={isLoading}
+      disabled={isLoading || isCreator}
+      disableElevation
       fullWidth
       sx={{
         textTransform: "capitalize",
         borderRadius: "3rem",
+        bgcolor: isFollowed ? "#e5e7eb" : "#ebf5ff",
+        color: isFollowed ? "#000" : "#0064d1",
+        fontWeight: 700,
         mt: 2,
       }}
-      color={isFollowed ? "success" : "primary"}
     >
-      {isFollowed ? "Unfollow" : "Follow"}
+      {isCreator ? "Creator" : isFollowed ? "Unfollow" : "Follow"}
     </Button>
   );
 };
