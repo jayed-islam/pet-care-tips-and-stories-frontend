@@ -25,6 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/navigation";
 import AuthDialog from "../auth/auth-dialog";
 import toast from "react-hot-toast";
+import ShareButton from "./post-share-button";
 
 interface Props {
   post: IPost;
@@ -271,10 +272,16 @@ const PostCard = ({ post, userId, isMyProfile = false }: Props) => {
             Comment
           </Button>
 
-          <button className="lg:flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200 hidden  ">
+          {/* <button className="lg:flex items-center space-x-1 text-gray-500 hover:text-blue-600 transition-all duration-200 hidden  ">
             <FaShare className="text-xl" />
             <span className="text-sm">Share</span>
-          </button>
+          </button> */}
+
+          <ShareButton
+            imageUrl={post.imageUrls[0]}
+            postUrl={`https://eyebook.vercel.app/posts/${post._id}`}
+            title={post.content.slice(0, 21)}
+          />
         </div>
       </div>
       {commentDialog.value && (
