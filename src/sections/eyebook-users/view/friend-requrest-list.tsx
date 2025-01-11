@@ -16,7 +16,7 @@ const FriendRequestList = () => {
   const receivedFriendRequests = user.receivedFriendRequests;
 
   return (
-    <div className="bg-gray-200">
+    <div className="bg-gray-200 p-5 rounded-lg">
       <Typography variant="h5" gutterBottom>
         Received Friend Request List
       </Typography>

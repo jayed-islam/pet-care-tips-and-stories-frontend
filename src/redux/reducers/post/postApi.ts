@@ -77,7 +77,7 @@ export const postApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: ["posts", "user-posts"],
+      invalidatesTags: ["posts", "user-posts", "user-me"],
     }),
     updatePost: builder.mutation<
       ICreatePostResponse,

@@ -3,7 +3,7 @@ import { FaEllipsisH } from "react-icons/fa";
 
 const PostShimmerCard = () => {
   return (
-    <div className="bg-white rounded-lg shadow p-4 animate-pulse">
+    <div className="bg-white rounded-3xl border shadow p-4 animate-pulse">
       <div className="h-72 w-full">
         {/* Post Header Shimmer */}
         <div className="flex items-center justify-between">

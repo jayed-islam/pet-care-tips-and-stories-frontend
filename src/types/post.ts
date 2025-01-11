@@ -122,6 +122,7 @@ export interface IPostFilters {
   sortBy?: "upvotes" | "newest";
   page: number;
   limit?: number;
+  isPremium?: boolean;
 }
 
 export interface IGetUserPostFilters {

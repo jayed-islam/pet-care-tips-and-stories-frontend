@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
-import { Drawer, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Drawer, Fab, IconButton } from "@mui/material";
 import LeftSide from "./leftside";
 import RightSide from "./rightside";
-import { Close } from "@mui/icons-material";
+import { Close, KeyboardArrowUp } from "@mui/icons-material";
 import LeftSideSm from "./left-sde-sm";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const toggleLeftDrawer = (open: boolean) => {
     setLeftOpen(open);
@@ -17,6 +19,23 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const toggleRightDrawer = (open: boolean) => {
     setRightOpen(open);
   };
+
+  const handleScroll = () => {
+    const currentPosition = window.scrollY;
+    setScrollPosition(currentPosition);
+    setShowScrollButton(currentPosition > 300);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F0F2F5 bg-white">
@@ -41,11 +60,29 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     mx-auto
     sm:ml-[5.5rem]
     xl:ml-[17rem]
+    relative
   "
           // lg:ml-[17rem]
           // lg:mr-[23rem]
         >
           {children}
+
+          {showScrollButton && (
+            <Fab
+              color="primary"
+              size="small"
+              onClick={scrollToTop}
+              style={{
+                position: "fixed",
+                left: "50%",
+                bottom: "50px",
+                transform: "translateX(-50%)",
+                zIndex: 1000,
+              }}
+            >
+              <KeyboardArrowUp />
+            </Fab>
+          )}
         </main>
 
         <div

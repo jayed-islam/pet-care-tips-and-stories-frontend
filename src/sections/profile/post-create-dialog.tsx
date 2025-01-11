@@ -28,7 +28,7 @@ import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { RHFSelect, RHFTextField } from "@/components/react-hook-form";
 import { LoadingButton } from "@mui/lab";
 
-export const authLoginSchema = z.object({
+export const postCreationSchema = z.object({
   isPremium: z.boolean().default(false),
   category: z.string().default("66fa38dfae27dd09c8f012bd"),
 });
@@ -36,16 +36,17 @@ export const authLoginSchema = z.object({
 interface Props {
   dialog: BooleanState;
   snackbar: BooleanState;
+  pageId?: string;
 }
 
-const PostDialog = ({ dialog, snackbar }: Props) => {
+const PostDialog = ({ dialog, snackbar, pageId }: Props) => {
   const [value, setValue] = useState("");
   const [visibility, setVisibility] = useState("public");
   const { user } = useAppSelector((state) => state.auth);
   const [images, setImages] = useState<File[]>([]);
 
   const methods = useForm({
-    resolver: zodResolver(authLoginSchema),
+    resolver: zodResolver(postCreationSchema),
   });
 
   const [createPost, { isLoading }] = useCreatePostMutation();
@@ -112,6 +113,7 @@ const PostDialog = ({ dialog, snackbar }: Props) => {
       category: data.category,
       price: data.price,
       isPremium: data.isPremium,
+      ...(pageId && { pageId }),
     };
 
     const formData = new FormData();

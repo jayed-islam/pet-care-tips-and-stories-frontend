@@ -5,17 +5,21 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "../../../public/image/eyebook-logo.png";
 import { paths } from "../paths";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import useBoolean from "@/hooks/use-boolean";
 import { useRouter } from "next/navigation";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import { mainNavItems } from "./conf-navigation";
-import { Edit } from "@mui/icons-material";
+import { Edit, LogoutOutlined } from "@mui/icons-material";
+import PostDialog from "@/sections/profile/post-create-dialog";
+import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
+import { logout } from "@/redux/reducers/auth/authSlice";
 
 const LeftSideSm = () => {
   const pathname = usePathname();
-
+  const postCreation = useBoolean();
+  const snackbar = useBoolean();
   const { user } = useAppSelector((state) => state.auth);
   const authDialog = useBoolean();
   const router = useRouter();
@@ -26,6 +30,12 @@ const LeftSideSm = () => {
     } else {
       authDialog.setTrue();
     }
+  };
+
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push(paths.website.signin);
   };
 
   return (
@@ -50,6 +60,23 @@ const LeftSideSm = () => {
               </Link>
             </Tooltip>
           ))}
+
+          <IconButton
+            sx={{
+              height: "3rem",
+              width: "3rem",
+              bgcolor: "gray",
+              mt: 2,
+              "&:hover": {
+                opacity: 0.7,
+                bgcolor: "black",
+              },
+            }}
+            onClick={handleLogout}
+          >
+            <LogoutOutlined className="text-black" />
+          </IconButton>
+
           {user && user?._id && (
             <IconButton
               sx={{
@@ -62,6 +89,7 @@ const LeftSideSm = () => {
                   bgcolor: "black",
                 },
               }}
+              onClick={postCreation.setTrue}
             >
               <Edit className="text-white" />
             </IconButton>
@@ -101,6 +129,8 @@ const LeftSideSm = () => {
         </div>
       </div>
       <AuthDialog dialog={authDialog} />
+      <PostDialog dialog={postCreation} snackbar={snackbar} />
+      <PostSnackbar snackbar={snackbar} />
     </nav>
   );
 };

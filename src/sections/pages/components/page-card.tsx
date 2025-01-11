@@ -1,9 +1,16 @@
 import { IPage } from "@/types/page";
-import { Card, CardMedia, Grid2 as Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardMedia,
+  Grid2 as Grid,
+  Typography,
+} from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import pageLogo from "../../../../public/image/page.jpg";
 import PageToggleFollowButton from "./page-toggle-follow-button";
+import { useAppSelector } from "@/redux/hooks";
 
 interface Props {
   page: IPage;
@@ -11,8 +18,8 @@ interface Props {
 }
 
 const PageCard = ({ page }: Props) => {
-  // const { user } = useAppSelector((state) => state.auth);
-  // const isCreator = user?._id === page.createdBy?._id;
+  const { user } = useAppSelector((state) => state.auth);
+  const isCreator = user?._id === page.createdBy?._id;
   return (
     <Grid
       key={page._id}
@@ -42,7 +49,26 @@ const PageCard = ({ page }: Props) => {
             {page.followers.length || 0} followers
           </Typography>
           {/* {!isCreator && <PageToggleFollowButton page={page} />} */}
-          <PageToggleFollowButton page={page} />
+          {isCreator ? (
+            <Link href={`/pages/${page._id}`}>
+              <Button
+                disableElevation
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{
+                  textTransform: "capitalize",
+                  borderRadius: "3rem",
+                  fontWeight: 700,
+                  mt: 2,
+                }}
+              >
+                View Page
+              </Button>
+            </Link>
+          ) : (
+            <PageToggleFollowButton page={page} />
+          )}
         </Card>
       </div>
     </Grid>

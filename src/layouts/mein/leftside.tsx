@@ -5,35 +5,31 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "../../../public/image/eyebook-logo.png";
 import { paths } from "../paths";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import useBoolean from "@/hooks/use-boolean";
 import { useRouter } from "next/navigation";
 import { Button } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
-import { HiDotsHorizontal } from "react-icons/hi";
 import { mainNavItems } from "./conf-navigation";
 import { LogoutOutlined } from "@mui/icons-material";
 import { logout } from "@/redux/reducers/auth/authSlice";
-import { useDispatch } from "react-redux";
+import PostDialog from "@/sections/profile/post-create-dialog";
+import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
+import UserProfileButton from "./sidebar-user-profile-button";
+import { IUser } from "@/types/auth";
 
 const LeftSide = () => {
   const pathname = usePathname();
-
+  const postCreation = useBoolean();
+  const snackbar = useBoolean();
   const { user } = useAppSelector((state) => state.auth);
   const authDialog = useBoolean();
   const router = useRouter();
 
-  const handleProfileClick = () => {
-    if (user) {
-      router.push("/my-profile");
-    } else {
-      authDialog.setTrue();
-    }
-  };
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
-    router.push(paths.root);
+    router.push(paths.website.signin);
   };
   return (
     <nav className="h-full w-full flex flex-col justify-between">
@@ -81,6 +77,7 @@ const LeftSide = () => {
                 bgcolor: "black",
               }}
               size="large"
+              onClick={postCreation.setTrue}
             >
               Post
             </Button>
@@ -91,26 +88,27 @@ const LeftSide = () => {
       <div className="p-5">
         <div className="mt-5">
           {user ? (
-            <div
-              className="flex items-center space-x-3 px-3 cursor-pointer hover:bg-gray-200 py-2 rounded-full relative"
-              onClick={handleProfileClick}
-            >
-              <img
-                src={user?.profilePicture ?? "https://via.placeholder.com/40"}
-                alt="User Profile"
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <div>
-                <h3 className="font-semibold text-gray-800">
-                  {user.name ?? "eyebook user"}
-                </h3>
-                <h3 className="text-gray-600 text-sm">
-                  @{user.username ?? "username"}
-                </h3>
-              </div>
+            // <div
+            //   className="flex items-center space-x-3 px-3 cursor-pointer hover:bg-gray-200 py-2 rounded-full relative"
+            //   onClick={handleProfileClick}
+            // >
+            //   <img
+            //     src={user?.profilePicture ?? "https://via.placeholder.com/40"}
+            //     alt="User Profile"
+            //     className="w-10 h-10 rounded-full object-cover"
+            //   />
+            //   <div>
+            //     <h3 className="font-semibold text-gray-800">
+            //       {user.name ?? "eyebook user"}
+            //     </h3>
+            //     <h3 className="text-gray-600 text-sm">
+            //       @{user.username ?? "username"}
+            //     </h3>
+            //   </div>
 
-              <HiDotsHorizontal className="absolute right-3" />
-            </div>
+            //   <HiDotsHorizontal className="absolute right-3" />
+            // </div>
+            <UserProfileButton user={user as IUser} />
           ) : (
             <div onClick={authDialog.setTrue}>
               <Button
@@ -130,6 +128,8 @@ const LeftSide = () => {
         </div>
       </div>
       <AuthDialog dialog={authDialog} />
+      <PostDialog dialog={postCreation} snackbar={snackbar} />
+      <PostSnackbar snackbar={snackbar} />
     </nav>
   );
 };

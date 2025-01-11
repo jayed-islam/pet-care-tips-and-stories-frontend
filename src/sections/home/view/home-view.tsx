@@ -19,7 +19,7 @@ import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
 
 const tabs = [
   { title: "For You", value: "forYou" },
-  { title: "Hipeable", value: "Hipeable" },
+  { title: "Premium", value: "premium" },
 ];
 
 const HomeView = () => {
@@ -45,6 +45,7 @@ const HomeView = () => {
     page,
     category: selectedCategories,
     search: debouncedSearchTerm,
+    ...(activeTab === "premium" && { isPremium: true }),
   });
 
   useEffect(() => {
