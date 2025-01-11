@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Container, Paper, Divider } from "@mui/material";
+import { Container, Paper, Divider, Typography } from "@mui/material";
 import FormProvider from "@/components/react-hook-form/hook-form-controller";
 import { RHFTextField } from "@/components/react-hook-form";
 import Link from "next/link";
@@ -25,6 +25,11 @@ export const authLoginSchema = z.object({
     .email("Invalid email"),
   password: z.string({ required_error: "Password is required" }),
 });
+
+const demoCredentials: any = {
+  user: { email: "customer@test.com", password: "password" },
+  admin: { email: "eyebook-admin@gmail.com", password: "password" },
+};
 
 const LoginPageView = () => {
   const methods = useForm({
@@ -45,6 +50,7 @@ const LoginPageView = () => {
 
   const {
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = methods;
@@ -72,7 +78,20 @@ const LoginPageView = () => {
       console.log("erroe message", error);
     }
   });
-
+  const handleDemoLogin = (role: "user" | "admin" | "vendor") => {
+    const { email, password } = demoCredentials[role];
+    setValue("email", email);
+    setValue("password", password);
+    toast.success(
+      `Demo ${
+        role.charAt(0).toUpperCase() + role.slice(1)
+      } credentials loaded!`,
+      {
+        // icon: role === "user" ? "👤" : role === "admin" ? "🛠️" : "🏬",
+        duration: 3000,
+      }
+    );
+  };
   return (
     <div className="w-full h-screen flex items-center justify-center bg-[#F0F2F5]">
       <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -93,6 +112,39 @@ const LoginPageView = () => {
                 </h2>
               </div>
               <Divider />
+              <div className="flex flex-col items-start gap-2 p-5">
+                <Typography
+                  variant="body1"
+                  component="span"
+                  onClick={() => handleDemoLogin("user")}
+                  sx={{
+                    cursor: "pointer",
+                    color: "primary.main",
+                    textDecoration: "underline",
+                    "&:hover": {
+                      color: "primary.dark",
+                    },
+                  }}
+                >
+                  Demo User Credentials
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  component="span"
+                  onClick={() => handleDemoLogin("admin")}
+                  sx={{
+                    cursor: "pointer",
+                    color: "warning.main",
+                    textDecoration: "underline",
+                    "&:hover": {
+                      color: "warning.dark",
+                    },
+                  }}
+                >
+                  Demo Admin Credentials
+                </Typography>
+              </div>
               <div className="px-4 py-5 gap-3 w-full">
                 <RHFTextField
                   name="email"

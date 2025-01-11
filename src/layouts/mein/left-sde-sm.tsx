@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import { mainNavItems } from "./conf-navigation";
-import { Edit, LogoutOutlined } from "@mui/icons-material";
+import { Dashboard, Edit, LogoutOutlined } from "@mui/icons-material";
 import PostDialog from "@/sections/profile/post-create-dialog";
 import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
 import { logout } from "@/redux/reducers/auth/authSlice";
@@ -35,7 +35,7 @@ const LeftSideSm = () => {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
-    router.push(paths.website.signin);
+    router.push(paths.auth.login);
   };
 
   return (
@@ -55,21 +55,37 @@ const LeftSideSm = () => {
                       : "group-hover:bg-gray-200"
                   }`}
                 >
-                  <h2 className="text-3xl mt-2">{item.icon}</h2>
+                  <h2 className="text-3xl">{item.icon}</h2>
                 </div>
               </Link>
             </Tooltip>
           ))}
 
+          {user?.role === "admin" && (
+            <Link href="/dashboard">
+              <IconButton
+                sx={{
+                  height: "3rem",
+                  width: "3rem",
+                  mt: 2,
+                  "&:hover": {
+                    opacity: 0.7,
+                    bgcolor: "#e5e7eb",
+                  },
+                }}
+              >
+                <Dashboard className="text-black" />
+              </IconButton>
+            </Link>
+          )}
           <IconButton
             sx={{
               height: "3rem",
               width: "3rem",
-              bgcolor: "gray",
               mt: 2,
               "&:hover": {
                 opacity: 0.7,
-                bgcolor: "black",
+                bgcolor: "#e5e7eb",
               },
             }}
             onClick={handleLogout}

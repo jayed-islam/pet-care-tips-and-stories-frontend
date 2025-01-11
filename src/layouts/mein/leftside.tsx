@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@mui/material";
 import AuthDialog from "@/sections/auth/auth-dialog";
 import { mainNavItems } from "./conf-navigation";
-import { LogoutOutlined } from "@mui/icons-material";
+import { Dashboard, LogoutOutlined } from "@mui/icons-material";
 import { logout } from "@/redux/reducers/auth/authSlice";
 import PostDialog from "@/sections/profile/post-create-dialog";
 import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
@@ -29,7 +29,7 @@ const LeftSide = () => {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
-    router.push(paths.website.signin);
+    router.push(paths.auth.login);
   };
   return (
     <nav className="h-full w-full flex flex-col justify-between">
@@ -48,9 +48,7 @@ const LeftSide = () => {
                 }`}
               >
                 <span className="mr-5">{item.icon}</span>
-                <h2 className="hidden xl:block whitespace-nowrap ">
-                  {item.label}
-                </h2>
+                <h2 className="whitespace-nowrap ">{item.label}</h2>
               </div>
             </Link>
           ))}
@@ -62,8 +60,20 @@ const LeftSide = () => {
             <span className="mr-5">
               <LogoutOutlined />
             </span>
-            <h2 className="hidden xl:block whitespace-nowrap ">Logout</h2>
+            <h2 className=" whitespace-nowrap ">Logout</h2>
           </div>
+          {user?.role === "admin" && (
+            <Link href="/dashboard">
+              <div
+                className={`w-min flex items-center transition-all duration-500 rounded-full text-gray-800 text-xl pl-3 pr-5 pt-2 pb-3 hover:bg-gray-200 cursor-pointer`}
+              >
+                <span className="mr-5">
+                  <Dashboard />
+                </span>
+                <h2 className=" whitespace-nowrap ">Dashboard</h2>
+              </div>
+            </Link>
+          )}
           {user && user?._id && (
             <Button
               variant="contained"

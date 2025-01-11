@@ -6,6 +6,7 @@ import LeftSide from "./leftside";
 import RightSide from "./rightside";
 import { Close, KeyboardArrowUp } from "@mui/icons-material";
 import LeftSideSm from "./left-sde-sm";
+import Header from "./header";
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
@@ -39,10 +40,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="min-h-screen bg-[#F0F2F5 bg-white">
-      {/* <Header
+      <Header
         toggleLeftDrawer={toggleLeftDrawer}
         toggleRightDrawer={toggleRightDrawer}
-      /> */}
+      />
 
       <div className="max-w-[78rem] mx-auto flex items-start">
         <div className="hidden xl:block md:w-64 lg:w-72 xl:w-[17rem] h-screen border-r fixed z-50 top-0">
@@ -112,7 +113,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         open={leftOpen}
         onClose={() => toggleLeftDrawer(false)}
       >
-        <div className="w-80 p-5">
+        <div className="w-72">
           <LeftSide />
         </div>
       </Drawer>

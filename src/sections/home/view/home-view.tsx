@@ -78,11 +78,11 @@ const HomeView = () => {
   };
 
   return (
-    <div className="pr-3">
-      <div className="h-full w-full relative border-r">
+    <div className="sm:pr-3">
+      <div className="h-full w-full relative sm:border-r">
         {/* <div className="bg-white bg-opacity-30 backdrop-blur-lg h-16 w-full sticky top-0 border-b mt-2"></div> */}
 
-        <div className="bg-white bg-opacity-30 backdrop-blur-lg h-[4rem] w-full sticky top-0 border-b flex items-center justify-between z-50">
+        <div className="bg-white bg-opacity-30 backdrop-blur-lg h-12 sm:h-[4rem] w-full sticky top-[4.5rem] sm:top-0 border-b flex items-center justify-between z-50">
           {tabs.map((tab) => (
             <div
               key={tab.value}

@@ -28,7 +28,7 @@ const UserProfileButton = ({ user }: { user: IUser }) => {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logout());
-    router.push(paths.website.signin);
+    router.push(paths.auth.signup);
     handleClose();
   };
 
