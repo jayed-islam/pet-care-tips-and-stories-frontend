@@ -1,15 +1,17 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, IconButton, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import HomeIcon from "@mui/icons-material/Home";
 import Link from "next/link";
 import { paths } from "../paths";
+import AdminProfileDropdown from "./profile-popover";
+import { useAppSelector } from "@/redux/hooks";
 
 interface HeaderProps {
   handleDrawerToggle: () => void;
 }
 
 const Header = ({ handleDrawerToggle }: HeaderProps) => {
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <AppBar
       position="fixed"
@@ -32,12 +34,11 @@ const Header = ({ handleDrawerToggle }: HeaderProps) => {
         </Typography>
 
         {/* Link to Home */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Link href="/" passHref legacyBehavior>
-            <IconButton color="inherit" edge="end" component="a">
-              <HomeIcon />
-            </IconButton>
-          </Link>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <h2 className="text-lg font-semibold hidden md:block">
+            {user?.name ?? "eyebook admin"}
+          </h2>
+          <AdminProfileDropdown />
         </Box>
       </Toolbar>
     </AppBar>

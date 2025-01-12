@@ -14,6 +14,8 @@ export const paths = {
     contents: "/dashboard/contents",
     users: "/dashboard/users",
     payments: "/dashboard/payments",
+    pages: "/dashboard/pages",
+    profile: "/dashboard/profile",
   },
   profile: {
     root: "/user-profile",

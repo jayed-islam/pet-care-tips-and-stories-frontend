@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -27,18 +28,22 @@ const FadakoUserProfileView = ({ id }: Props) => {
   const [totalPosts, setTotalPosts] = useState(0);
   const [followerCount, setFollowerCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const { data: userProfileData, isFetching: isUserProfileFetching } =
-    useGetSingleUserProfileQuery({
+  const {
+    data: userProfileData,
+    isFetching: isUserProfileFetching,
+  } = useGetSingleUserProfileQuery({
+    userId: id,
+  });
+  const {
+    data: userPostsData,
+    isFetching: isUserPostFetching,
+  } = useGetUserPostsQuery(
+    {
+      page: page,
       userId: id,
-    });
-  const { data: userPostsData, isFetching: isUserPostFetching } =
-    useGetUserPostsQuery(
-      {
-        page: page,
-        userId: id,
-      },
-      { skip: isUserProfileFetching }
-    );
+    },
+    { skip: isUserProfileFetching }
+  );
 
   useEffect(() => {
     if (userProfileData) {

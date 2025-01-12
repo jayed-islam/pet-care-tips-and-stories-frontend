@@ -1,4 +1,4 @@
-import ContentListView from "@/sections/dashboard/view/content-list-view";
+import DashboardHome from "@/sections/dashboard/view/dashboard-home";
 import React from "react";
 
 export const metadata = {
@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const Page = () => {
-  return <ContentListView />;
+  return <DashboardHome />;
 };
 
 export default Page;

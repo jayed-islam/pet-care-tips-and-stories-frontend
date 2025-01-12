@@ -13,6 +13,38 @@ import {
   IUpdateUserProfileResponse,
 } from "@/types/user";
 
+export interface IDashboardResponse {
+  message: string;
+  success: boolean;
+  data: {
+    summary: ISummary;
+    chartData: IChartData;
+    users: IUser[];
+  };
+}
+
+export interface ISummary {
+  users: number;
+  revenue: number;
+  pages: number;
+  posts: number;
+}
+
+export interface IChartData {
+  revenueOverview: ISalesOverview[];
+  categoryDistribution: ICategoryDistribution[];
+}
+
+export interface ISalesOverview {
+  day: number;
+  totalRevenue: number;
+}
+
+export interface ICategoryDistribution {
+  category: string; // Category ID
+  count: number; // Count of products in this category
+}
+
 export const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // updateUserProfile: builder.mutation<
@@ -133,6 +165,11 @@ export const userApi = api.injectEndpoints({
       }),
       providesTags: ["user-list"],
     }),
+    getSummary: builder.query<IDashboardResponse, void>({
+      query: () => ({
+        url: "/user/get-summary",
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -147,4 +184,5 @@ export const {
   useGetUserListForUserQuery,
   useToggleUserFriendRequestMutation,
   useRemoveFrientMutation,
+  useGetSummaryQuery,
 } = userApi;

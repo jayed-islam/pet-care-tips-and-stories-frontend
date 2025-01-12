@@ -1,5 +1,5 @@
 import React from "react";
-import { Skeleton, Button } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 const UserShimmerItem = () => {
   return (

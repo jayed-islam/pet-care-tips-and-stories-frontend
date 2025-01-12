@@ -1,12 +1,10 @@
 import { IUser } from "@/types/auth";
-import { Button } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 import { HiBadgeCheck } from "react-icons/hi";
 import userImage from "../../../public/image/user.jpg";
 import UserFollowButton from "./user-follow-button";
 import Link from "next/link";
-import { paths } from "../paths";
 
 interface Props {
   user: IUser;

@@ -47,7 +47,7 @@ export interface IUser {
   premiumStartDate?: Date; // Date when premium started
   premiumEndDate?: Date; // Date when premium will expire
   subscriptionPlan?: "weekly" | "monthly";
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 }
 

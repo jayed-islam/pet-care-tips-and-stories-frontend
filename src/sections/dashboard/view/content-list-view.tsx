@@ -37,7 +37,7 @@ const ContentListView = () => {
   return (
     <div className="p-4">
       <Typography variant="h4" gutterBottom>
-        Content List
+        Post List
       </Typography>
 
       {isFetching ? (

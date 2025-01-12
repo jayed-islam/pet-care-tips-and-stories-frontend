@@ -1,7 +1,5 @@
 "use client";
 
-import { HiBadgeCheck } from "react-icons/hi";
-import { Button } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 import { setSearchTerm } from "@/redux/reducers/post/postSlice";
 import { ChangeEvent } from "react";
@@ -83,8 +81,8 @@ const RightSide = () => {
             {!isFetching &&
               users
                 .slice(0, 5)
-                .map((user: any) => (
-                  <RightSideUserItem key={user.id} user={user} />
+                .map((user) => (
+                  <RightSideUserItem key={user._id} user={user} />
                 ))}
 
             {!isEmpty && (

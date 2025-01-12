@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -33,11 +34,13 @@ const MyProfileView = ({ id }: Props) => {
   const auth = useBoolean();
   const postCreation = useBoolean();
 
-  const { data: userPostsData, isFetching: isUserPostFetching } =
-    useGetUserPostsQuery({
-      page: page,
-      userId: user?._id,
-    });
+  const {
+    data: userPostsData,
+    isFetching: isUserPostFetching,
+  } = useGetUserPostsQuery({
+    page: page,
+    userId: user?._id,
+  });
 
   useEffect(() => {
     if (userPostsData?.data) {

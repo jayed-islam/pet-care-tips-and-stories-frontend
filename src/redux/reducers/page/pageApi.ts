@@ -2,8 +2,6 @@
 
 import { IPage } from "@/types/page";
 import { api } from "../../api";
-import { IPagination } from "@/types/common";
-
 export interface IGetSinglePageResponse {
   data: IPage;
   message: string;
