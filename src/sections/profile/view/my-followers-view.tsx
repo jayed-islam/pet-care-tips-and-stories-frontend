@@ -1,5 +1,6 @@
 "use client";
 
+import { paths } from "@/layouts/paths";
 import { useAppSelector } from "@/redux/hooks";
 import { Button, Typography } from "@mui/material";
 import Image from "next/image";
@@ -42,7 +43,7 @@ const MyFollowersView = () => {
                 {/* Follower details */}
                 <div className="flex-1">
                   <Typography variant="h6">
-                    {item.name ?? "Unnamed user"}
+                    {item.name ?? "Eyebook user"}
                   </Typography>
                   <div>
                     {item.followers.length} followers . {item.following.length}{" "}
@@ -50,7 +51,7 @@ const MyFollowersView = () => {
                   </div>
                 </div>
               </div>
-              <Link href={`/profile/${item._id}`}>
+              <Link href={`${paths.userProfile}/${item._id}`}>
                 <Button
                   variant="contained"
                   sx={{

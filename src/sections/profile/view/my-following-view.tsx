@@ -1,5 +1,6 @@
 "use client";
 
+import { paths } from "@/layouts/paths";
 import { useAppSelector } from "@/redux/hooks";
 import { Button, Typography } from "@mui/material";
 import Image from "next/image";
@@ -50,7 +51,7 @@ const MyFollowingView = () => {
                   </div>
                 </div>
               </div>
-              <Link href={`/profile/${item._id}`}>
+              <Link href={`${paths.userProfile}/${item._id}`}>
                 <Button
                   variant="contained"
                   sx={{

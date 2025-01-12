@@ -10,7 +10,7 @@ import UpdateMyProfileDialog from "@/sections/profile/view/update-my-profile";
 import { HiBadgeCheck } from "react-icons/hi";
 import { SlCalender } from "react-icons/sl";
 import { navLinks } from "./config-navs";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const ProfileHeader = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -24,12 +24,12 @@ const ProfileHeader = () => {
     month: "long",
   });
 
-  const [activeTab, setActiveTab] = useState(0);
   const router = useRouter();
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    router.push(navLinks[newValue].path);
-    setActiveTab(newValue);
+  const pathname = usePathname();
+
+  const handleRouteChange = (path: string) => {
+    router.push(path);
   };
 
   return (
@@ -88,37 +88,49 @@ const ProfileHeader = () => {
           </p>
         </div>
 
-        <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{
-              "& .MuiTabs-indicator": {
-                backgroundColor: "#0064d1",
-              },
-            }}
-          >
-            {navLinks.map((link, index) => (
-              <Tab
-                key={index}
-                label={link.title}
-                icon={link.icon}
-                iconPosition="start"
-                sx={{
-                  textTransform: "capitalize",
-                  fontWeight: activeTab === index ? 700 : 400,
-                  "&.Mui-selected": {
-                    color: "#0064d1",
+        <Box
+          sx={{
+            width: "100%",
+            typography: "body1",
+            mt: 1,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "5px",
+            p: "11px",
+          }}
+        >
+          {navLinks.map((link, index) => (
+            <Button
+              key={index}
+              onClick={() => handleRouteChange(link.path)}
+              variant={pathname === link.path ? "contained" : "outlined"}
+              startIcon={link.icon}
+              size="small"
+              sx={{
+                textTransform: "capitalize",
+                fontWeight: pathname === link.path ? 700 : 400,
+                borderRadius: "3rem",
+                fontSize: "1rem",
+                px: 3,
+                "&.MuiButton-contained": {
+                  backgroundColor: "#0064d1",
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: "#0054b0",
                   },
-                  "& .MuiTab-icon": {
-                    fontSize: "18px",
+                },
+                "&.MuiButton-outlined": {
+                  color: "#0064d1",
+                  borderColor: "#0064d1",
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 100, 209, 0.1)",
                   },
-                }}
-              />
-            ))}
-          </Tabs>
+                },
+              }}
+            >
+              {link.title}
+            </Button>
+          ))}
         </Box>
       </div>
       <UpdateMyProfileDialog dialog={updateProfileDialog} />

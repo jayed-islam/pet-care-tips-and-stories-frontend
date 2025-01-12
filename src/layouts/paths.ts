@@ -9,6 +9,7 @@ export const paths = {
     root: "/my-profile",
     purchaed: "/my-profile/purchased",
   },
+  userProfile: "/user-profile",
   dashboard: {
     root: "/dashboard",
     contents: "/dashboard/contents",

@@ -4,6 +4,8 @@ import React from "react";
 import { HiBadgeCheck } from "react-icons/hi";
 import userImage from "../../../../public/image/user.jpg";
 import AddFriendButton from "./add-friend-button";
+import Link from "next/link";
+import { paths } from "@/layouts/paths";
 
 interface Props {
   user: IUser;
@@ -28,9 +30,11 @@ const UserCard = ({ user }: Props) => {
         {/* User Details */}
         <div className="ml-4">
           <div className="flex items-center">
-            <h3 className="text-sm font-semibold hover:underline">
-              {user.name ?? "eyebook user"}
-            </h3>
+            <Link href={`${paths.userProfile}/${user?._id}`}>
+              <h3 className="text-sm font-semibold hover:underline">
+                {user.name ?? "eyebook user"}
+              </h3>
+            </Link>
             {user.isVerified && (
               <HiBadgeCheck className="mt-1 ml-1 text-blue-500" />
             )}
