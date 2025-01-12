@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
@@ -48,6 +49,14 @@ const HomeView = () => {
     ...(activeTab === "premium" && { isPremium: true }),
   });
 
+  const handleTabChagne = (tab: any) => {
+    setActiveTab(tab.value);
+    window?.scrollTo({
+      top: 0,
+      behavior: "smooth", // Smooth scrolling
+    });
+  };
+
   useEffect(() => {
     if (data?.data) {
       const newPosts = data.data.posts;
@@ -87,7 +96,7 @@ const HomeView = () => {
             <div
               key={tab.value}
               className="w-full h-full relative flex items-center justify-center cursor-pointer hover:bg-gray-100"
-              onClick={() => setActiveTab(tab.value)}
+              onClick={() => handleTabChagne(tab)}
             >
               <h2
                 className={`text-md text-center ${

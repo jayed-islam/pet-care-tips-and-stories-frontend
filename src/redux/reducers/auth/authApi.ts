@@ -3,6 +3,7 @@ import { api } from "@/redux/api";
 import {
   IAuthLoginResponse,
   IGetMeResponse,
+  IGoogleLoginRequest,
   IRegisterResponse,
   IUser,
   LoginRequest,
@@ -15,6 +16,14 @@ export const authApi = api.injectEndpoints({
     login: builder.mutation<IAuthLoginResponse, LoginRequest>({
       query: (credentials) => ({
         url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["user-me"],
+    }),
+    googleLogin: builder.mutation<IAuthLoginResponse, IGoogleLoginRequest>({
+      query: (credentials) => ({
+        url: "/auth/google/login",
         method: "POST",
         body: credentials,
       }),
@@ -68,4 +77,5 @@ export const {
   useRegisterMutation,
   useGetMeQuery,
   useForgotPasswordMutation,
+  useGoogleLoginMutation,
 } = authApi;

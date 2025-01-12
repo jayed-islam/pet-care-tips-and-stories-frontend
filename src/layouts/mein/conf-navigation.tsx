@@ -1,7 +1,11 @@
-import { Home, Pages, Person } from "@mui/icons-material";
+import {
+  Home,
+  Pages,
+  Person,
+  PagesOutlined,
+  PersonAdd,
+} from "@mui/icons-material";
 import { paths } from "../paths";
-import { BsPersonFillAdd } from "react-icons/bs";
-import { RiPagesFill } from "react-icons/ri";
 
 export const mainNavItems = [
   { href: "/", label: "Home", icon: <Home /> },
@@ -11,6 +15,6 @@ export const mainNavItems = [
     icon: <Pages />,
   },
   { href: paths.myAccount.root, label: "Profile", icon: <Person /> },
-  { href: "/pages", label: "Pages", icon: <RiPagesFill /> },
-  { href: paths.eyebookUsers, label: "Add Friend", icon: <BsPersonFillAdd /> },
+  { href: "/pages", label: "Pages", icon: <PagesOutlined /> },
+  { href: paths.eyebookUsers, label: "Add Friend", icon: <PersonAdd /> },
 ];

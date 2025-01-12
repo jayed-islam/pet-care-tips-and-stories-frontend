@@ -8,6 +8,12 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface IGoogleLoginRequest {
+  email: string;
+  name: string;
+  picture?: string;
+}
+
 export interface RegisterRequest {
   email: string;
   password: string;

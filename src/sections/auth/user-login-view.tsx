@@ -18,6 +18,7 @@ import { setToken } from "@/redux/reducers/auth/authSlice";
 import toast from "react-hot-toast";
 import { WEBSITE_LOGIN_PATH } from "@/constants/config-global";
 import { LoadingButton } from "@mui/lab";
+import GoogleSignInButton from "./google-signin-button";
 
 export const authLoginSchema = z.object({
   email: z
@@ -27,7 +28,7 @@ export const authLoginSchema = z.object({
 });
 
 const demoCredentials: any = {
-  user: { email: "customer@test.com", password: "password" },
+  user: { email: "user-me-3@gmail.com", password: "password" },
   admin: { email: "eyebook-admin@gmail.com", password: "password" },
 };
 
@@ -159,7 +160,9 @@ const LoginPageView = () => {
                   label="Password"
                   type="password"
                 />
-
+                <div className="mt-5">
+                  <GoogleSignInButton />
+                </div>
                 <div className="flex items-center justify-center mt-5 mb-5">
                   <LoadingButton
                     type="submit"

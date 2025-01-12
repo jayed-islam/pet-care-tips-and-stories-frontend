@@ -57,7 +57,7 @@ const UserPagesView = () => {
           </div>
           <Grid container spacing={3}>
             {user.pages.map((page) => (
-              <PageCard page={page} />
+              <PageCard page={page} key={page._id} />
             ))}
           </Grid>
         </div>

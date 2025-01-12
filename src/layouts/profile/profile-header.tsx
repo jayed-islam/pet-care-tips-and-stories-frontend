@@ -43,7 +43,7 @@ const ProfileHeader = () => {
           className="h-56 w-full object-cover"
         />
 
-        <div className="w-full mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row px-5">
+        <div className="w-full mx-auto -mt-11 flex items-center justify-center sm:items-end md:justify-between flex-col sm:flex-row px-5">
           <div className="flex items-start gap-5 flex-col md:flex-row ">
             <ProfilePictureUploader user={user as IUser} />
           </div>

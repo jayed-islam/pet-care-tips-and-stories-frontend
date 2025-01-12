@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FaThumbsUp, FaThumbsDown, FaComment, FaShare } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaComment } from "react-icons/fa";
 import { IPost } from "@/types/post";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";

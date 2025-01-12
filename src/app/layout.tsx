@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ReduxProvider } from "@/redux/ReduxProvider";
 import { Toaster } from "react-hot-toast";
-import Fabicon from "../../public/image/logo.png";
+import Fabicon from "../../public/image/eyebook-logo.png";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const robotoBold = localFont({
   src: "./fonts/Roboto-Bold.ttf",
@@ -34,15 +35,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clientId = process?.env.NEXT_PUBLIC_CLIENT_ID;
   return (
     <html lang="en">
       <body
         className={`${robotoBold.variable} ${robotoMedium.variable} ${robotoRegular.variable} antialiased`}
       >
-        <ReduxProvider>
-          <Toaster />
-          {children}
-        </ReduxProvider>
+        <GoogleOAuthProvider clientId={clientId as string}>
+          <ReduxProvider>
+            <Toaster />
+            {children}
+          </ReduxProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

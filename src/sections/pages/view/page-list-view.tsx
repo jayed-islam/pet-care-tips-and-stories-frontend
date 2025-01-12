@@ -30,7 +30,7 @@ const PageListView = () => {
               // Show the Page Cards once data is loaded
               <Grid container spacing={3}>
                 {data?.data?.map((page) => (
-                  <PageCard page={page} />
+                  <PageCard page={page} key={page._id} />
                 ))}
               </Grid>
             )}

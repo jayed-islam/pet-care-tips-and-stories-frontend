@@ -82,7 +82,6 @@ const LeftSideSm = () => {
             sx={{
               height: "3rem",
               width: "3rem",
-              mt: 2,
               "&:hover": {
                 opacity: 0.7,
                 bgcolor: "#e5e7eb",
