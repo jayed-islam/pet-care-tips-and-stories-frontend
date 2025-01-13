@@ -15,12 +15,13 @@ import { IPost } from "@/types/post";
 import { useAppSelector } from "@/redux/hooks";
 import FollowButton from "../../../layouts/profile/components/follow-button";
 import { IUser } from "@/types/auth";
+import { SlCalender } from "react-icons/sl";
 
 interface Props {
   id: string;
 }
 
-const FadakoUserProfileView = ({ id }: Props) => {
+const EyebookUserProfileView = ({ id }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
 
   const [page, setPage] = useState(1);
@@ -50,6 +51,14 @@ const FadakoUserProfileView = ({ id }: Props) => {
       setFollowerCount(userProfileData.data.followers.length);
     }
   }, [userProfileData]);
+
+  const date = new Date(userProfileData?.data?.createdAt ?? Date.now());
+
+  // Format the date as "Joined December 2024"
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  });
 
   useEffect(() => {
     if (userPostsData?.data) {
@@ -87,29 +96,29 @@ const FadakoUserProfileView = ({ id }: Props) => {
   };
 
   const handleFollowerChange = (change: number) => {
-    setFollowerCount((prevCount) => prevCount + change); // Update follower count locally
+    setFollowerCount((prevCount) => prevCount + change);
   };
 
   if (isUserProfileFetching) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <CircularProgress />
+        <CircularProgress size={51} />
       </div>
     );
   }
 
   return (
-    <div className="w-full bg-[#F0F2F5]">
-      <div className="w-full bg-white shadow border-b relative pb-16">
+    <div className="w-full px-5 min-h-screen">
+      <div className="w-full bg-white shadow border-b relative pb-7">
         <Image
           src={banner}
           alt="banner"
           height={100}
           width={100}
-          className="h-72 w-full object-cover"
+          className="h-44 w-full object-cover"
         />
 
-        <div className="max-w-5xl mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row">
+        <div className="max-w-5xl mx-auto -mt-11 flex items-center justify-center md:items-end md:justify-between flex-col md:flex-row px-5">
           <div className="flex items-center md:items-end gap-5 flex-col md:flex-row ">
             <div className="relative h-32 w-32 rounded-full">
               <Image
@@ -145,10 +154,17 @@ const FadakoUserProfileView = ({ id }: Props) => {
             onFollowerChange={handleFollowerChange}
           />
         </div>
+
+        <div className="px-5">
+          <h2 className="flex items-center gap-2 text-base  text-gray-700 mt-3">
+            <SlCalender className="text-sm" />
+            <span>Joined {formattedDate}</span>
+          </h2>
+        </div>
       </div>
       <div className="max-w-5xl mx-auto px-5 xl:px-0">
         <div className="flex items-start flex-col gap-5 lg:gap-7 mt-7 z-0 lg:flex-row">
-          <div className="flex flex-col rounded-lg w-full lg:w-[23rem] lg:sticky top-20 bg-white shadow border p-5">
+          {/* <div className="flex flex-col rounded-lg w-full lg:w-[23rem] lg:sticky top-20 bg-white shadow border p-5">
             <h2 className="text-2xl font-semibold mb-4">User Info</h2>
             <div className="mb-3">
               <p className="text-gray-600 text-sm font-medium">User Type:</p>
@@ -184,7 +200,7 @@ const FadakoUserProfileView = ({ id }: Props) => {
                 {userProfileData?.data?.bio || "Not provided"}
               </p>
             </div>
-          </div>
+          </div> */}
           <div className="lg:flex-1 w-full">
             {/* Show shimmer loading cards when fetching for the first page */}
             {isUserPostFetching && page === 1 && (
@@ -244,4 +260,4 @@ const FadakoUserProfileView = ({ id }: Props) => {
   );
 };
 
-export default FadakoUserProfileView;
+export default EyebookUserProfileView;

@@ -1,4 +1,4 @@
-import FadakoUserProfileView from "@/sections/profile/view/fadako-user-profile-view";
+import EyebookUserProfileView from "@/sections/profile/view/fadako-user-profile-view";
 import { FC } from "react";
 
 export const metadata = {
@@ -14,7 +14,7 @@ interface IProps {
 const Page: FC<IProps> = ({ params }) => {
   const { id } = params;
 
-  return <FadakoUserProfileView id={id} />;
+  return <EyebookUserProfileView id={id} />;
 };
 
 export default Page;

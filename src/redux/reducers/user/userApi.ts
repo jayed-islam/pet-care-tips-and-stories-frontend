@@ -114,7 +114,7 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body: { targetUserId },
       }),
-      invalidatesTags: ["user-me", "single-user"],
+      // invalidatesTags: ["single-user"],
     }),
     removeFrient: builder.mutation<
       IToggleFollowUserResponse,
@@ -125,7 +125,7 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body: { targetUserId },
       }),
-      invalidatesTags: ["user-me", "single-user"],
+      invalidatesTags: ["user-me"],
     }),
 
     toggleUserFriendRequest: builder.mutation<
