@@ -10,11 +10,11 @@ const PageListView = () => {
   const { data, isFetching } = useGetPageListQuery();
   return (
     <div>
-      <div className="pr-3">
-        <div className="h-full w-full relative border-r">
+      <div className="px-5">
+        <div className="min-h-screen w-full relative">
           <PageHeaderGlobal title="eyebook pages" />
 
-          <div className="p-5">
+          <div className="mt-5 pb-5">
             {isFetching ? (
               <Box
                 sx={{

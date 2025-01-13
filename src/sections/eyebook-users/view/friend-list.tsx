@@ -16,7 +16,7 @@ const FriendList = () => {
   const friends = user.friends;
 
   return (
-    <div className="bg-gray-200 p-5 rounded-lg">
+    <div className="">
       <Typography variant="h5" gutterBottom>
         Friend List
       </Typography>

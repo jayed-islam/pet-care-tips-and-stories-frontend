@@ -45,7 +45,7 @@ const SinglePageView = ({ id }: Props) => {
   ];
 
   return (
-    <div className="relative">
+    <div className="relative  px-5">
       {isFetching ? (
         <Box sx={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
           <LinearProgress />
@@ -58,8 +58,8 @@ const SinglePageView = ({ id }: Props) => {
             pageNavLinks={pageNavLinks}
             page={currentPage}
           />
-          <div className="flex items-start w-full py-5 border-r">
-            <main className="flex-1 px-5">
+          <div className="flex items-start w-full py-5">
+            <main className="flex-1">
               {pageNavLinks[activeTab]?.content || (
                 <div>No content available for this tab.</div>
               )}

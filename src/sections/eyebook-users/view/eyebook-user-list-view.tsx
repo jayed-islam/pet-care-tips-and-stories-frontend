@@ -17,11 +17,12 @@ const EyebookUserListView = () => {
 
   const { data, isFetching } = useGetUserListForUserQuery({
     search: debouncedSearch,
+    page,
   });
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    setPage(1); // Reset to first page on search
+    setPage(1);
   };
 
   const handlePageChange = (
@@ -31,8 +32,8 @@ const EyebookUserListView = () => {
     setPage(value);
   };
   return (
-    <div className="pr-3">
-      <div className="h-full w-full relative border-r">
+    <div className="px-5 pb-44">
+      <div className="min-h-screen w-full relative">
         <PageHeaderGlobal title="eyebook users" />
         <div className="px-3">
           <div className="relative hidden lg:flex w-full z-50 bg-white mt-2 border rounded-full border-gray-300">
@@ -46,7 +47,7 @@ const EyebookUserListView = () => {
             />
           </div>
 
-          <div className="px-3 mt-4 space-y-4">
+          <div className="mt-4 space-y-4">
             {isFetching ? (
               <div className="flex justify-center items-center">
                 <CircularProgress />
@@ -59,7 +60,7 @@ const EyebookUserListView = () => {
               <p className="text-center text-gray-500">No users found.</p>
             )}
 
-            {data?.data && data.data?.users && (
+            {!isFetching && data?.data && data.data?.users && (
               <div className="flex justify-center mt-4">
                 <Pagination
                   count={data.data?.pagination?.totalPages}

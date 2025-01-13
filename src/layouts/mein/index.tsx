@@ -40,7 +40,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5 bg-white">
+    <div className="min-h-screen ">
       <Header
         toggleLeftDrawer={toggleLeftDrawer}
         toggleRightDrawer={toggleRightDrawer}
@@ -63,6 +63,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     sm:ml-[5.5rem]
     xl:ml-[17rem]
     relative
+    bg-[#F0F2F5]
   "
           // lg:ml-[17rem]
           // lg:mr-[23rem]
@@ -102,6 +103,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     xl:right-auto
     mr-5
     xl:mr-0
+    pl-5
   "
         >
           <RightSide />

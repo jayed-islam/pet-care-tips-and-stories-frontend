@@ -12,7 +12,7 @@ const PageHeaderGlobal: React.FC<PageHeaderProps> = ({
   children,
 }) => {
   return (
-    <div className="bg-white bg-opacity-30 backdrop-blur-lg h-[4rem] w-full sticky top-0 border-b flex items-center justify-center z-50">
+    <div className="bg-white bg-opacity-30 backdrop-blur-lg h-[4rem] w-full sticky top-0 border-b border-l border-r border-gray-300 rounded-b-3xl flex items-center justify-center z-50">
       {children ? (
         <div className="h-full w-full">{children}</div>
       ) : (

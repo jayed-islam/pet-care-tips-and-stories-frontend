@@ -156,7 +156,7 @@ export const userApi = api.injectEndpoints({
 
     getUserListForUser: builder.query<
       IGetUserListForUserResponse,
-      { search?: string; userType?: string }
+      { search?: string; userType?: string; page?: number }
     >({
       query: (body) => ({
         url: `/user/get-user-list`,

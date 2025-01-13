@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import PostShimmerCard from "../post-card-shimmer";
 import { setPage } from "@/redux/reducers/post/postSlice";
 import PostSnackbar from "@/sections/profile/post-snackbar-after-creation";
+import PageHeaderGlobal from "@/components/elements/page";
 
 const tabs = [
   { title: "For You", value: "forYou" },
@@ -87,34 +88,12 @@ const HomeView = () => {
   };
 
   return (
-    <div className="sm:pr-3">
-      <div className="h-full w-full relative sm:border-r">
+    <div className="px-3">
+      <div className="h-full w-full relative">
         {/* <div className="bg-white bg-opacity-30 backdrop-blur-lg h-16 w-full sticky top-0 border-b mt-2"></div> */}
+        <PageHeaderGlobal title="eyebook" />
 
-        <div className="bg-white bg-opacity-30 backdrop-blur-lg h-12 sm:h-[4rem] w-full sticky top-[4.5rem] sm:top-0 border-b flex items-center justify-between z-50">
-          {tabs.map((tab) => (
-            <div
-              key={tab.value}
-              className="w-full h-full relative flex items-center justify-center cursor-pointer hover:bg-gray-100"
-              onClick={() => handleTabChagne(tab)}
-            >
-              <h2
-                className={`text-md text-center ${
-                  activeTab === tab.value
-                    ? "font-bold text-black"
-                    : "text-gray-700 font-semibold"
-                }`}
-              >
-                {tab.title}
-              </h2>
-              {activeTab === tab.value && (
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[4rem] h-1 bg-blue-500 rounded-sm "></div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="w-full pb-16 px-3">
+        <div className="w-full pb-16">
           <div className="w-full mb-5 mt-5">
             <PostCreationStatusSection
               dialog={auth}

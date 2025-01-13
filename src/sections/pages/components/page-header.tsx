@@ -68,7 +68,7 @@ const PageHeader = ({
           </p>
         </div>
 
-        <Box sx={{ width: "100%", typography: "body1", mt: 1 }}>
+        <Box sx={{ width: "100%", typography: "body1", mt: 1, ml: 2 }}>
           <Tabs
             value={activeTab}
             onChange={handleTabChange}

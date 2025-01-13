@@ -2,6 +2,7 @@
 
 import { IPage } from "@/types/page";
 import { api } from "../../api";
+
 export interface IGetSinglePageResponse {
   data: IPage;
   message: string;

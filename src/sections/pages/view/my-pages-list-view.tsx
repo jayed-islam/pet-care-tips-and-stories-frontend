@@ -13,11 +13,11 @@ const MyPageListView = () => {
   const dialog = useBoolean();
   return (
     <div>
-      <div className="pr-3">
-        <div className="h-full w-full relative border-r">
+      <div className="min-h-screen px-5">
+        <div className="h-full w-full relative">
           <PageHeaderGlobal title="My pages" />
 
-          <div className="p-5">
+          <div className="pt-5">
             {user?.pages?.length === 0 ? (
               <div className="">
                 <Typography variant="h5" gutterBottom>

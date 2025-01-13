@@ -15,7 +15,7 @@ const UserCard = ({ user }: Props) => {
   return (
     <div
       key={user._id}
-      className="flex items-center justify-between py-2 last:border-none px-4 hover:bg-gray-100 transition-all duration-500"
+      className="flex items-center justify-between p-3  rounded-xl bg-white border"
     >
       {/* User Info */}
       <div className="flex items-center">

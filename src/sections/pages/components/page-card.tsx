@@ -27,7 +27,7 @@ const PageCard = ({ page }: Props) => {
         xs: 6,
       }}
     >
-      <div className="border rounded-3xl p-3 h-full">
+      <div className="border rounded-3xl p-3 h-full bg-white shadow">
         <Card elevation={0}>
           <Link href={`/pages/${page._id}`}>
             <CardMedia
